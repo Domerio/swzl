@@ -4,43 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/lost_and_found_system.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/MapPicker.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_app/admin.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_app/api/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_app/api/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_app/api/views/auth.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_app/api/views/items.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_app/models/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_app/models/attachment.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_app/models/bookmark.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_app/models/category.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_app/models/item.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_app/models/notification.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_app/models/report.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_app/models/user.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_app/serializers.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_app/services/matching.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_app/signals.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_app/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_app/utils/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_app/utils/decorators.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_app/utils/report_utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_system/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_system/asgi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_system/settings.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_system/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost_and_found_system/wsgi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
+    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="1">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/fede8901-32de-4916-820d-d5c2203fb821.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/fede8901-32de-4916-820d-d5c2203fb821.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_app/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_system/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_system/urls.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,6 +43,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Domerio"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Domerio/swzl.git",
+    "accountId": "4037e5b0-cdf2-4d40-8e3a-2d5fe7473651"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 1
@@ -153,8 +135,25 @@
       <updated>1740383622247</updated>
       <workItem from="1740383638123" duration="8619000" />
       <workItem from="1740392338903" duration="15017000" />
-      <workItem from="1740412609266" duration="667000" />
+      <workItem from="1740412609266" duration="2845000" />
     </task>
+    <task id="LOCAL-00001" summary="1">
+      <option name="closed" value="true" />
+      <created>1740413604170</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1740413604170</updated>
+    </task>
+    <task id="LOCAL-00002" summary="1">
+      <option name="closed" value="true" />
+      <created>1740413634701</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1740413634701</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -170,6 +169,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="1" />
+    <option name="LAST_COMMIT_MESSAGE" value="1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

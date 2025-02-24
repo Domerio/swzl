@@ -1,16 +1,15 @@
 from django.contrib import admin
-from django.shortcuts import redirect
 from django.urls import path, include
+from django.shortcuts import redirect
 
-
-# 定义一个视图函数，用于重定向到首页
+# 定义一个视图函数，用于重定向到登录页面
 def home_redirect(request):
-    return redirect('lost_item_register')
+    return redirect('lost_and_found:register')
 
-
-# 定义项目的 URL 模式
 urlpatterns = [
-    path('admin/', admin.site.urls),  # 管理员后台页面
-    path('', home_redirect, name='home'),  # 根路径重定向到丢失物品登记页面
-    path('app/', include('lost_and_found_app.urls')),  # 包含应用的 URL 配置，将所有应用内的 URL 放在 /app/ 下
+    path('admin/', admin.site.urls),
+    # 包含 lost_and_found_app 应用的路由，并设置命名空间
+    path('lost_and_found/', include('lost_and_found_app.urls', namespace='lost_and_found')),
+    # 根路径重定向到注册页面
+    path('', home_redirect, name='home'),
 ]
