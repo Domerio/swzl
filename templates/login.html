@@ -1,89 +1,25 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>用户登录</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-
-    .container {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      width: 300px;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    .form-group input {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 3px;
-    }
-
-    .btn {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      background-color: #007BFF;
-      color: #fff;
-      border: none;
-      border-radius: 3px;
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      background-color: #0056b3;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>登录</title>
 </head>
-
 <body>
-  <div class="container">
-    <h2>用户登录</h2>
-    <!-- 登录表单 -->
-    <form id="loginForm">
-      <div class="form-group">
-        <label for="loginId">学号/工号</label>
-        <input type="text" id="loginId" name="loginId" required>
-      </div>
-      <div class="form-group">
-        <label for="loginPassword">密码</label>
-        <input type="password" id="loginPassword" name="loginPassword" required>
-      </div>
-      <button type="submit" class="btn">登录</button>
+    <h1>登录</h1>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <label for="username">用户名（学号/工号）：</label>
+        <input type="text" id="username" name="username" required><br>
+        <label for="password">密码：</label>
+        <input type="password" id="password" name="password" required><br>
+        <button type="submit">登录</button>
     </form>
-  </div>
-
-  <script>
-    // 登录表单提交事件
-    document.getElementById('loginForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-      const loginId = document.getElementById('loginId').value;
-      const loginPassword = document.getElementById('loginPassword').value;
-      // 这里需要使用 AJAX 请求将数据发送到后端进行验证
-      console.log('登录请求:', { loginId, loginPassword });
-    });
-  </script>
 </body>
-
 </html>

@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="修改前端页面">
-      <change afterPath="$PROJECT_DIR$/lost_and_found_app/forms.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/registration/register.html" afterDir="false" />
+    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="注册半成品">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lost_and_found_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/register.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_project/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_project/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -178,7 +177,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740454352811</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="注册半成品">
+      <option name="closed" value="true" />
+      <created>1740456378533</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1740456378533</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -199,7 +206,8 @@
     <MESSAGE value="1" />
     <MESSAGE value="完成路由配置" />
     <MESSAGE value="修改前端页面" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改前端页面" />
+    <MESSAGE value="注册半成品" />
+    <option name="LAST_COMMIT_MESSAGE" value="注册半成品" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

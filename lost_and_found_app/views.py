@@ -26,25 +26,22 @@ def register(request):
 @csrf_exempt
 def user_login(request):
     if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            username = data.get('username')
-            password = data.get('password')
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                next_url = request.GET.get('next')
-                if next_url:
-                    return JsonResponse({'success': True, 'message': '登录成功', 'redirect_url': next_url})
-                else:
-                    return JsonResponse({'success': True, 'message': '登录成功', 'redirect_url': '/home/'})
-            else:
-                # 登录失败处理
-                return JsonResponse({'success': False, 'message': '用户名或密码错误，请重试。', 'redirect_url': ''})
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': f'登录失败: {str(e)}', 'redirect_url': ''})
-    return render(request, 'login.html')
+        # 获取用户输入的用户名和密码
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
+        # 验证用户输入的用户名和密码
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            # 若用户验证成功，登录用户并重定向到首页
+            login(request, user)
+            messages.success(request, '登录成功！')
+            # return redirect('home')  # 这里的 'home' 是你定义的首页 URL 名称
+        else:
+            # 若用户验证失败，显示错误消息
+            messages.error(request, '用户名或密码错误，请重试。')
+    return render(request, 'login.html')
 
 # 用户注销视图
 @login_required
