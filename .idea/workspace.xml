@@ -4,13 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="1">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/fede8901-32de-4916-820d-d5c2203fb821.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/fede8901-32de-4916-820d-d5c2203fb821.xml" afterDir="false" />
+    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="完成路由配置">
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/found_item_register.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/item_list..html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/lost_item_register.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/personal_center.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lost_and_found_app/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lost_and_found_system/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_system/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_system/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_project/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_system/asgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_project/asgi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_system/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_project/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_system/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_project/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_system/wsgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_project/wsgi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,9 +29,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="package.json" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -135,7 +141,7 @@
       <updated>1740383622247</updated>
       <workItem from="1740383638123" duration="8619000" />
       <workItem from="1740392338903" duration="15017000" />
-      <workItem from="1740412609266" duration="2845000" />
+      <workItem from="1740412609266" duration="5719000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />
@@ -153,7 +159,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740413634701</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="完成路由配置">
+      <option name="closed" value="true" />
+      <created>1740415547808</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1740415547808</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -172,7 +186,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="1" />
-    <option name="LAST_COMMIT_MESSAGE" value="1" />
+    <MESSAGE value="完成路由配置" />
+    <option name="LAST_COMMIT_MESSAGE" value="完成路由配置" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

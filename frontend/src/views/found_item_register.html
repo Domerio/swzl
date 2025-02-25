@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>招领登记</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>招领登记</h2>
+    <form id="foundItemForm">
+      <div class="form-group">
+        <label for="itemName">物品名称</label>
+        <input type="text" id="itemName" name="itemName" required>
+      </div>
+      <div class="form-group">
+        <label for="foundTime">拾取时间</label>
+        <input type="datetime-local" id="foundTime" name="foundTime" required>
+      </div>
+      <div class="form-group">
+        <label for="foundLocation">拾取地点</label>
+        <input type="text" id="foundLocation" name="foundLocation" required>
+      </div>
+      <div class="form-group">
+        <label for="description">特征描述</label>
+        <textarea id="description" name="description" rows="5" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="contactInfo">联系方式</label>
+        <input type="text" id="contactInfo" name="contactInfo">
+      </div>
+      <div class="form-group">
+        <label for="isAnonymous">匿名发布</label>
+        <input type="checkbox" id="isAnonymous" name="isAnonymous">
+      </div>
+      <button type="submit" class="btn">提交</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('foundItemForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      // 这里需要使用 AJAX 请求将数据发送到后端进行招领登记
+      console.log('招领登记请求:', formData);
+    });
+  </script>
+</body>
+
+</html>
