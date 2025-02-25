@@ -4,38 +4,57 @@ from .models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages  # 用于显示消息
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 
 # 用户注册视图
+@csrf_exempt
 def register(request):
     if request.method == 'POST':
-        # 处理注册表单
-        # 这里可以添加具体的注册逻辑，例如创建用户对象等
-        # 示例：
-        # username = request.POST.get('username')
-        # password = request.POST.get('password')
-        # 进行用户创建和保存操作
-        messages.success(request, '注册成功，请登录')  # 注册成功提示
-        return redirect('login')
+        try:
+            data = json.loads(request.body)
+            username = data.get('username')
+            password = data.get('password')
+            real_name = data.get('real_name')
+            role = data.get('role')
+
+            # 检查用户名是否已存在
+            if User.objects.filter(username=username).exists():
+                return JsonResponse({'success': False, 'message': '学号/工号已存在，请使用其他学号/工号。', 'redirect_url': ''})
+
+            # 创建用户对象
+            user = User.objects.create_user(username=username, password=password, real_name=real_name, role=role)
+            user.save()
+
+            messages.success(request, '注册成功，请登录')  # 注册成功提示
+            return JsonResponse({'success': True, 'message': '注册成功，请登录', 'redirect_url': '/login/'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': f'注册失败: {str(e)}', 'redirect_url': ''})
     return render(request, 'register.html')
 
 
 # 用户登录视图
+@csrf_exempt
 def user_login(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            next_url = request.GET.get('next')
-            if next_url:
-                return redirect(next_url)  # 重定向到 next 参数指定的页面
+        try:
+            data = json.loads(request.body)
+            username = data.get('username')
+            password = data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                next_url = request.GET.get('next')
+                if next_url:
+                    return JsonResponse({'success': True, 'message': '登录成功', 'redirect_url': next_url})
+                else:
+                    return JsonResponse({'success': True, 'message': '登录成功', 'redirect_url': '/home/'})
             else:
-                return redirect('home')  # 如果没有 next 参数，重定向到首页
-        else:
-            # 登录失败处理
-            messages.error(request, '用户名或密码错误，请重试。')
+                # 登录失败处理
+                return JsonResponse({'success': False, 'message': '用户名或密码错误，请重试。', 'redirect_url': ''})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': f'登录失败: {str(e)}', 'redirect_url': ''})
     return render(request, 'login.html')
 
 
@@ -77,6 +96,7 @@ def found_item_register(request):
         messages.success(request, '招领信息已成功登记')  # 登记成功提示
         return redirect('found_item_list')
     return render(request, 'found_item_register.html')
+
 
 # 失物列表视图
 
