@@ -1,5 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+
+from .forms import UserRegistrationForm
 from .models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -8,30 +10,16 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 
 
-# 用户注册视图
-@csrf_exempt
 def register(request):
     if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            username = data.get('username')
-            password = data.get('password')
-            real_name = data.get('real_name')
-            role = data.get('role')
-
-            # 检查用户名是否已存在
-            if User.objects.filter(username=username).exists():
-                return JsonResponse({'success': False, 'message': '学号/工号已存在，请使用其他学号/工号。', 'redirect_url': ''})
-
-            # 创建用户对象
-            user = User.objects.create_user(username=username, password=password, real_name=real_name, role=role)
-            user.save()
-
-            messages.success(request, '注册成功，请登录')  # 注册成功提示
-            return JsonResponse({'success': True, 'message': '注册成功，请登录', 'redirect_url': '/login/'})
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': f'注册失败: {str(e)}', 'redirect_url': ''})
-    return render(request, 'register.html')
+        form = UserRegistrationForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            # 注册成功后重定向到登录页面或其他页面
+            # return redirect('login')
+    else:
+        form = UserRegistrationForm()
+    return render(request, 'registration/register.html', {'form': form})
 
 
 # 用户登录视图

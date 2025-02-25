@@ -4,23 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="完成路由配置">
-      <change afterPath="$PROJECT_DIR$/lost-and-found-frontend/src/components/FoundItemRegister.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost-and-found-frontend/src/components/ItemList.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost-and-found-frontend/src/components/LostItemRegister.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost-and-found-frontend/src/components/UserAuth.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost-and-found-frontend/src/main.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lost-and-found-frontend/src/router/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/register.html" afterDir="false" />
+    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="修改前端页面">
+      <change afterPath="$PROJECT_DIR$/lost_and_found_app/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/registration/register.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/MapPicker.vue" beforeDir="false" afterPath="$PROJECT_DIR$/templates/MapPicker.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/found_item_register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/found_item_register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/item_list..html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/item_list..html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/lost_item_register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/lost_item_register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/personal_center.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personal_center.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lost_and_found_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/register.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,10 +23,10 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="package.json" />
-        <option value="Python Script" />
         <option value="JavaScript File" />
         <option value="Vue Composition API Component" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -104,6 +93,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\templates\registion" />
       <recent name="E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\templates" />
       <recent name="E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\lost_and_found_app\utils" />
       <recent name="E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\lost_and_found_app\api\views" />
@@ -180,7 +170,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740415547808</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="修改前端页面">
+      <option name="closed" value="true" />
+      <created>1740454352811</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1740454352811</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -200,7 +198,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="1" />
     <MESSAGE value="完成路由配置" />
-    <option name="LAST_COMMIT_MESSAGE" value="完成路由配置" />
+    <MESSAGE value="修改前端页面" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改前端页面" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
