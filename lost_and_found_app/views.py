@@ -41,14 +41,14 @@ def user_login(request):
         else:
             # 若用户验证失败，显示错误消息
             messages.error(request, '用户名或密码错误，请重试。')
-    return render(request, 'login.html')
+    return render(request, 'LoginComponent.vue')
 
 # 用户注销视图
 @login_required
 def user_logout(request):
     logout(request)
     messages.success(request, '已成功注销')  # 注销成功提示
-    return redirect('login')
+    return redirect('LoginComponent.vue')  # 重定向到登录页面
 
 
 # 失物登记视图

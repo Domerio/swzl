@@ -14,5 +14,4 @@ urlpatterns = [
     path('lost_and_found/', include('lost_and_found_app.urls', namespace='lost_and_found')),
     # 根路径重定向到注册页面
     path('', home_redirect, name='home'),
-    path('app/', include('lost_and_found_app.urls')),
 ]
