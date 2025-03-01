@@ -5,9 +5,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="用element UI？">
+      <change afterPath="$PROJECT_DIR$/frontend/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/babel.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/jsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/public/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/public/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/App.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/bg0.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/logo.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/frontend/src/assets/touxiang.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/HelloWorld.vue" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/frontend/src/components/LoginComponent.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/main.js" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/frontend/src/utils/validate.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/static/frontend/css/app.8bff3f2f.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/static/frontend/css/chunk-vendors.0411fcea.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/static/frontend/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/static/frontend/fonts/element-icons.f1a45d74.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/static/frontend/fonts/element-icons.ff18efd1.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/static/frontend/img/bg0.f81e4de3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/static/frontend/img/touxiang.bf860c0f.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/static/frontend/js/app.5928cf65.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/static/frontend/js/app.5928cf65.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/static/frontend/js/chunk-vendors.6210c01b.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/static/frontend/js/chunk-vendors.6210c01b.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/templates/frontend/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/vue.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/avatars/微信图片_20250218220411.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/dcbb4c3a-96cd-4bc5-b65b-184f0aa55d2e.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/dcbb4c3a-96cd-4bc5-b65b-184f0aa55d2e/storage_v2/_src_/schema/swzl.lhQ2AA.meta" beforeDir="false" />
@@ -53,10 +80,10 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="package.json" />
-        <option value="HTML File" />
         <option value="Python Script" />
         <option value="Vue Composition API Component" />
         <option value="JavaScript File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -181,7 +208,7 @@
       <workItem from="1740383638123" duration="8619000" />
       <workItem from="1740392338903" duration="15017000" />
       <workItem from="1740412609266" duration="5719000" />
-      <workItem from="1740805167727" duration="5162000" />
+      <workItem from="1740805167727" duration="6583000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />
@@ -239,7 +266,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740805983541</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="用element UI？">
+      <option name="closed" value="true" />
+      <created>1740810382651</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1740810382651</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
