@@ -5,7 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="用element UI？">
+      <change afterPath="$PROJECT_DIR$/frontend/src/router/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/Home/HomeComponent.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/Login/LoginComponent.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/LoginComponent.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vue.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_app/api/views/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/api/views/auth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_app/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_project/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_project/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_project/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_project/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.7f61b571.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.0411fcea.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.c926c577.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.c926c577.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.3426dc34.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.3426dc34.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/frontend/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/login.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,10 +41,10 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="package.json" />
-        <option value="Python Script" />
+        <option value="HTML File" />
         <option value="Vue Composition API Component" />
         <option value="JavaScript File" />
-        <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -63,43 +85,43 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "django.template.preview.state": "SHOW_EDITOR",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "E:/毕业设计/swzl",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "settings.vue",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PyCharm 2024.2.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/毕业设计/swzl&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;ai.codegeex.plugin.settings.ApplicationConfigurable&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\PyCharm 2024.2.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "vue.recent.templates": [
-      "Vue Composition API Component"
+  &quot;keyToStringList&quot;: {
+    &quot;vue.recent.templates&quot;: [
+      &quot;Vue Composition API Component&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\frontend\src\assets" />
       <recent name="E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\media" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\frontend\src\views\Home" />
+      <recent name="E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\frontend\src\views\Login" />
       <recent name="E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\frontend\src\assets" />
       <recent name="E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\templates\registion" />
       <recent name="E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\templates" />
-      <recent name="E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\lost_and_found_app\utils" />
-      <recent name="E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\lost_and_found_app\api\views" />
     </key>
   </component>
   <component name="RunManager">
@@ -149,6 +171,8 @@
       <workItem from="1740412609266" duration="5719000" />
       <workItem from="1740805167727" duration="6583000" />
       <workItem from="1740899518583" duration="24000" />
+      <workItem from="1741071309910" duration="18696000" />
+      <workItem from="1741104916863" duration="12087000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />
@@ -214,7 +238,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740810382651</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="用element UI？">
+      <option name="closed" value="true" />
+      <created>1741075468711</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1741075468711</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

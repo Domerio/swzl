@@ -1,25 +1,44 @@
 # lost_and_found_app/api/views/auth.py
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
-from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
+
 from ...serializers import UserSerializer
 from ...models import User
-
+import logging
+from django.contrib.auth import authenticate
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from rest_framework.authtoken.models import Token
+from django_ratelimit.decorators import ratelimit
+from django.utils.decorators import method_decorator
+
+logger = logging.getLogger(__name__)
+
+
 
 class LoginAPI(APIView):
+    permission_classes = [AllowAny]  # 允许无需认证的访问
+    @method_decorator(csrf_exempt)
     def post(self, request):
-        # 处理登录逻辑
         username = request.data.get('username')
         password = request.data.get('password')
-        user = User.objects.filter(username=username, password=password).first()
-        if user:
-            # 登录成功，返回用户信息
-            return Response({"message": "Login successful", "user": UserSerializer(user).data})
-        else:
-            # 登录失败，返回错误信息
-            return Response({"message": "Invalid username or password"})
+
+        # Step 1: 用户认证
+        user = authenticate(request, username=username, password=password)
+        if user is None:
+            return Response({'error': 'Invalid credentials'}, status=401)
+
+        # Step 2: 获取或创建用户 Token
+        token, created = Token.objects.get_or_create(user=user)
+
+        # Step 3: 返回 Token 和用户信息
+        return Response({
+            'token': token.key,
+            'user_id': user.id,
+            'username': user.username
+        }, status=200)
 
 
 class RegisterAPI(generics.CreateAPIView):

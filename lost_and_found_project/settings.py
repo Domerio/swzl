@@ -24,8 +24,6 @@ SECRET_KEY = "django-insecure-*6b-#j8h1=)!^*4*()^y)2$*h#rx(b5z7j6pker@mzxjw^6@d$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,6 +36,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",  # 添加Token认证
     "lost_and_found_app",
+    "corsheaders",
 ]
 
 REST_FRAMEWORK = {
@@ -50,6 +49,7 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",  # 必须放在最前
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -131,7 +131,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 
 AUTH_USER_MODEL = 'lost_and_found_app.User'
 MEDIA_URL = '/media/'
@@ -144,3 +144,45 @@ LOGIN_URL = 'login'  # 确保与实际登录页面的 URL 一致
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'testserver',  # 解决 APIClient 测试请求时的 HOST 限制
+]
+
+# 配置允许的域名
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:8000",  # 前端地址
+    "http://localhost:8000",   # 后端地址
+]
+
+# 允许携带凭证（cookies等）
+CORS_ALLOW_CREDENTIALS = True
+
+# 允许的请求方法
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
+# 允许的请求头
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]

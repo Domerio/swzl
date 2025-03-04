@@ -1,5 +1,7 @@
-# swzl/lost_and_found_app/urls.py
-from django.urls import path
+# lost_and_found_app/urls.py
+from django.urls import path, re_path
+
+from . import views
 from .views import register, login, user_logout, lost_item_register, found_item_register
 
 # 添加 app_name 变量
