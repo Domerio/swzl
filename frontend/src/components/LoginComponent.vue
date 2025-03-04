@@ -1,243 +1,105 @@
 <template>
-  <div v-loading="loading" element-loading-text="登录中..." element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.6)" class="login-container">
-
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-      <!-- 头像区域 -->
-      <div v-if="TxStatus" class="avatar-box">
-        <img src="@/assets/touxiang.jpg" alt="头像">
-      </div>
-
-      <div class="title-container">
-        <h3 class="title">后台管理系统</h3>
-      </div>
-
-      <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
-        <el-input ref="username" v-model="loginForm.username" placeholder="Username" name="username" type="text" tabindex="1" auto-complete="on" />
-      </el-form-item>
-
-      <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password" />
-        </span>
-        <el-input :key="passwordType" ref="password" v-model="loginForm.password" :type="passwordType" placeholder="Password" name="password" tabindex="2" auto-complete="on" @keyup.enter.native="handleLogin" />
-        <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-        </span>
-      </el-form-item>
+  <div id="backcont">
+    <div class="login-cont">
+      <h2>校园失物招领管理系统</h2>
       <div>
-        <el-button type="primary" style="width:100%;margin-bottom:20px;" @click.native.prevent="handleLogin">登录</el-button>
+        <p>用户名</p>
+        <el-input v-model="username" placeholder="请输入用户名"/>
       </div>
-      <div class="tips">
-        <span style="margin-right:20px;">如果您还没有账号请先 <span style="color:#409EFF;cursor:pointer" @click="register">注册</span></span>
+      <div>
+        <p>密码</p>
+        <el-input type="password" v-model="pwd" placeholder="请输入密码"/>
       </div>
-
-    </el-form>
+      <!--绑定登录按钮-->
+      <el-button class="loginBtn" type="primary" @click="handleLogin">登录</el-button>
+    </div>
   </div>
 </template>
 
 <script>
-// 引入去除空格工具
-import { validUsername } from '@/utils/validate'
+
+import {ref} from "vue";
+import axios from "axios";
+
 
 export default {
-  name: 'LoginComponent',
-  data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('用户名不能为空！'))
-      } else {
-        callback()
-      }
-    }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('密码最少为6位字符！'))
-      } else {
-        callback()
-      }
-    }
+  setup() {
+    const username = ref("");
+    const pwd = ref("");
+
+    // 定义 handleLogin 方法
+    const handleLogin = () => {
+      // 发送登录请求
+      axios.post('/api/login/', {username: username.value, password: pwd.value},)
+          .then(response => {
+            if (response.data.code === 200) {
+              // 处理登录成功的逻辑，例如保存 token，跳转到首页等
+              console.log("登录成功", response.data);
+              // 保存 token 到 localStorage
+              localStorage.setItem('token', response.data.data.token);
+            } else {
+              // 处理登录失败的逻辑，例如显示错误消息
+              console.error("登录失败", response.data.message);
+            }
+          })
+          .catch(error => {
+            console.error("登录请求失败", error);
+          });
+    };
+
     return {
-      // 头像状态
-      TxStatus: true,
-      loginForm: {
-        username: '',
-        password: ''
-      },
-      // 登录规则
-      loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
-      },
-      loading: false,
-      passwordType: 'password',
-      redirect: undefined
-    }
+      username,
+      pwd,
+      handleLogin,
+    };
   },
-  watch: {
-    $route: {
-      handler: function(route) {
-        this.redirect = route.query && route.query.redirect
-      },
-      immediate: true
-    }
-  },
-  methods: {
-    showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
-      } else {
-        this.passwordType = 'password'
-      }
-      this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
-    },
-    // 登录业务
-    handleLogin() {
-      this.$refs.loginForm.validate((valid) => {
-        // 如果符合验证规则
-        if (valid) {
-          this.loading = true
-          setTimeout(() => {
-            this.$store.dispatch('user/login', this.loginForm).then(() => {
-              this.$router.push({ path: this.redirect || '/' })
-              this.loading = false
-            }).catch(() => {
-              this.loading = false
-            })
-          }, 1500)
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
-    },
-    // 注册业务
-    register() {
-      console.log('123')
-      this.$router.push({ name: 'register' })
-    }
-  }
-}
+};
+
+
 </script>
 
-<style lang="scss">
-$bg: #283443;
-$light_gray: #fff;
-$cursor: #fff;
-@supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input {
-    color: $cursor;
-  }
-}
-.login-container {
-  .el-input {
-    display: inline-block;
-    height: 47px;
-    width: 85%;
+<style>
 
-    input {
-      background: transparent;
-      border: 0px;
-      -webkit-appearance: none;
-      border-radius: 0px;
-      padding: 12px 5px 12px 15px;
-      color: $light_gray;
-      height: 47px;
-      caret-color: $cursor;
-
-      &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
-      }
-    }
-  }
-
-  .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    color: #454545;
-  }
-}
-</style>
-
-<style lang="scss" scoped>
-$bg: #2d3a4b;
-$dark_gray: #889aa4;
-$light_gray: #eee;
-
-.login-container {
-  min-height: 100%;
+#backcont {
+  min-height: 100vh;
   width: 100%;
-  overflow: hidden;
-  background: url(~@/assets/bg0.jpg);
-  background-size: 100% 100%;
-   // 头像
-  .avatar-box {
-    margin: 0 auto;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 1px solid #409eff;
-    box-shadow: 0 0 10px #409eff;
-    position: relative;
-    bottom: 20px;
-    img {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-    }
-  }
+  /* 引入背景图片 */
+  background-image: url("../assets/login.png ");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
 
-  .login-form {
-    position: relative;
-    width: 520px;
-    max-width: 100%;
-    padding: 160px 35px 0;
-    margin: 0 auto;
-    overflow: hidden;
+.login-cont {
+  width: 450px;
+  /* height: 300px; */
+  background: #fff;
+  border-radius: 8px;
+  /* 使盒子垂直水平居中 */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* 内填充 */
+  padding: 30px 50px;
+  box-sizing: border-box;
+}
 
-  }
+.login-cont h2 {
+  font-size: 22px;
+  /* 文字加粗 */
+  font-weight: normal;
+  /* 文字水平居中 */
+  text-align: center;
+}
 
-  .tips {
-    font-size: 18px;
-    text-align: center;
-    color: #000;
-    margin-bottom: 10px;
-  }
+.loginBtn {
+  width: 100%;
+  margin: 20px 0;
+  line-height: 32px;
+}
 
-  .svg-container {
-    padding: 6px 5px 6px 15px;
-    color: $dark_gray;
-    vertical-align: middle;
-    width: 30px;
-    display: inline-block;
-  }
-
-  .title-container {
-    position: relative;
-
-    .title {
-      font-size: 30px;
-      color: $light_gray;
-      margin: 0px auto 40px auto;
-      text-align: center;
-      font-weight: 500;
-    }
-  }
-
-  .show-pwd {
-    position: absolute;
-    right: 10px;
-    top: 7px;
-    font-size: 16px;
-    color: $dark_gray;
-    cursor: pointer;
-    user-select: none;
-  }
+.login-cont p {
+  line-height: 20px;
 }
 </style>

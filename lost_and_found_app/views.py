@@ -19,12 +19,12 @@ def register(request):
             # return redirect('login')
     else:
         form = UserRegistrationForm()
-    return render(request, 'registration/register.html', {'form': form})
+    return render(request, 'frontend/register.html', {'form': form})
 
 
 # 用户登录视图
 @csrf_exempt
-def user_login(request):
+def login(request):
     if request.method == 'POST':
         # 获取用户输入的用户名和密码
         username = request.POST.get('username')
@@ -42,6 +42,7 @@ def user_login(request):
             # 若用户验证失败，显示错误消息
             messages.error(request, '用户名或密码错误，请重试。')
     return render(request, 'frontend/login.html')
+
 
 # 用户注销视图
 @login_required

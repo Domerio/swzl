@@ -64,7 +64,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-
 ROOT_URLCONF = "lost_and_found_project.urls"
 
 TEMPLATES = [
