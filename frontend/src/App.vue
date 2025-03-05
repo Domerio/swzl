@@ -1,19 +1,19 @@
 <!--frontend/src/App.vue-->
 <template>
   <div id="app">
-<!--    <img alt="Vue logo" src="./assets/logo.png">-->
-    <LoginComponent msg="Welcome to Your Vue.js App"/>
-<!--    <HomeComponent/>-->
+<!--    <LoginComponent msg="Welcome to Your Vue.js App"/>-->
+<!--&lt;!&ndash;    <HomeComponent/>&ndash;&gt;-->
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import LoginComponent from './views/Login/LoginComponent.vue'
+// import LoginComponent from './views/Login/LoginComponent.vue'
 // import HomeComponent from "@/views/Home/HomeComponent.vue";
 export default {
   name: 'App',
   components: {
-    LoginComponent,
+    // LoginComponent,
     // HomeComponent,
   }
 }

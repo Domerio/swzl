@@ -1,70 +1,37 @@
+// frontend/src/router/index.js
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Login from '@/views/Login/LoginComponent.vue'
+import Home from '@/views/Home/HomeComponent.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/',
-    redirect: '/login'
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: () => import('@/views/Login/LoginComponent.vue'),
-    meta: {
-      guestOnly: true // ▶新增meta标识，仅允许未登录访问
-    }
-  },
+  { path: '/', redirect: '/login' }, // 默认跳转到登录页
+  { path: '/login', name: 'Login', component: Login },
   {
     path: '/home',
     name: 'Home',
-    component: () => import('@/views/Home/HomeComponent.vue'), // ▶建议统一懒加载
-    meta: {
-      requiresAuth: true // ▶修正字段名（与守卫中的检查一致）
-    }
+    component: Home,
+    meta: { requiresAuth: true } // 需要登录的页面标记
   }
 ]
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL, // ▶当设置为history模式时，建议根据部署环境设置
+  mode: 'history', // 确保与 Django History模式配合
+  base: process.env.BASE_URL,
   routes
 })
 
-// ▶优化后的全局路由守卫（解决重定向循环问题）
+// 路由守卫: 检查是否需要登录
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = localStorage.getItem('token')
+  const isAuthenticated = localStorage.getItem('token') // 假设用 localStorage 存 token
 
-  // 目标路由需要登录
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!isAuthenticated) {
-      next({
-        path: '/login',
-        query: { redirect: to.fullPath }
-      })
-    } else {
-      next()
-    }
-  }
-  // 目标路由仅限未登录用户（如登录页）
-  else if (to.matched.some(record => record.meta.guestOnly)) {
-    if (isAuthenticated) {
-      next({ path: '/home' })
-    } else {
-      next()
-    }
-  }
-  // 其他情况放行
-  else {
-    next()
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    next('/login') // 跳转登录页
+  } else {
+    next() // 放行
   }
 })
-
-// ▶保持重复导航的全局解决方案
-const originalPush = VueRouter.prototype.push
-VueRouter.prototype.push = function push(location) {
-  return originalPush.call(this, location).catch(() => {}) // ▲移除err参数
-}
 
 export default router
