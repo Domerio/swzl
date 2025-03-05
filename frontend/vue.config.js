@@ -2,12 +2,10 @@ const path = require('path')
 
 module.exports = {
     outputDir: path.resolve(__dirname, '../static/frontend'),
-    assetsDir: '',
+    assetsDir: '', // 资源文件直接放在outputDir下，而非子目录
     // indexPath: path.resolve(__dirname, '../templates/frontend/login.html'), // 改为统一的入口模板
     indexPath: path.resolve(__dirname, '../templates/frontend/index.html'), // 改为统一的入口模板
-    publicPath: process.env.NODE_ENV === 'production'
-    ? '/static/frontend/'
-    : '/static/frontend/', // 确保静态资源路径正确
+    publicPath: '/static/frontend/', // 资源路径需与Django的STATIC_URL匹配
     devServer: {
         proxy: {
             '/api': {

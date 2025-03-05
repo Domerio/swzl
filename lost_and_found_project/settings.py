@@ -63,6 +63,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # 生产环境静态文件目录
 
 ROOT_URLCONF = "lost_and_found_project.urls"
 
@@ -131,7 +132,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "/static/"
 
 AUTH_USER_MODEL = 'lost_and_found_app.User'
 MEDIA_URL = '/media/'

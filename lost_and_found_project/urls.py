@@ -2,8 +2,11 @@
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.shortcuts import redirect
-from lost_and_found_app import views as frontend_views
+from django.views.generic import TemplateView
 
+from lost_and_found_app import views as frontend_views
+from lost_and_found_project import settings
+from django.conf.urls.static import static
 
 # 定义一个视图函数，用于重定向到登录页面
 def login(request):
@@ -15,5 +18,14 @@ urlpatterns = [
     path('api/', include('lost_and_found_app.api.urls')),  # 包含api路由
     # 推荐使用独立的前端路径
     # re_path(r'^', include('frontend.urls'))
-    re_path(r'^(?!static/|media/|api/).*', frontend_views.FrontendView.as_view(), name='frontend')
+    # re_path(r'^(?!static/|media/|api/).*', frontend_views.FrontendView.as_view(), name='frontend')
+    # re_path(r'^.*$', TemplateView.as_view(template_name='frontend/index.html')),  # 适配前端路由
 ]
+# 通配符路由必须放在最后！
+urlpatterns += [
+    re_path(r'^.*$', TemplateView.as_view(template_name='frontend/index.html')),
+]
+# 仅在开发模式下启用静态文件服务
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # 如果有媒体文件
