@@ -1,6 +1,7 @@
-# swzl/lost_and_found_app/forms.py
+import re
 from django import forms
 from .models import User
+
 
 class UserRegistrationForm(forms.ModelForm):
     password1 = forms.CharField(label='密码', widget=forms.PasswordInput)
@@ -9,6 +10,13 @@ class UserRegistrationForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'real_name', 'role', 'phone', 'avatar']
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        # 假设学号/工号是数字，长度为8 - 12位
+        if not re.match(r'^\d{8,12}$', username):
+            raise forms.ValidationError("学号/工号格式不正确，请输入8 - 12位数字。")
+        return username
 
     def clean_password2(self):
         # 检查两次输入的密码是否一致

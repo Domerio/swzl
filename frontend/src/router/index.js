@@ -57,7 +57,7 @@ const routes = [
 const router = new VueRouter({
     mode: 'history', // 确保与 Django History模式配合
     base: process.env.BASE_URL,
-    routes
+    routes,
 })
 
 router.beforeEach((to, from, next) => {
@@ -99,7 +99,7 @@ router.beforeEach((to, from, next) => {
         )
 
         if (!hasPermission) {
-            this.$message.error(`需要 ${to.meta.requiresRole.join('/')} 权限`)
+            Vue.prototype.$message.error(`你没有权限访问此页面，需要 ${to.meta.requiresRole.join('/')} 权限。`)
             return next({path: `/${normalizedUserRole}/dashboard` || '/'})
         }
     }

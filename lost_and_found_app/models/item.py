@@ -1,6 +1,10 @@
 from django.db import models
-from .user import User
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from .category import Category
+from .user import User
+
 
 
 class LostAndFound(models.Model):
@@ -38,3 +42,39 @@ class LostAndFound(models.Model):
 
     def __str__(self):
         return f"{self.title} - {self.get_status_display()}"
+
+
+class CategoryListAPI(APIView):
+    def get(self, request):
+        from ..serializers import CategorySerializer
+        categories = Category.objects.all()
+        serializer = CategorySerializer(categories, many=True)
+        return Response(serializer.data)
+
+
+class SearchAPI(APIView):
+    def get(self, request):
+        from ..serializers import LostAndFoundSerializer
+        keyword = request.query_params.get('keyword')
+        if keyword:
+            results = LostAndFound.objects.filter(title__icontains=keyword)
+        else:
+            results = LostAndFound.objects.all()
+        serializer = LostAndFoundSerializer(results, many=True)
+        return Response(serializer.data)
+
+
+class UpdateStatusAPI(APIView):
+    def post(self, request, pk):
+        from ..serializers import LostAndFoundSerializer
+        try:
+            lost_and_found = LostAndFound.objects.get(pk=pk)
+            status = request.data.get('status')
+            result = request.data.get('result')
+            lost_and_found.status = status
+            lost_and_found.result = result
+            lost_and_found.save()
+            serializer = LostAndFoundSerializer(lost_and_found)
+            return Response(serializer.data)
+        except LostAndFound.DoesNotExist:
+            return Response({'error': '失物招领信息不存在'}, status=404)

@@ -6,7 +6,8 @@ from rest_framework import serializers
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
 
-from .models import User, LostAndFound, Category
+from .models import User, Category
+# from .models.item import LostAndFound
 
 
 class LoginSerializer(serializers.Serializer):
@@ -22,7 +23,6 @@ class LoginSerializer(serializers.Serializer):
         return attrs
 
 
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -36,6 +36,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class LostAndFoundSerializer(serializers.ModelSerializer):
     class Meta:
+        from .models.item import LostAndFound
         model = LostAndFound
         fields = '__all__'
         read_only_fields = ['user', 'status']  # 用户和状态不可修改

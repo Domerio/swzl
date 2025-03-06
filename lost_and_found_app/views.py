@@ -5,14 +5,59 @@ from django.views.generic import TemplateView
 from rest_framework import status
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
-
+from django.contrib.auth.decorators import user_passes_test
 from .forms import UserRegistrationForm
-from .models import User
+from .models import User, LostAndFound, Bookmark, Notification, Category, Attachment
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages  # 用于显示消息
 from django.views.decorators.csrf import csrf_exempt
 import json
+
+
+def is_normal_user(user):
+    return user.role in ['student', 'staff']
+
+
+@login_required
+@user_passes_test(is_normal_user)
+def lost_item_register(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        lost_time = request.POST.get('lost_time')
+        lost_location = request.POST.get('lost_location')
+        description = request.POST.get('description')
+        image = request.FILES.get('image')
+        return JsonResponse({'success': True})
+    return render(request, 'frontend/lost_item_register.html')
+
+
+@login_required
+@user_passes_test(is_normal_user)
+def found_item_register(request):
+    if request.method == 'POST':
+        # 处理招领登记表单
+        # 这里可以添加具体的招领登记逻辑，例如创建 FoundItem 对象并保存
+        # 示例：
+        # name = request.POST.get('name')
+        # found_time = request.POST.get('found_time')
+        # found_location = request.POST.get('found_location')
+        # description = request.POST.get('description')
+        # contact_info = request.POST.get('contact_info')
+        # finder = request.user
+        # FoundItem.objects.create(name=name, found_time=found_time, found_location=found_location, description=description, contact_info=contact_info, finder=finder)
+        messages.success(request, '招领信息已成功登记')  # 登记成功提示
+        return redirect('found_item_list')
+    return render(request, 'frontend/found_item_register.html')
+
+
+@login_required
+def admin_audit(request):
+    if request.user.role == 'admin':
+        # 管理员审核信息逻辑
+        pass
+    else:
+        raise Http404("你没有权限访问此页面。")
 
 
 def register(request):
@@ -62,19 +107,6 @@ def user_logout(request):
     return redirect('frontend/login.html')  # 重定向到登录页面
 
 
-# 失物登记视图
-@login_required
-def lost_item_register(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        lost_time = request.POST.get('lost_time')
-        lost_location = request.POST.get('lost_location')
-        description = request.POST.get('description')
-        image = request.FILES.get('image')
-        return JsonResponse({'success': True})
-    return render(request, 'frontend/lost_item_register.html')
-
-
 # 招领登记视图
 @login_required
 def found_item_register(request):
@@ -92,3 +124,64 @@ def found_item_register(request):
         messages.success(request, '招领信息已成功登记')  # 登记成功提示
         return redirect('found_item_list')
     return render(request, 'frontend/found_item_register.html')
+
+
+@login_required
+def personal_center(request):
+    user = request.user
+    # 获取历史发布记录
+    lost_and_found_records = LostAndFound.objects.filter(user=user)
+    # 获取收藏信息
+    bookmarks = Bookmark.objects.filter(user=user)
+    # 获取消息通知
+    notifications = Notification.objects.filter(user=user)
+
+    return render(request, 'frontend/personal_center.html', {
+        'lost_and_found_records': lost_and_found_records,
+        'bookmarks': bookmarks,
+        'notifications': notifications
+    })
+
+
+@login_required
+def found_item_register(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        lost_time = request.POST.get('found_time')
+        location = request.POST.get('found_location')
+        location_lat = request.POST.get('location_lat')
+        location_lng = request.POST.get('location_lng')
+        contact = request.POST.get('contact')
+        category_id = request.POST.get('category')
+        category = Category.objects.get(id=category_id)
+        user = request.user
+        is_anonymous = request.POST.get('is_anonymous') == 'on'
+
+        lost_and_found = LostAndFound.objects.create(
+            user=user,
+            title=title,
+            description=description,
+            lost_time=lost_time,
+            location=location,
+            location_lat=location_lat,
+            location_lng=location_lng,
+            contact=contact,
+            category=category,
+            is_anonymous=is_anonymous,
+            status='pending'
+        )
+
+        # 处理图片上传
+        images = request.FILES.getlist('images')
+        for image in images:
+            Attachment.objects.create(
+                item=lost_and_found,
+                image=image,
+                is_primary=False  # 可根据需求设置主图
+            )
+
+        messages.success(request, '招领信息已成功登记')
+        return redirect('found_item_list')
+    categories = Category.objects.all()
+    return render(request, 'frontend/found_item_register.html', {'categories': categories})
