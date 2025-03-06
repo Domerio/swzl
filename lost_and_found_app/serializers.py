@@ -1,5 +1,26 @@
+# lost_and_found_app/serializers.py
+from contextvars import Token
+
+from flask import Response
 from rest_framework import serializers
+from rest_framework.authtoken.serializers import AuthTokenSerializer
+from rest_framework.authtoken.views import ObtainAuthToken
+
 from .models import User, LostAndFound, Category
+
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField(
+        style={'input_type': 'password'},
+        trim_whitespace=False
+    )
+
+    def validate(self, attrs):
+        if not User.objects.filter(username=attrs['username']).exists():
+            raise serializers.ValidationError("用户名不存在")
+        return attrs
+
 
 
 class UserSerializer(serializers.ModelSerializer):

@@ -1,5 +1,6 @@
+<!--frontend/src/views/Login/LoginComponent.vue-->
 <template>
-  <div id="backcont">
+  <div id="back_count">
     <div class="login-cont">
       <h2>校园失物招领管理系统</h2>
       <div>
@@ -8,7 +9,8 @@
             v-model="username"
             placeholder="请输入用户名"
             clearable
-            @keyup.enter.native="handleLogin"></el-input>
+            @keyup.enter.native="handleLogin"
+        ></el-input>
       </div>
       <div>
         <p>密码</p>
@@ -35,12 +37,13 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
       username: '',
       pwd: '',
-      loading: false
+      loading: false,
     }
   },
   methods: {
@@ -56,44 +59,54 @@ export default {
       try {
         const response = await this.$axios.post('/api/login/', {
           username: this.username,
-          password: this.pwd
+          password: this.pwd,
+
         }, {
           headers: {
             'Content-Type': 'application/json'
           }
         })
-
         if (response.data.token) {
-          this.$message.success('登录成功')
-
-          // 存储认证信息
           localStorage.setItem('token', response.data.token)
           localStorage.setItem('userInfo', JSON.stringify({
-            id: response.data.user_id,
-            username: response.data.username
+            id: response.data.id,
+            username: response.data.username,
+            role: response.data.role,
+            real_name: response.data.real_name
           }))
+          // 强制更新Vuex状态
+          this.$store.commit('user/SET_INIT_STATE', {
+            _init: true,
+            id: response.data.id,
+            role: response.data.role.toLowerCase(),
+            isAuthenticated: true,
+            real_name: response.data.real_name
+          })
+          const roleBasedRoutes = {
+            'student': '/student/dashboard',
+            'staff': '/staff/dashboard',
+            'admin': '/admin/dashboard'
+          }
+          console.log('提交后Vuex状态:', JSON.parse(JSON.stringify(this.$store.state.user)))
+          console.log('跳转前的角色:', response.data.role)
+          console.log('目标路径:', roleBasedRoutes[response.data.role])
+          console.log('[登录成功] 保存的UserInfo:', localStorage.getItem('userInfo'))
+          console.log('[路由目标] 应跳转至:', `/${response.data.role}/dashboard`)
+          // 添加状态变更监听
+          this.$nextTick(() => {
+            console.log('提交Store后的用户状态:', JSON.parse(JSON.stringify(this.$store.state.user)))
+            console.log('本地存储Token:', !!localStorage.getItem('token'))
+            console.log('本地用户信息:', localStorage.getItem('userInfo'))
+          })
+          // ↓ 合并为单一通知（调整文案内容）
+          this.$message({
+            message: `${response.data.real_name}，欢迎进入系统`,  // ← 建议使用真实姓名
+            type: 'success',
+            duration: 1500
+          })
 
-          // 提前存储用户名
-          const username = response.data.username
+          await this.$router.push({path: `/${response.data.role}/dashboard`})
 
-          // 清除之前的定时器
-          if (this.loginTimer) clearTimeout(this.loginTimer)
-
-          this.loginTimer = setTimeout(() => {
-            this.$message({
-              message: `${username}，欢迎进入系统`,
-              type: 'success',
-              duration: 1500,
-              onClose: () => {
-                this.$router.push({name: 'Home'})
-                    .then(() => console.log('路由跳转成功'))
-                    .catch(err => {
-                      console.error('路由跳转失败:', err)
-                      this.$router.push('/') // 保底跳转
-                    })
-              }
-            })
-          }, 800)
         } else {
           this.$message.error('服务器返回异常格式')
         }
@@ -101,9 +114,7 @@ export default {
         const errorMsg = error.response?.data?.detail ||
             error.response?.data?.error ||
             '登录请求失败，请检查网络连接'
-
         this.$message.error(errorMsg)
-
         // 清空密码字段
         if (error.response?.status === 401) {
           this.pwd = ''
@@ -111,13 +122,14 @@ export default {
       } finally {
         this.loading = false
       }
-    }
+    },
   }
 }
 </script>
 
 <style scoped>
-#backcont {
+
+#back_count {
   min-height: 100vh;
   display: flex;
   justify-content: center;

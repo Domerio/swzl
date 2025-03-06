@@ -1,7 +1,9 @@
 # lost_and_found_app/api/views/auth.py
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
-from rest_framework.permissions import AllowAny
+from rest_framework.authtoken.serializers import AuthTokenSerializer
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from ...serializers import UserSerializer
 from ...models import User
@@ -17,28 +19,32 @@ from django.utils.decorators import method_decorator
 logger = logging.getLogger(__name__)
 
 
+class CustomAuthTokenSerializer(AuthTokenSerializer):
+    def validate(self, attrs):
+        # ✅ 关键：首先调用父类验证逻辑以获取用户信息
+        attrs = super().validate(attrs)
+        user = attrs['user']  # 正确获取用户实例
+        token, created = Token.objects.get_or_create(user=user)  # 此处生成Token
 
-class LoginAPI(APIView):
-    permission_classes = [AllowAny]  # 允许无需认证的访问
-    @method_decorator(csrf_exempt)
-    def post(self, request):
-        username = request.data.get('username')
-        password = request.data.get('password')
-
-        # Step 1: 用户认证
-        user = authenticate(request, username=username, password=password)
-        if user is None:
-            return Response({'error': 'Invalid credentials'}, status=401)
-
-        # Step 2: 获取或创建用户 Token
-        token, created = Token.objects.get_or_create(user=user)
-
-        # Step 3: 返回 Token 和用户信息
-        return Response({
+        return {
+            # ✔️ 返回视图所需的全部信息
             'token': token.key,
-            'user_id': user.id,
-            'username': user.username
-        }, status=200)
+            'user_id': user.pk,
+            'username': user.username,
+            'role': user.role,
+            # 'user': user  # 关键! 保持父类结构兼容性
+            'real_name': user.real_name,
+        }
+
+
+class LoginAPI(ObtainAuthToken):  # 核心：继承正确的基类
+    serializer_class = CustomAuthTokenSerializer  # ✅ 绑定序列化器
+
+    def post(self, request, *args, **kwargs):
+        # ✔️ 直接使用序列化器生成的数据
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.validated_data)  # ← 所有数据已在序列化器生成
 
 
 class RegisterAPI(generics.CreateAPIView):

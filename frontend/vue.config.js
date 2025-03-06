@@ -19,14 +19,14 @@ module.exports = {
 
     configureWebpack: {
         output: {
-            filename: 'js/[name].[hash:8].js',
-            chunkFilename: 'js/[name].[hash:8].chunk.js'
+            filename: 'js/[name].[fullhash:8].js',
+            chunkFilename: 'js/[name].[fullhash:8].chunk.js'
         }
     },
     css: {
         extract: {
-            filename: 'css/[name].[hash:8].css',
-            chunkFilename: 'css/[name].[hash:8].chunk.css'
+            filename: 'css/[name].[fullhash:8].css',
+            chunkFilename: 'css/[name].[fullhash:8].chunk.css'
         }
     }
 }

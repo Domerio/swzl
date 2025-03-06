@@ -4,29 +4,34 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="用element UI？">
+    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="登录页面OK+首页重定向OK">
+      <change afterPath="$PROJECT_DIR$/frontend/src/store/actions.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/store/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/store/modules/user.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/store/mutations.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/AdminDashboard.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/StaffDashboard.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/StudentDashboard.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Home/HomeComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Home/HomeComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Login/LoginComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Login/LoginComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_app/api/views/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/api/views/auth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_app/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lost_and_found_project/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_project/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/238.9dc31266.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.9dc31266.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.9dc31266.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/fonts/element-icons.f1a45d74.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/fonts/element-icons.ff18efd1.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/img/login.34eaf667.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.b243c7dc.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.b243c7dc.css" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/static/frontend/img/touxiang.bf860c0f.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/238.9dc31266.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/238.9dc31266.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.9dc31266.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.9dc31266.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.9dc31266.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.9dc31266.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontend/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontend/login.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.b243c7dc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.b243c7dc.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.b243c7dc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.b243c7dc.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,9 +46,9 @@
       <list>
         <option value="package.json" />
         <option value="HTML File" />
+        <option value="Python Script" />
         <option value="Vue Composition API Component" />
         <option value="JavaScript File" />
-        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -84,32 +89,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/毕业设计/swzl&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;ai.codegeex.plugin.settings.ApplicationConfigurable&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\PyCharm 2024.2.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Django 服务器.lost_and_found_system.executor": "Run",
+    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "django.template.preview.state": "SHOW_EDITOR",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "E:/毕业设计/swzl",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "ai.codegeex.plugin.settings.ApplicationConfigurable",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PyCharm 2024.2.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;vue.recent.templates&quot;: [
-      &quot;Vue Composition API Component&quot;
+  "keyToStringList": {
+    "vue.recent.templates": [
+      "Vue Composition API Component"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\frontend\src\assets" />
@@ -172,6 +178,8 @@
       <workItem from="1740899518583" duration="24000" />
       <workItem from="1741071309910" duration="18696000" />
       <workItem from="1741104916863" duration="12087000" />
+      <workItem from="1741185148867" duration="50000" />
+      <workItem from="1741236486443" duration="25496000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />
@@ -245,7 +253,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741075468711</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="登录页面OK+首页重定向OK">
+      <option name="closed" value="true" />
+      <created>1741184365242</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1741184365242</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -269,7 +285,8 @@
     <MESSAGE value="注册半成品" />
     <MESSAGE value="登录半成品" />
     <MESSAGE value="用element UI？" />
-    <option name="LAST_COMMIT_MESSAGE" value="用element UI？" />
+    <MESSAGE value="登录页面OK+首页重定向OK" />
+    <option name="LAST_COMMIT_MESSAGE" value="登录页面OK+首页重定向OK" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

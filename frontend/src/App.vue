@@ -1,20 +1,19 @@
 <!--frontend/src/App.vue-->
 <template>
   <div id="app">
-<!--    <LoginComponent msg="Welcome to Your Vue.js App"/>-->
-<!--&lt;!&ndash;    <HomeComponent/>&ndash;&gt;-->
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-// import LoginComponent from './views/Login/LoginComponent.vue'
-// import HomeComponent from "@/views/Home/HomeComponent.vue";
 export default {
   name: 'App',
-  components: {
-    // LoginComponent,
-    // HomeComponent,
+  components: {},
+  created() {
+    this.$router.onError((error) => {
+      console.error('全局路由错误捕获:', error)
+      this.$message.error('页面加载失败，请检查网络连接')
+    })
   }
 }
 </script>

@@ -1,7 +1,9 @@
+# lost_and_found_app/views.py
 from django.http import JsonResponse, Http404
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from rest_framework import status
+from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
 
 from .forms import UserRegistrationForm
@@ -41,10 +43,8 @@ def login(request):
             # 若用户验证成功，登录用户并重定向到首页
             login(request, user)
             messages.success(request, '登录成功！')
-            # return redirect('home')  # 这里的 'home' 是你定义的首页 URL 名称
             return redirect('lost_and_found:home')  # 这里的 'home' 是你定义的首页 URL 名称
         else:
-
             # 若用户验证失败，显示错误消息
             messages.error(request, '用户名或密码错误，请重试。')
     return render(request, 'frontend/login.html')
@@ -92,8 +92,3 @@ def found_item_register(request):
         messages.success(request, '招领信息已成功登记')  # 登记成功提示
         return redirect('found_item_list')
     return render(request, 'frontend/found_item_register.html')
-
-# 失物列表视图
-
-
-# 招领列表视图
