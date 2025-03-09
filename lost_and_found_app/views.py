@@ -15,7 +15,9 @@ import json
 from .serializers import UserRegisterSerializer, UserLoginSerializer
 from rest_framework.authtoken.models import Token
 from django.middleware.csrf import get_token
+import logging
 
+logger = logging.getLogger(__name__)
 User = get_user_model()
 
 @api_view(['GET'])
@@ -29,13 +31,13 @@ def get_csrf_token(request):
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
-@csrf_exempt  # 临时添加，仅用于测试
+# @csrf_exempt  # 临时添加，仅用于测试
 def register(request):
     try:
         # 打印请求数据以便调试
-        print("Registration request data:", request.data)
-        print("Request headers:", request.headers)
-        print("Content type:", request.content_type)
+        logger.info("Registration request data: %s", request.data)
+        logger.info("Request headers: %s", request.headers)
+        logger.info("Content type: %s", request.content_type)
         
         serializer = UserRegisterSerializer(data=request.data)
         if serializer.is_valid():
@@ -58,8 +60,8 @@ def register(request):
         }, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         import traceback
-        print("Registration error:", str(e))
-        print("Traceback:", traceback.format_exc())
+        logger.error("Registration error: %s", str(e))
+        logger.error("Traceback: %s", traceback.format_exc())
         return Response({
             'error': str(e),
             'message': '注册过程发生错误'

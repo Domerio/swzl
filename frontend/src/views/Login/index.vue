@@ -2,24 +2,24 @@
   <div class="login-container">
     <el-card class="login-card">
       <div class="title">校园失物招领系统</div>
-      
+
       <el-tabs v-model="activeTab">
         <el-tab-pane label="登录" name="login">
           <el-form ref="loginForm" :model="loginForm" :rules="loginRules">
             <el-form-item prop="username">
-              <el-input 
-                v-model="loginForm.username" 
-                placeholder="学号/工号">
+              <el-input
+                  v-model="loginForm.username"
+                  placeholder="学号/工号">
                 <i slot="prefix" class="el-input__icon el-icon-user"></i>
               </el-input>
             </el-form-item>
-            
+
             <el-form-item prop="password">
-              <el-input 
-                v-model="loginForm.password" 
-                type="password" 
-                placeholder="密码"
-                show-password>
+              <el-input
+                  v-model="loginForm.password"
+                  type="password"
+                  placeholder="密码"
+                  show-password>
                 <i slot="prefix" class="el-input__icon el-icon-lock"></i>
               </el-input>
             </el-form-item>
@@ -35,45 +35,47 @@
         <el-tab-pane label="注册" name="register">
           <el-form ref="registerForm" :model="registerForm" :rules="registerRules">
             <el-form-item prop="username">
-              <el-input 
-                v-model="registerForm.username" 
-                placeholder="学号/工号">
+              <el-input
+                  v-model="registerForm.username"
+                  placeholder="学号/工号">
                 <i slot="prefix" class="el-input__icon el-icon-user"></i>
               </el-input>
             </el-form-item>
 
+
+            <!-- 定义一个表单项，用于输入姓名 -->
             <el-form-item prop="name">
-              <el-input 
-                v-model="registerForm.name" 
-                placeholder="姓名">
+              <el-input
+                  v-model="registerForm.real_name"
+                  placeholder="真实姓名">
                 <i slot="prefix" class="el-input__icon el-icon-user"></i>
               </el-input>
             </el-form-item>
-            
+
             <el-form-item prop="password">
-              <el-input 
-                v-model="registerForm.password" 
-                type="password" 
-                placeholder="密码"
-                show-password>
+              <el-input
+                  v-model="registerForm.password"
+                  type="password"
+                  placeholder="密码"
+                  show-password>
                 <i slot="prefix" class="el-input__icon el-icon-lock"></i>
               </el-input>
             </el-form-item>
 
             <el-form-item prop="confirmPassword">
-              <el-input 
-                v-model="registerForm.confirmPassword" 
-                type="password" 
-                placeholder="确认密码"
-                show-password>
+              <el-input
+                  v-model="registerForm.confirmPassword"
+                  type="password"
+                  placeholder="确认密码"
+                  show-password>
                 <i slot="prefix" class="el-input__icon el-icon-lock"></i>
               </el-input>
             </el-form-item>
 
             <el-form-item prop="role">
               <el-select v-model="registerForm.role" placeholder="请选择身份" style="width: 100%">
-                <el-option label="学生" value="student" />
-                <el-option label="教职工" value="staff" />
+                <el-option label="学生" value="student"/>
+                <el-option label="教职工" value="staff"/>
               </el-select>
             </el-form-item>
 
@@ -100,7 +102,6 @@ export default {
         callback()
       }
     }
-    
     return {
       activeTab: 'login',
       loginForm: {
@@ -109,27 +110,28 @@ export default {
       },
       registerForm: {
         username: '',
-        name: '',
+        real_name: '',
         password: '',
-        confirmPassword: '',
-        role: ''
+        confirm_Password: '',
+        role: '',
+        csrfToken: '',
       },
       loginRules: {
-        username: [{ required: true, message: '请输入学号/工号', trigger: 'blur' }],
-        password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+        username: [{required: true, message: '请输入学号/工号', trigger: 'blur'}],
+        password: [{required: true, message: '请输入密码', trigger: 'blur'}]
       },
       registerRules: {
-        username: [{ required: true, message: '请输入学号/工号', trigger: 'blur' }],
-        name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+        username: [{required: true, message: '请输入学号/工号', trigger: 'blur'}],
+        real_name: [{required: true, message: '请输入姓名', trigger: 'blur'}],
         password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 6, message: '密码长度不能小于6位', trigger: 'blur' }
+          {required: true, message: '请输入密码', trigger: 'blur'},
+          {min: 6, message: '密码长度不能小于6位', trigger: 'blur'}
         ],
         confirmPassword: [
-          { required: true, message: '请确认密码', trigger: 'blur' },
-          { validator: validateConfirmPassword, trigger: 'blur' }
+          {required: true, message: '请确认密码', trigger: 'blur'},
+          {validator: validateConfirmPassword, trigger: 'blur'}
         ],
-        role: [{ required: true, message: '请选择身份', trigger: 'change' }]
+        role: [{required: true, message: '请选择身份', trigger: 'change'}]
       }
     }
   },
@@ -145,7 +147,7 @@ export default {
             password: this.loginForm.password
           }
         })
-        
+
         // 存储token和用户信息
         await this.$store.dispatch('login', {
           token: response.token,
@@ -156,19 +158,19 @@ export default {
             name: response.real_name || response.name
           }
         })
-        
+
         this.$message.success('登录成功')
-        
+
         // 根据角色直接跳转到对应页面
         const roleRouteMap = {
           student: '/student-dashboard',
           staff: '/staff-dashboard',
           admin: '/admin-dashboard'
         }
-        
+
         // 获取重定向地址或使用默认路由
         const redirect = this.$route.query.redirect || roleRouteMap[response.role] || '/'
-        
+
         // 使用 replace 而不是 push 来避免在历史记录中留下多余的记录
         this.$router.replace(redirect).catch(err => {
           if (err.name !== 'NavigationDuplicated') {
@@ -182,28 +184,33 @@ export default {
         this.$message.error(errorMsg)
       }
     },
-    
+
     async handleRegister() {
       try {
         // 验证表单
         await this.$refs.registerForm.validate()
-        
+
         // 先获取CSRF令牌
-        await this.$http.get('/csrf-token/')
-        
+        const csrfToken = await this.$http.get('/csrf-token/')
+        // 打印发送的数据，用于调试
+        const data = {
+          username: this.registerForm.username,
+          password: this.registerForm.password,
+          confirm_password: this.registerForm.confirmPassword,
+          real_name: this.registerForm.real_name,
+          role: this.registerForm.role,
+          // csrfToken: this.registerForm.csrfToken
+          csrfToken: csrfToken,
+        };
+        console.log('Sending registration data:', data);
+
         // 发送注册请求
         const response = await this.$http({
           url: '/register/',
           method: 'post',
-          data: {
-            username: this.registerForm.username,
-            password: this.registerForm.password,
-            confirm_password: this.registerForm.confirmPassword,
-            name: this.registerForm.name,
-            role: this.registerForm.role
-          }
+          data: data
         })
-        
+
         // 注册成功后自动登录
         await this.$store.dispatch('login', {
           token: response.token,
@@ -211,20 +218,20 @@ export default {
             id: response.user_id,
             username: response.username,
             role: response.role,
-            name: response.name
+            real_name: response.real_name,
           }
         })
-        
+
         // 显示注册成功的消息
         this.$message.success(response.message || '注册成功')
-        
+
         // 根据角色跳转到对应的仪表板
         const roleRouteMap = {
           student: '/student-dashboard',
           staff: '/staff-dashboard',
           admin: '/admin-dashboard'
         }
-        
+
         // 跳转到对应的仪表板
         this.$router.replace(roleRouteMap[response.role] || '/').catch(err => {
           if (err.name !== 'NavigationDuplicated') {

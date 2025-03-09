@@ -13,6 +13,12 @@ const routes = [
         meta: { requiresAuth: false }
     },
     {
+        path: '/register',
+        name: 'Register',
+        meta: { requiresAuth: false },
+        component: () => import('@/views/Login/index.vue')
+    },
+    {
         path: '/student-dashboard',
         name: 'StudentDashboard',
         component: () => import('@/views/Dashboard/StudentDashboard.vue'),
