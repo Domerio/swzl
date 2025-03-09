@@ -19,12 +19,24 @@ export default {
 </script>
 
 <style>
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  //margin-top: 60px;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+/* 解决ElementUI默认边距 */
+.el-card {
+  margin: 0 !important;
+}
+.el-form-item {
+  margin-bottom: 18px;
+}
+
 </style>

@@ -1,5 +1,6 @@
 <script setup>
 
+import user from "../../store/modules/user";
 </script>
 
 <template>
