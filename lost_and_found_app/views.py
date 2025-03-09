@@ -20,6 +20,7 @@ import logging
 logger = logging.getLogger(__name__)
 User = get_user_model()
 
+
 @api_view(['GET'])
 @permission_classes([AllowAny])
 @ensure_csrf_cookie
@@ -28,6 +29,7 @@ def get_csrf_token(request):
     获取CSRF令牌的视图
     """
     return JsonResponse({'csrfToken': get_token(request)})
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -38,7 +40,7 @@ def register(request):
         logger.info("Registration request data: %s", request.data)
         logger.info("Request headers: %s", request.headers)
         logger.info("Content type: %s", request.content_type)
-        
+
         serializer = UserRegisterSerializer(data=request.data)
         if serializer.is_valid():
             print("Data is valid, creating user...")
@@ -67,6 +69,7 @@ def register(request):
             'message': '注册过程发生错误'
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 @ensure_csrf_cookie
@@ -82,7 +85,7 @@ def login(request):
 
         # 验证用户
         user = authenticate(username=username, password=password)
-        
+
         if user is not None:
             login(request, user)
             token, _ = Token.objects.get_or_create(user=user)
@@ -98,12 +101,13 @@ def login(request):
             return Response({
                 'error': '用户名或密码错误'
             }, status=status.HTTP_401_UNAUTHORIZED)
-            
+
     except Exception as e:
         print("Login error:", str(e))
         return Response({
             'error': str(e)
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 class FrontendView(TemplateView):
     template_name = 'frontend/index.html'  # 直接指向模板位置

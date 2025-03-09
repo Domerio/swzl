@@ -86,6 +86,10 @@ router.beforeEach(async (to, from, next) => {
         const isAuthenticated = store.getters.isAuthenticated
         const userRole = store.getters.userRole
 
+        // 输出
+        console.log('isAuthenticated:', isAuthenticated)
+        console.log('userRole:', userRole)
+
         // 如果路由需要认证
         if (to.matched.some(record => record.meta.requiresAuth)) {
             if (!isAuthenticated) {

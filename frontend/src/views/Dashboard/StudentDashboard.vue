@@ -15,7 +15,7 @@
               </div>
               <div class="user-info">
                 <p><strong>学号：</strong>{{ user.username }}</p>
-                <p><strong>姓名：</strong>{{ user.name }}</p>
+                <p><strong>姓名：</strong>{{ user.real_name }}</p>
                 <p><strong>身份：</strong>学生</p>
               </div>
             </el-card>

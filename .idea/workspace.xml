@@ -4,30 +4,46 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="登录ok，注册有问题">
+    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="登录+注册">
+      <change afterPath="$PROJECT_DIR$/static/frontend/css/149.e4f46b00.chunk.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/frontend/css/640.e4f46b00.chunk.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/frontend/css/app.e4f46b00.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.e4f46b00.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/frontend/js/149.e4f46b00.chunk.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/frontend/js/149.e4f46b00.chunk.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/frontend/js/519.e4f46b00.chunk.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/frontend/js/519.e4f46b00.chunk.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/frontend/js/640.e4f46b00.chunk.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/frontend/js/640.e4f46b00.chunk.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/frontend/js/80.e4f46b00.chunk.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/frontend/js/80.e4f46b00.chunk.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/frontend/js/app.e4f46b00.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/frontend/js/app.e4f46b00.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.e4f46b00.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.e4f46b00.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Dashboard/StudentDashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Dashboard/StudentDashboard.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/views/Login/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Login/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_app/api/views/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/api/views/auth.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lost_and_found_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/593.16a539e0.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/822.16a539e0.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.16a539e0.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.97366978.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.16a539e0.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.16a539e0.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.16a539e0.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/593.16a539e0.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/593.16a539e0.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/80.16a539e0.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/80.16a539e0.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/822.16a539e0.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/822.16a539e0.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.16a539e0.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.16a539e0.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.97366978.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.97366978.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.16a539e0.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.16a539e0.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/1.9fb1ba46.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/593.9fb1ba46.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.9fb1ba46.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.9fb1ba46.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/1.9fb1ba46.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/1.9fb1ba46.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.9fb1ba46.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.9fb1ba46.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/593.9fb1ba46.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/593.9fb1ba46.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/80.9fb1ba46.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/80.9fb1ba46.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.9fb1ba46.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.9fb1ba46.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.9fb1ba46.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.9fb1ba46.js.map" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -180,7 +196,7 @@
       <workItem from="1741328306452" duration="1087000" />
       <workItem from="1741331926869" duration="877000" />
       <workItem from="1741489038636" duration="1701000" />
-      <workItem from="1741509883264" duration="6418000" />
+      <workItem from="1741509883264" duration="16108000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />
@@ -278,7 +294,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741510113229</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="登录+注册">
+      <option name="closed" value="true" />
+      <created>1741525665111</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1741525665111</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -316,7 +340,8 @@
     <MESSAGE value="用element UI？" />
     <MESSAGE value="登录页面OK+首页重定向OK" />
     <MESSAGE value="登录ok，注册有问题" />
-    <option name="LAST_COMMIT_MESSAGE" value="登录ok，注册有问题" />
+    <MESSAGE value="登录+注册" />
+    <option name="LAST_COMMIT_MESSAGE" value="登录+注册" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

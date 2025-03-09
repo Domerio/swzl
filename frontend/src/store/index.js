@@ -40,7 +40,7 @@ export default new Vuex.Store({
     
     logout({ commit }) {
       commit('CLEAR_AUTH')
-    }
+    },
   },
   
   getters: {

@@ -1,11 +1,11 @@
 # lost_and_found_app/api/views/auth.py
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
-from ...serializers import UserSerializer
+from ...serializers import UserSerializer,UserRegisterSerializer
 from ...models import User
 import logging
 from django.contrib.auth import authenticate
@@ -48,10 +48,18 @@ class LoginAPI(ObtainAuthToken):  # 核心：继承正确的基类
 
 
 class RegisterAPI(generics.CreateAPIView):
-    serializer_class = UserSerializer
+    serializer_class = UserRegisterSerializer  # 修改为 UserRegisterSerializer
     queryset = User.objects.all()
 
     def perform_create(self, serializer):
         user = serializer.save()
-        return Response({"user_id": user.id})
+        token, _ = Token.objects.get_or_create(user=user)
+        return Response({
+            'token': token.key,
+            'user_id': user.pk,
+            'username': user.username,
+            'role': user.role,
+            'real_name': user.real_name,
+            'message': '注册成功'
+        }, status=status.HTTP_201_CREATED)
 

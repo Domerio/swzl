@@ -93,7 +93,7 @@
 
 <script>
 export default {
-  name: 'UserLogin',
+  name: 'UserLogin', // 组件名称
   data() {
     const validateConfirmPassword = (rule, value, callback) => {
       if (value !== this.registerForm.password) {
@@ -185,7 +185,7 @@ export default {
       }
     },
 
-    async handleRegister() {
+    handleRegister: async function () {
       try {
         // 验证表单
         await this.$refs.registerForm.validate()
@@ -203,14 +203,15 @@ export default {
           csrfToken: csrfToken,
         };
         console.log('Sending registration data:', data);
-
         // 发送注册请求
         const response = await this.$http({
           url: '/register/',
           method: 'post',
           data: data
         })
-
+        // 显示注册成功的消息
+        this.$message.success(response.message || '注册成功')// 等待 Vuex 状态更新完成
+        await this.$nextTick();
         // 注册成功后自动登录
         await this.$store.dispatch('login', {
           token: response.token,
@@ -218,26 +219,24 @@ export default {
             id: response.user_id,
             username: response.username,
             role: response.role,
-            real_name: response.real_name,
+            name: response.real_name || response.name
           }
         })
-
-        // 显示注册成功的消息
-        this.$message.success(response.message || '注册成功')
-
+        // 等待 Vuex 状态更新完成
+        await this.$nextTick()
         // 根据角色跳转到对应的仪表板
         const roleRouteMap = {
           student: '/student-dashboard',
           staff: '/staff-dashboard',
           admin: '/admin-dashboard'
         }
-
         // 跳转到对应的仪表板
         this.$router.replace(roleRouteMap[response.role] || '/').catch(err => {
           if (err.name !== 'NavigationDuplicated') {
             console.error('Navigation error:', err)
           }
         })
+        this.$message.success(response.message || '登录成功')
       } catch (error) {
         console.error('Register error:', error)
         if (error.response && error.response.data) {
@@ -287,4 +286,4 @@ export default {
 .el-tabs {
   margin-top: 20px;
 }
-</style> 
+</style>
