@@ -5,50 +5,103 @@ from django.views.generic import TemplateView
 from rest_framework import status
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
-
-from .forms import UserRegistrationForm
-from .models import User
-from django.contrib.auth import authenticate, login, logout
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages  # 用于显示消息
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 import json
+from .serializers import UserRegisterSerializer, UserLoginSerializer
+from rest_framework.authtoken.models import Token
+from django.middleware.csrf import get_token
 
+User = get_user_model()
 
+@api_view(['GET'])
+@permission_classes([AllowAny])
+@ensure_csrf_cookie
+def get_csrf_token(request):
+    """
+    获取CSRF令牌的视图
+    """
+    return JsonResponse({'csrfToken': get_token(request)})
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+@csrf_exempt  # 临时添加，仅用于测试
 def register(request):
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            # 注册成功后重定向到登录页面或其他页面
-            # return redirect('login')
-    else:
-        form = UserRegistrationForm()
-    return render(request, 'frontend/register.html', {'form': form})
+    try:
+        # 打印请求数据以便调试
+        print("Registration request data:", request.data)
+        print("Request headers:", request.headers)
+        print("Content type:", request.content_type)
+        
+        serializer = UserRegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            print("Data is valid, creating user...")
+            user = serializer.save()
+            token, _ = Token.objects.get_or_create(user=user)
+            print("User created successfully:", user.username)
+            return Response({
+                'token': token.key,
+                'user_id': user.pk,
+                'username': user.username,
+                'role': user.role,
+                'real_name': user.real_name,
+                'message': '注册成功'
+            }, status=status.HTTP_201_CREATED)
+        print("Validation errors:", serializer.errors)
+        return Response({
+            'error': serializer.errors,
+            'message': '注册数据验证失败'
+        }, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        import traceback
+        print("Registration error:", str(e))
+        print("Traceback:", traceback.format_exc())
+        return Response({
+            'error': str(e),
+            'message': '注册过程发生错误'
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
-# 用户登录视图
-@csrf_exempt
+@api_view(['POST'])
+@permission_classes([AllowAny])
+@ensure_csrf_cookie
 def login(request):
-    if request.method == 'POST':
-        # 获取用户输入的用户名和密码
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        print(f"接收的 username: {username}, password: {password}")  # 确认字段正确
-        # 验证用户输入的用户名和密码
-        user = authenticate(request, username=username, password=password)
-        print(f"用户对象：{user}")
+    try:
+        username = request.data.get('username')
+        password = request.data.get('password')
 
+        if not all([username, password]):
+            return Response({
+                'error': '请提供用户名和密码'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        # 验证用户
+        user = authenticate(username=username, password=password)
+        
         if user is not None:
-            # 若用户验证成功，登录用户并重定向到首页
             login(request, user)
-            messages.success(request, '登录成功！')
-            return redirect('lost_and_found:home')  # 这里的 'home' 是你定义的首页 URL 名称
+            token, _ = Token.objects.get_or_create(user=user)
+            return Response({
+                'token': token.key,
+                'user_id': user.pk,
+                'username': user.username,
+                'role': user.role,
+                'real_name': user.real_name,
+                'message': '登录成功'
+            })
         else:
-            # 若用户验证失败，显示错误消息
-            messages.error(request, '用户名或密码错误，请重试。')
-    return render(request, 'frontend/login.html')
-
+            return Response({
+                'error': '用户名或密码错误'
+            }, status=status.HTTP_401_UNAUTHORIZED)
+            
+    except Exception as e:
+        print("Login error:", str(e))
+        return Response({
+            'error': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class FrontendView(TemplateView):
     template_name = 'frontend/index.html'  # 直接指向模板位置

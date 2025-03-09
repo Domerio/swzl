@@ -1,21 +1,16 @@
 # lost_and_found_app/urls.py
-from django.urls import path, re_path
-
+from django.urls import path
 from . import views
-from .views import register, login, user_logout, lost_item_register, found_item_register
 
-# 添加 app_name 变量
-app_name = 'lost_and_found'
+app_name = 'lost_and_found_app'
 
 urlpatterns = [
-    # 用户注册视图路由
-    path('register/', register, name='register'),
-    # 用户登录视图路由
-    path('login/', login, name='login'),
-    # 用户注销视图路由
-    path('logout/', user_logout, name='logout'),
-    # 失物登记视图路由
-    path('lost-item-register/', lost_item_register, name='lost_item_register'),
-    # 招领登记视图路由
-    path('found-item-register/', found_item_register, name='found_item_register'),
+    # 认证相关
+    path('api/login/', views.login, name='login'),
+    path('api/register/', views.register, name='register'),
+    path('api/logout/', views.user_logout, name='logout'),
+    
+    # 页面路由
+    path('lost-item-register/', views.lost_item_register, name='lost_item_register'),
+    path('found-item-register/', views.found_item_register, name='found_item_register'),
 ]

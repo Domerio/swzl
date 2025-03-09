@@ -41,22 +41,20 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',  # Token认证
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',  # 默认权限
-    ]
 }
 
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",  # 必须放在最前
-    "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 STATIC_URL = '/static/'
@@ -149,22 +147,11 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    'testserver',  # 解决 APIClient 测试请求时的 HOST 限制
-]
+ALLOWED_HOSTS = ['*']
 
-# 配置允许的域名
-CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:8000",  # 前端地址
-    "http://localhost:8000",   # 后端地址
-]
-
-# 允许携带凭证（cookies等）
+# CORS设置
 CORS_ALLOW_CREDENTIALS = True
-
-# 允许的请求方法
+CORS_ORIGIN_ALLOW_ALL = True  # 允许所有域名访问
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',
@@ -174,7 +161,6 @@ CORS_ALLOW_METHODS = [
     'PUT',
 ]
 
-# 允许的请求头
 CORS_ALLOW_HEADERS = [
     'accept',
     'accept-encoding',
@@ -186,3 +172,17 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'x-requested-with',
 ]
+
+# CSRF设置
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8080',
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
+]
+
+CSRF_COOKIE_NAME = 'csrftoken'
+CSRF_HEADER_NAME = 'HTTP_X_CSRFTOKEN'
+CSRF_COOKIE_SAMESITE = None  # 临时设置为 None 以便调试
+SESSION_COOKIE_SAMESITE = None  # 临时设置为 None 以便调试
+CSRF_COOKIE_HTTPONLY = False
+SESSION_COOKIE_HTTPONLY = True

@@ -1,49 +1,51 @@
 // frontend/src/store/index.js
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from "axios";
-import user from "@/store/modules/user";
-import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    // 安全的初始化结构
-    user: {
-      isAuthenticated: false,
-      info: null       // { id: 1, username:'', real_name:'', role:'' }
-    }
+    token: localStorage.getItem('token') || '',
+    user: JSON.parse(localStorage.getItem('user')) || null,
+    isAuthenticated: !!localStorage.getItem('token')
   },
-  plugins: [createPersistedState({
-    paths: ['user'] // 自动同步user模块到localStorage
-  })],
-  modules: { user },
+  
   mutations: {
-    // 用户登录成功回调
-    LOGIN_SUCCESS(state, userData) {
-      state.user.isAuthenticated = true
-      state.user.info = userData
+    SET_TOKEN(state, token) {
+      state.token = token
+      state.isAuthenticated = !!token
+      localStorage.setItem('token', token)
     },
-    // 清除用户数据
-    LOGOUT(state) {
-      state.user.isAuthenticated = false
-      state.user.info = null
+    
+    SET_USER(state, user) {
+      state.user = user
+      localStorage.setItem('user', JSON.stringify(user))
+    },
+    
+    CLEAR_AUTH(state) {
+      state.token = ''
+      state.user = null
+      state.isAuthenticated = false
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
     }
   },
+  
   actions: {
-    // 异步登录操作
-    async login({ commit }, { username, password }) {
-      try {
-        const res = await axios.post('/api/login/', { username, password })
-        commit('LOGIN_SUCCESS', res.data)  // 确保后端返回数据包含完整用户字段
-        return Promise.resolve(res.data)
-      } catch (error) {
-        return Promise.reject(error)
-      }
+    login({ commit }, { token, user }) {
+      commit('SET_TOKEN', token)
+      commit('SET_USER', user)
+    },
+    
+    logout({ commit }) {
+      commit('CLEAR_AUTH')
     }
   },
+  
   getters: {
-    currentUser: state => state.user.info
+    isAuthenticated: state => state.isAuthenticated,
+    userRole: state => state.user ? state.user.role : null,
+    currentUser: state => state.user
   }
 })

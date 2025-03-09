@@ -3,56 +3,76 @@ import Vue from 'vue';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import App from './App.vue';
-import axios from 'axios'
-import router from "@/router";
-import store from "@/store";
+import router from './router';
+import store from './store';
+import axios from 'axios';
 
 Vue.use(ElementUI);
-// 正确挂载到Vue原型
-Vue.prototype.$axios = axios
+Vue.config.productionTip = false;
 
-new Vue({
-    router,
-    store, // 挂载到Vue原型
-    render: h => h(App),
-    scrollBehavior(to, from) {
-        console.log('[路由轨迹]', from.path, '→', to.path)
-    },
-    created() {
-    console.log('[Vue初始化] Store状态:', this.$store.state)
-  }
-}).$mount('#app');
-
-// 配置 axios
-Vue.prototype.$axios = axios.create({
-    baseURL: process.env.VUE_APP_API_URL || 'http://localhost:8000'
-})
-
-// 使用 axios 的请求拦截器，在发送请求之前进行一些处理
-axios.interceptors.request.use(config => {
-    // 添加请求头 token
-    config.headers.Authorization = localStorage.getItem('token');
-    return config;
+// 配置axios
+const service = axios.create({
+    baseURL: process.env.VUE_APP_API_URL || '/api',
+    timeout: 5000
 });
 
-// 使用 axios 的响应拦截器来处理响应数据或错误
-axios.interceptors.response.use(
-    // 当响应成功时，直接返回响应对象
-    response => response,
-    // 当响应失败时，处理错误
+// 请求拦截器
+service.interceptors.request.use(
+    config => {
+        const token = store.state.token;
+        if (token) {
+            config.headers['Authorization'] = `Token ${token}`;
+        }
+        return config;
+    },
     error => {
-        // 检查错误响应的状态码是否为 401（未授权）
-        if (error.response.status === 401) {
-            // Token 失效时返回登录页
-            this.$router.push('/login');
+        console.log(error);
+        return Promise.reject(error);
+    }
+);
+
+// 响应拦截器
+service.interceptors.response.use(
+    response => response.data,
+    error => {
+        if (error.response) {
+            switch (error.response.status) {
+                case 401:
+                    store.dispatch('logout');
+                    router.push('/login');
+                    Vue.prototype.$message.error('登录已过期，请重新登录');
+                    break;
+                case 403:
+                    Vue.prototype.$message.error('没有权限访问');
+                    break;
+                case 404:
+                    Vue.prototype.$message.error('请求的资源不存在');
+                    break;
+                case 500:
+                    Vue.prototype.$message.error('服务器错误');
+                    break;
+                default:
+                    Vue.prototype.$message.error(error.response.data.message || '未知错误');
+            }
+        } else {
+            Vue.prototype.$message.error('网络错误，请检查您的网络连接');
         }
         return Promise.reject(error);
     }
 );
+
+Vue.prototype.$http = service;
+
+new Vue({
+    router,
+    store,
+    render: h => h(App)
+}).$mount('#app');
+
 // 全局错误处理
 Vue.config.errorHandler = (err, vm, info) => {
-  console.error('[全局异常]', err, info)
-  vm.$message.error(`应用程序错误: ${err.message}`)
+    console.error('[全局异常]', err, info);
+    vm.$message.error(`应用程序错误: ${err.message}`);
 }
 
 

@@ -1,109 +1,121 @@
 // frontend/src/router/index.js
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '@/views/Login/LoginComponent.vue'
-import store from '../store'
+import store from '@/store'
 
 Vue.use(VueRouter)
 
 const routes = [
     {
-        path: '/',
-        redirect: '/login'
-    }, // 默认跳转到登录页
-    {
         path: '/login',
         name: 'Login',
-        component: Login,
-        meta: {
-            requiresAuth: false, // 登录页不需要认证
+        component: () => import('@/views/Login/index.vue'),
+        meta: { requiresAuth: false }
+    },
+    {
+        path: '/student-dashboard',
+        name: 'StudentDashboard',
+        component: () => import('@/views/Dashboard/StudentDashboard.vue'),
+        meta: { 
+            requiresAuth: true,
+            role: 'student'
         }
     },
     {
-        path: '/student/dashboard',
-        component: () => import('@/views/StudentDashboard.vue'),
-        meta: {
+        path: '/staff-dashboard',
+        name: 'StaffDashboard',
+        component: () => import('@/views/Dashboard/StaffDashboard.vue'),
+        meta: { 
             requiresAuth: true,
-            requiresRole: ['student'],
-            allowCache: false // 禁用页面缓存
-        },
-        beforeEnter: (to, from, next) => {
-            // 防止地址栏直接输入访问
-            if (from.path === '/' && !store.state.user.isAuthenticated) {
-                next('/login')
-            } else {
-                next()
+            role: 'staff'
+        }
+    },
+    {
+        path: '/admin-dashboard',
+        name: 'AdminDashboard',
+        component: () => import('@/views/Dashboard/AdminDashboard.vue'),
+        meta: { 
+            requiresAuth: true,
+            role: 'admin'
+        }
+    },
+    {
+        path: '/',
+        redirect: () => {
+            if (store.getters.isAuthenticated && store.getters.userRole) {
+                const roleRouteMap = {
+                    student: '/student-dashboard',
+                    staff: '/staff-dashboard',
+                    admin: '/admin-dashboard'
+                }
+                return roleRouteMap[store.getters.userRole] || '/login'
             }
+            return '/login'
         }
     },
+    // 添加404路由
     {
-        path: '/staff/dashboard',
-        component: () => import('@/views/StaffDashboard.vue'),
-        meta: {
-            requiresAuth: true,
-            requiresRole: ['staff']
-        }
-    },
-    {
-        path: '/admin/dashboard',
-        component: () => import('@/views/AdminDashboard.vue'),
-        meta: {
-            requiresAuth: true,
-            requiresRole: ['admin']
-        }
+        path: '*',
+        redirect: '/'
     }
 ]
 
 const router = new VueRouter({
-    mode: 'history', // 确保与 Django History模式配合
-    base: process.env.BASE_URL,
+    mode: 'history',
+    base: '/',
     routes
 })
 
-router.beforeEach((to, from, next) => {
-    // console.group(`路由守卫: ${from.path} → ${to.path}`)
-    console.groupCollapsed(`路由守卫: ${from.path} → ${to.path}`)
-    console.log('路由元信息:', JSON.parse(JSON.stringify(to.meta))) // 添加详细日志
-    console.log('当前用户状态:', JSON.parse(JSON.stringify(store.state.user)))
-    // 状态初始化逻辑
-    if (!store.state.user._init) {
-        const token = localStorage.getItem('token')
-        const userData = JSON.parse(localStorage.getItem('userInfo') || '{}')
-        store.commit('user/SET_INIT_STATE', {
-            _init: true,
-            ...userData,
-            isAuthenticated: !!token
-        })
+// 添加路由错误处理
+router.onError((error) => {
+    console.error('Router error:', error)
+    if (error.name === 'ChunkLoadError') {
+        window.location.reload()
     }
-    console.log('[守卫验证] 当前角色:', store.state.user.role)
-    console.log('[守卫验证] 目标路由权限要求:', to.meta.requiresRole)
-    // 强制认证检查
-    if (to.meta.requiresAuth) {
-        if (!store.state.user.isAuthenticated) {
-            console.warn('[守卫拦截] 未登录访问需认证路由')
-            next({path: '/login', query: {redirect: to.fullPath}})
-            return
-        }
-    }
-    // 角色权限检查
-    if (Array.isArray(to.meta.requiresRole) && to.meta.requiresRole.length > 0) {
-        const normalizedUserRole = (store.state.user.role || '').trim().toLowerCase()
-        const normalizedRequired = to.meta.requiresRole.map(r => r.trim().toLowerCase())
-
-        const hasPermission = normalizedRequired.includes(normalizedUserRole)
-
-        console.log('角色验证结果:',
-            `用户角色[${normalizedUserRole}]`,
-            `要求角色[${normalizedRequired}]`,
-            `通过? ${hasPermission}`
-        )
-
-        if (!hasPermission) {
-            this.$message.error(`需要 ${to.meta.requiresRole.join('/')} 权限`)
-            return next({path: `/${normalizedUserRole}/dashboard` || '/'})
-        }
-    }
-    next()
-    console.groupEnd()
 })
+
+router.beforeEach(async (to, from, next) => {
+    try {
+        // 检查用户认证状态
+        const isAuthenticated = store.getters.isAuthenticated
+        const userRole = store.getters.userRole
+
+        // 如果路由需要认证
+        if (to.matched.some(record => record.meta.requiresAuth)) {
+            if (!isAuthenticated) {
+                // 未登录，重定向到登录页
+                next({
+                    path: '/login',
+                    query: { redirect: to.fullPath }
+                })
+            } else if (to.meta.role && to.meta.role !== userRole) {
+                // 角色不匹配，重定向到对应的仪表板
+                const roleRouteMap = {
+                    student: '/student-dashboard',
+                    staff: '/staff-dashboard',
+                    admin: '/admin-dashboard'
+                }
+                next(roleRouteMap[userRole] || '/login')
+            } else {
+                // 认证通过且角色匹配
+                next()
+            }
+        } else if (to.path === '/login' && isAuthenticated) {
+            // 已登录用户访问登录页，重定向到对应的仪表板
+            const roleRouteMap = {
+                student: '/student-dashboard',
+                staff: '/staff-dashboard',
+                admin: '/admin-dashboard'
+            }
+            next(roleRouteMap[userRole] || '/')
+        } else {
+            // 不需要认证的路由
+            next()
+        }
+    } catch (error) {
+        console.error('Navigation error:', error)
+        next('/login')
+    }
+})
+
 export default router
