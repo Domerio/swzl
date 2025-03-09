@@ -1,16 +1,16 @@
-<!--frontend/src/views/Login/LoginComponent.vue-->
 <template>
   <div id="back_count">
     <div class="login-cont">
       <h2>校园失物招领管理系统</h2>
       <div>
-        <p>用户名</p>
+        <p>用户名（学号/工号）</p>
         <el-input
             v-model="username"
-            placeholder="请输入用户名"
+            placeholder="请输入学号/工号"
             clearable
             @keyup.enter.native="handleLogin"
         ></el-input>
+        <span v-if="usernameError" style="color: red">{{ usernameError }}</span>
       </div>
       <div>
         <p>密码</p>
@@ -37,17 +37,25 @@
 </template>
 
 <script>
-
 export default {
   data() {
     return {
       username: '',
       pwd: '',
       loading: false,
+      usernameError: ''
     }
   },
   methods: {
     async handleLogin() {
+      // 学号/工号格式验证
+      if (!/^\d{8,12}$/.test(this.username)) {
+        this.usernameError = "学号/工号格式不正确，请输入8 - 12位数字。"
+        return
+      } else {
+        this.usernameError = ''
+      }
+
       // 基础验证
       if (!this.username || !this.pwd) {
         this.$message.warning('请输入用户名和密码')
@@ -60,12 +68,12 @@ export default {
         const response = await this.$axios.post('/api/login/', {
           username: this.username,
           password: this.pwd,
-
         }, {
           headers: {
             'Content-Type': 'application/json'
           }
         })
+
         if (response.data.token) {
           localStorage.setItem('token', response.data.token)
           localStorage.setItem('userInfo', JSON.stringify({
@@ -154,13 +162,5 @@ export default {
 
 .login-cont h2 {
   margin-bottom: 2rem;
-  color: #303133;
-  font-size: 1.75rem;
-  text-align: center;
-}
-
-.loginBtn {
-  margin-top: 1.5rem;
-  width: 100%;
 }
 </style>

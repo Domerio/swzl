@@ -54,3 +54,4 @@ class RegisterAPI(generics.CreateAPIView):
     def perform_create(self, serializer):
         user = serializer.save()
         return Response({"user_id": user.id})
+

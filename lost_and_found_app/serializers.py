@@ -8,7 +8,8 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 
-from .models import User, LostAndFound, Category
+from .models import User, Category
+# from .models.item import LostAndFound
 
 User = get_user_model()
 
@@ -23,7 +24,6 @@ class LoginSerializer(serializers.Serializer):
         if not User.objects.filter(username=attrs['username']).exists():
             raise serializers.ValidationError("用户名不存在")
         return attrs
-
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -48,6 +48,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class LostAndFoundSerializer(serializers.ModelSerializer):
     class Meta:
+        from .models.item import LostAndFound
         model = LostAndFound
         fields = '__all__'
         read_only_fields = ['user', 'status']  # 用户和状态不可修改
