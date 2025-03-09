@@ -155,7 +155,7 @@ export default {
             id: response.user_id,
             username: response.username,
             role: response.role,
-            name: response.real_name || response.name
+            real_name: response.real_name
           }
         })
 
@@ -210,7 +210,7 @@ export default {
           data: data
         })
         // 显示注册成功的消息
-        this.$message.success(response.message || '注册成功')// 等待 Vuex 状态更新完成
+        this.$message.success(response.message || '注册成功')
         await this.$nextTick();
         // 注册成功后自动登录
         await this.$store.dispatch('login', {
@@ -219,7 +219,7 @@ export default {
             id: response.user_id,
             username: response.username,
             role: response.role,
-            name: response.real_name || response.name
+            real_name: response.real_name
           }
         })
         // 等待 Vuex 状态更新完成
@@ -231,7 +231,8 @@ export default {
           admin: '/admin-dashboard'
         }
         // 跳转到对应的仪表板
-        this.$router.replace(roleRouteMap[response.role] || '/').catch(err => {
+        await this.$router.replace(roleRouteMap[response.role] || '/')
+            .catch(err => {
           if (err.name !== 'NavigationDuplicated') {
             console.error('Navigation error:', err)
           }
