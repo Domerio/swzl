@@ -4,29 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="登录+注册">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/Login/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Login/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lost_and_found_app/api/views/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/api/views/auth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lost_and_found_app/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/149.e4f46b00.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/640.e4f46b00.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.e4f46b00.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.e4f46b00.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/149.e4f46b00.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/149.e4f46b00.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.e4f46b00.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.e4f46b00.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/640.e4f46b00.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/640.e4f46b00.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/80.e4f46b00.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/80.e4f46b00.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.e4f46b00.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.e4f46b00.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.e4f46b00.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.e4f46b00.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/index.html" afterDir="false" />
-    </list>
+    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="登录+注册" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -177,7 +155,7 @@
       <workItem from="1741328306452" duration="1087000" />
       <workItem from="1741331926869" duration="877000" />
       <workItem from="1741489038636" duration="1701000" />
-      <workItem from="1741509883264" duration="16914000" />
+      <workItem from="1741509883264" duration="17267000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />
@@ -291,7 +269,23 @@
       <option name="project" value="LOCAL" />
       <updated>1741549980130</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="登录+注册">
+      <option name="closed" value="true" />
+      <created>1741550814388</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1741550814388</updated>
+    </task>
+    <task id="LOCAL-00016" summary="登录+注册">
+      <option name="closed" value="true" />
+      <created>1741550962359</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1741550962359</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -331,6 +325,7 @@
     <MESSAGE value="登录ok，注册有问题" />
     <MESSAGE value="登录+注册" />
     <option name="LAST_COMMIT_MESSAGE" value="登录+注册" />
+    <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

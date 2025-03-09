@@ -14,12 +14,13 @@ export default new Vuex.Store({
   mutations: {
     SET_TOKEN(state, token) {
       state.token = token
-      state.isAuthenticated = !!token
+      // state.isAuthenticated = !!token
       localStorage.setItem('token', token)
     },
     
     SET_USER(state, user) {
       state.user = user
+      state.isAuthenticated = 'true'
       localStorage.setItem('user', JSON.stringify(user))
     },
     
