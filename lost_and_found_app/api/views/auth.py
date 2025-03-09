@@ -1,20 +1,14 @@
 # lost_and_found_app/api/views/auth.py
-from django.views.decorators.csrf import csrf_exempt
+import logging
+
 from rest_framework import generics, status
+from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.permissions import AllowAny, IsAuthenticated
-
-from ...serializers import UserSerializer,UserRegisterSerializer
-from ...models import User
-import logging
-from django.contrib.auth import authenticate
-from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from rest_framework.authtoken.models import Token
-from django_ratelimit.decorators import ratelimit
-from django.utils.decorators import method_decorator
+from ...models import User
+from ...serializers import UserRegisterSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -62,4 +56,3 @@ class RegisterAPI(generics.CreateAPIView):
             'real_name': user.real_name,
             'message': '注册成功'
         }, status=status.HTTP_201_CREATED)
-
