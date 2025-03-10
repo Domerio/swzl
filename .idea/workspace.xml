@@ -4,27 +4,38 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="登录+注册">
+    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="登录页面美化">
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/MessageDialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/QuickActions.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/RecordTable.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/StatCard.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/StatusBadge.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/UserProfile.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/Dashboard/StaffDashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Dashboard/StaffDashboard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/Login/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Login/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/125.c1a82fd3.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/149.c1a82fd3.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.c1a82fd3.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.c1a82fd3.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/125.c1a82fd3.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/125.c1a82fd3.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/149.c1a82fd3.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/149.c1a82fd3.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.c1a82fd3.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.c1a82fd3.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/80.c1a82fd3.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/80.c1a82fd3.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.c1a82fd3.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.c1a82fd3.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.c1a82fd3.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.c1a82fd3.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Dashboard/StudentDashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Dashboard/StudentDashboard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_app/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_app/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/149.566ebcd5.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/641.566ebcd5.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.566ebcd5.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.566ebcd5.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/149.566ebcd5.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/149.566ebcd5.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.566ebcd5.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.566ebcd5.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/632.566ebcd5.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/632.566ebcd5.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/641.566ebcd5.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/641.566ebcd5.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.566ebcd5.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.566ebcd5.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.566ebcd5.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.566ebcd5.js.map" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -41,8 +52,8 @@
         <option value="package.json" />
         <option value="HTML File" />
         <option value="Python Script" />
-        <option value="Vue Composition API Component" />
         <option value="JavaScript File" />
+        <option value="Vue Composition API Component" />
       </list>
     </option>
   </component>
@@ -116,11 +127,11 @@
       <recent name="E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\media" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\frontend\src\components" />
       <recent name="E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\frontend\src\views\Home" />
       <recent name="E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\frontend\src\views\Login" />
       <recent name="E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\frontend\src\assets" />
       <recent name="E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\templates\registion" />
-      <recent name="E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\templates" />
     </key>
   </component>
   <component name="RunManager">
@@ -177,7 +188,8 @@
       <workItem from="1741328306452" duration="1087000" />
       <workItem from="1741331926869" duration="877000" />
       <workItem from="1741489038636" duration="1701000" />
-      <workItem from="1741509883264" duration="21381000" />
+      <workItem from="1741509883264" duration="21606000" />
+      <workItem from="1741597682027" duration="3693000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />
@@ -315,7 +327,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741551385526</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="登录页面美化">
+      <option name="closed" value="true" />
+      <created>1741555370613</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1741555370613</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -355,7 +375,8 @@
     <MESSAGE value="登录ok，注册有问题" />
     <MESSAGE value="Merge remote-tracking branch 'swzl/master'&#10;&#10;# Conflicts:&#10;#&#9;static/frontend/css/149.65cc60fe.chunk.css&#10;#&#9;static/frontend/css/app.65cc60fe.css&#10;#&#9;static/frontend/css/chunk-vendors.65cc60fe.css&#10;#&#9;static/frontend/js/149.65cc60fe.chunk.js&#10;#&#9;static/frontend/js/149.65cc60fe.chunk.js.map&#10;#&#9;static/frontend/js/519.65cc60fe.chunk.js&#10;#&#9;static/frontend/js/519.65cc60fe.chunk.js.map&#10;#&#9;static/frontend/js/80.65cc60fe.chunk.js&#10;#&#9;static/frontend/js/80.65cc60fe.chunk.js.map&#10;#&#9;static/frontend/js/app.65cc60fe.js.map&#10;#&#9;static/frontend/js/chunk-vendors.65cc60fe.js&#10;#&#9;static/frontend/js/chunk-vendors.65cc60fe.js.map" />
     <MESSAGE value="登录+注册" />
-    <option name="LAST_COMMIT_MESSAGE" value="登录+注册" />
+    <MESSAGE value="登录页面美化" />
+    <option name="LAST_COMMIT_MESSAGE" value="登录页面美化" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -365,12 +386,6 @@
           <url>file://$PROJECT_DIR$/manage.py</url>
           <line>2</line>
           <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/frontend/src/views/Login/index.vue</url>
-          <line>103</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
