@@ -1,14 +1,9 @@
 # lost_and_found_app/serializers.py
-from contextvars import Token
 
-from flask import Response
-from rest_framework import serializers
-from rest_framework.authtoken.serializers import AuthTokenSerializer
-from rest_framework.authtoken.views import ObtainAuthToken
 from django.contrib.auth import get_user_model
-from django.contrib.auth.password_validation import validate_password
+from rest_framework import serializers
 
-from .models import User, Category
+from .models import User, Category, Notification
 
 # from .models.item import LostAndFound
 
@@ -111,3 +106,18 @@ class UserLoginSerializer(serializers.Serializer):
             raise serializers.ValidationError('请提供用户名和密码')
 
         return data
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = ['id', 'content', 'notification_type', 'is_read', 'created_at']
+
+
+class CategoryStatsSerializer(serializers.ModelSerializer):
+    total_items = serializers.IntegerField()
+    active_items = serializers.IntegerField()
+
+    class Meta:
+        model = Category
+        fields = ['id', 'name', 'total_items', 'active_items']
