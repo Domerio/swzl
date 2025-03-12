@@ -1,21 +1,27 @@
 # lost_and_found_app/views.py
-from django.http import JsonResponse, Http404
-from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
-from rest_framework import status
-from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+import logging
+import os
+from datetime import datetime, timedelta
+
+from django.contrib import messages  # 用于显示消息
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages  # 用于显示消息
-from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
-import json
-from .serializers import UserRegisterSerializer, UserLoginSerializer
-from rest_framework.authtoken.models import Token
+from django.core.files.storage import default_storage
+from django.db.models import Count
+from django.http import JsonResponse
 from django.middleware.csrf import get_token
-import logging
+from django.shortcuts import render, redirect
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.generic import TemplateView
+from rest_framework import status
+from rest_framework.authtoken.models import Token
+from rest_framework.decorators import api_view, permission_classes, parser_classes
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+
+from .models import LostAndFound, Bookmark, Notification
+from .serializers import UserRegisterSerializer
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
@@ -114,11 +120,25 @@ class FrontendView(TemplateView):
 
 
 # 用户注销视图
-@login_required
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def user_logout(request):
-    logout(request)
-    messages.success(request, '已成功注销')  # 注销成功提示
-    return redirect('frontend/login.html')  # 重定向到登录页面
+    try:
+        # 记录登出日志
+        logger.info(f"用户登出: {request.user.username}")
+
+        # 清除会话信息
+        request.auth.delete()
+        logout(request)
+        messages.success(request, '已成功注销')  # 注销成功提示
+        return redirect('frontend/index.html')  # 重定向到登录页面
+
+    except Exception as e:
+        logger.error(f"登出异常: {str(e)}")
+        return Response({
+            "code": 500,
+            "message": "登出过程发生错误：" + str(e)
+        })
 
 
 # 失物登记视图
@@ -131,7 +151,7 @@ def lost_item_register(request):
         description = request.POST.get('description')
         image = request.FILES.get('image')
         return JsonResponse({'success': True})
-    return render(request, 'frontend/lost_item_register.html')
+    return render(request, 'frontend/index.html')
 
 
 # 招领登记视图
@@ -151,3 +171,207 @@ def found_item_register(request):
         messages.success(request, '招领信息已成功登记')  # 登记成功提示
         return redirect('found_item_list')
     return render(request, 'frontend/found_item_register.html')
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def student_dashboard(request):
+    try:
+        user = request.user
+        logger.info(f"User {user.username} requested dashboard data")
+        # 获取用户发布的所有信息
+        my_posts = LostAndFound.objects.filter(user=user).order_by('-created_at')[:5]
+        logger.debug(f"Recent posts query result count: {my_posts.count()}")
+        # 获取用户的收藏
+        bookmarks = Bookmark.objects.filter(user=user).select_related('item').order_by('-created_at')[:5]
+        # 获取最近7天的发布统计
+        last_week = datetime.now() - timedelta(days=7)
+        daily_stats = LostAndFound.objects.filter(
+            user=user,
+            created_at__gte=last_week
+        ).extra(
+            select={'date': 'DATE(created_at)'}
+        ).values('date').annotate(count=Count('id')).order_by('date')
+        logger.debug(f"Daily stats SQL: {daily_stats.query}")
+        # 获取未读消息
+        unread_notifications = Notification.objects.filter(
+            user=user,
+            is_read=False
+        ).order_by('-created_at')[:5]
+        # 统计各种状态的信息数量
+        status_stats = LostAndFound.objects.filter(user=user).values(
+            'status'
+        ).annotate(count=Count('id'))
+        # 获取物品分类统计
+        category_stats = LostAndFound.objects.filter(
+            user=user
+        ).values(
+            'category__name'
+        ).annotate(
+            value=Count('id')
+        )
+        # 获取用户活动日期
+        activity_dates = LostAndFound.objects.filter(
+            user=user,
+            created_at__gte=datetime.now() - timedelta(days=30)
+        ).dates('created_at', 'day')
+        # 输出返回信息
+        # (1) 打印原始查询结果到服务器控制台
+        logger.debug("<=============== 分类统计原始查询数据 ===============>")
+        logger.debug(list(category_stats))
+        logger.debug("<=============== 每日统计原始查询数据 ===============>")
+        logger.debug(list(daily_stats))
+        # (2) 打印最终返回的数据结构
+        return_data = {
+            'status': 'success',
+            'data': {
+                'recent_posts': [{
+                    'id': post.id,
+                    'title': post.title,
+                    'status': post.get_status_display(),
+                    'created_at': post.created_at,
+                    'category': post.category.name if post.category else None
+                } for post in my_posts],
+                'bookmarks': [{
+                    'id': bookmark.item.id,
+                    'title': bookmark.item.title,
+                    'status': bookmark.item.get_status_display(),
+                    'created_at': bookmark.created_at
+                } for bookmark in bookmarks],
+                'daily_stats': list(daily_stats),
+                'notifications': [{
+                    'id': notif.id,
+                    'content': notif.content,
+                    'created_at': notif.created_at,
+                    'type': notif.notification_type
+                } for notif in unread_notifications],
+                'status_summary': {
+                    item['status']: item['count'] for item in status_stats
+                },
+                'category_stats': [{
+                    'name': stat['category__name'] or '未分类',
+                    'value': stat['value']
+                } for stat in category_stats],
+                'activity_dates': [date.strftime('%Y-%m-%d') for date in activity_dates],
+                'unread_notifications': unread_notifications.count()
+            }
+        }
+
+        logger.debug("最终返回数据预览:")
+        logger.debug(return_data)
+        return Response(return_data)  # ✅ 确保返回对应的数据
+    except Exception as e:
+        logger.error(f"Dashboard error: {str(e)}", exc_info=True)
+        return Response({
+            'error': '获取仪表盘数据失败',
+            'message': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['GET', 'PUT'])
+@permission_classes([IsAuthenticated])
+def user_profile(request):
+    """
+    获取和更新用户资料
+    """
+    if request.method == 'GET':
+        return Response({
+            'username': request.user.username,
+            'real_name': request.user.real_name,
+            'role': request.user.role,
+            'phone': request.user.phone,
+            'avatar': request.user.avatar.url if request.user.avatar else None,
+            'is_verified': request.user.is_verified
+        })
+
+    elif request.method == 'PUT':
+        user = request.user
+        data = request.data
+
+        if 'real_name' in data:
+            user.real_name = data['real_name']
+        if 'phone' in data:
+            user.phone = data['phone']
+
+        user.save()
+        return Response({
+            'message': '个人资料更新成功',
+            'real_name': user.real_name,
+            'phone': user.phone,
+            'avatar': user.avatar.url if user.avatar else None
+        })
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+@parser_classes([MultiPartParser, FormParser])
+def upload_avatar(request):
+    """
+    上传用户头像
+    """
+    try:
+        if 'avatar' not in request.FILES:
+            return Response({
+                'error': '请选择要上传的头像'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        avatar_file = request.FILES['avatar']
+
+        # 验证文件类型
+        allowed_types = ['image/jpeg', 'image/png']
+        if avatar_file.content_type not in allowed_types:
+            return Response({
+                'error': '只支持 JPG 和 PNG 格式的图片'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        # 验证文件大小（限制为2MB）
+        if avatar_file.size > 2 * 1024 * 1024:
+            return Response({
+                'error': '文件大小不能超过2MB'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        # 生成文件名
+        ext = os.path.splitext(avatar_file.name)[1]
+        filename = f'avatars/{request.user.username}{ext}'
+
+        # 删除旧头像
+        if request.user.avatar:
+            default_storage.delete(request.user.avatar.path)
+
+        # 保存新头像
+        path = default_storage.save(filename, avatar_file)
+        request.user.avatar = path
+        request.user.save()
+
+        return Response({
+            'message': '头像上传成功',
+            'url': request.user.avatar.url
+        })
+
+    except Exception as e:
+        logger.error(f"Avatar upload error: {str(e)}")
+        return Response({
+            'error': '头像上传失败'
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def mark_all_notifications_read(request):
+    """
+    标记所有通知为已读
+    """
+    try:
+        Notification.objects.filter(
+            user=request.user,
+            is_read=False
+        ).update(is_read=True)
+
+        return Response({
+            'message': '已将所有通知标记为已读'
+        })
+    except Exception as e:
+        logger.error(f"Mark notifications read error: {str(e)}")
+        return Response({
+            'error': '操作失败'
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

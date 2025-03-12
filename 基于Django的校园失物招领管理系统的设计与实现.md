@@ -29,7 +29,7 @@
 
 ### **技术**
 
-- **前端**：Vue.js + Element PLUS。
+- **前端**：Vue2 + Element UI。
 - **后端**：Python（Django）。
 - **数据库**：MySQL。
 - **地图服务**：高德地图API。

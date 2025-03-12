@@ -35,34 +35,37 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
   response => {
-    const res = response.data
-    return res
+    if(response.data?.status !== 'success') {
+      return Promise.reject(new Error(response.data?.message))
+    }
   },
   error => {
     console.error('Response error:', error)
-    if (error.response) {
-      switch (error.response.status) {
-        case 401:
-          // 未授权，清除用户信息并跳转到登录页面
-          store.dispatch('logout')
-          router.replace({
-            path: '/login',
-            query: { redirect: router.currentRoute.fullPath }
-          })
-          Message.error('未授权，请重新登录')
-          break
-        case 403:
-          Message.error('没有权限执行此操作')
-          break
-        case 404:
-          Message.error('请求的资源不存在')
-          break
-        case 500:
-          Message.error('服务器内部错误')
-          break
-        default:
-          Message.error(error.response.data.error || '未知错误')
-      }
+    if (error.response.status === 401) {
+      store.dispatch('logout')
+      router.replace({ path: '/login', query: { redirect: router.currentRoute.fullPath } })
+      // switch (error.response.status) {
+      //   case 401:
+      //     // 未授权，清除用户信息并跳转到登录页面
+      //     store.dispatch('logout')
+      //     router.replace({
+      //       path: '/login',
+      //       query: { redirect: router.currentRoute.fullPath }
+      //     })
+      //     Message.error('未授权，请重新登录')
+      //     break
+      //   case 403:
+      //     Message.error('没有权限执行此操作')
+      //     break
+      //   case 404:
+      //     Message.error('请求的资源不存在')
+      //     break
+      //   case 500:
+      //     Message.error('服务器内部错误')
+      //     break
+      //   default:
+      //     Message.error(error.response.data.error || '未知错误')
+      // }
     } else {
       Message.error('网络错误，请检查您的网络连接')
     }

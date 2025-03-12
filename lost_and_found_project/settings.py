@@ -44,6 +44,10 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
+    'DEFAULT_RENDERER_CLASSES': [  # 约束仅返回 JSON
+        'rest_framework.renderers.JSONRenderer',
+    ]
+
 }
 
 MIDDLEWARE = [
@@ -95,6 +99,11 @@ DATABASES = {
         'PASSWORD': 'root',
         'HOST': 'localhost',
         'PORT': '3306',
+        'OPTIOND': {
+            'connect_timeout': 3,  # 连接超时时间
+            'charset': 'utf8mb4',  # 支持Emoji
+        },
+        'TEST': {'CHARSET': 'utf8mb4', }  # 测试数据库字符集
     }
 }
 
@@ -119,13 +128,15 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "zh-hans"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Shanghai"
 
 USE_I18N = True
 
-USE_TZ = True
+USE_I10N = True
+
+USE_TZ = False  # 设置为False，以使用本地时间
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -150,8 +161,16 @@ AUTHENTICATION_BACKENDS = [
 ALLOWED_HOSTS = ['*']
 
 # CORS设置
-CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_ALLOW_ALL = True  # 允许所有域名访问
+CORS_ALLOW_CREDENTIALS = True  # 允许传递 Cookie
+CORS_ORIGIN_WHITELIST = [  # 更安全的方式替代 CORS_ORIGIN_ALLOW_ALL
+    'http://localhost:8000',  # Django 后端默认地址
+    'http://127.0.0.1:8000',
+    'http://localhost:8080',  # Vue 前端默认地址
+]
+
+CSRF_TRUSTED_ORIGINS = CORS_ORIGIN_WHITELIST  # 同步CSRF信任源
+SESSION_COOKIE_SAMESITE = 'Lax'  # ✅ 生产环境推荐值
+CSRF_COOKIE_SAMESITE = 'Lax'  # ✅ 提高安全性
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',

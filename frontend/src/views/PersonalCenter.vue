@@ -44,9 +44,9 @@ export default {
     async fetchData() {
       try {
         const [recordsRes, bookmarksRes, notificationsRes] = await Promise.all([
-          axios.get('/api/items/history/', { params: { user_id: this.user.id } }),
-          axios.get('/api/bookmarks/', { params: { user_id: this.user.id } }),
-          axios.get('/api/notifications/', { params: { user_id: this.user.id } })
+          axios.get('/items/history/', { params: { user_id: this.user.id } }),
+          axios.get('/bookmarks/', { params: { user_id: this.user.id } }),
+          axios.get('/notifications/', { params: { user_id: this.user.id } })
         ])
         this.lostAndFoundRecords = recordsRes.data
         this.bookmarks = bookmarksRes.data

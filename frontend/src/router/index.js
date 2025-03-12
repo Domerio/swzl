@@ -10,19 +10,19 @@ const routes = [
         path: '/login',
         name: 'Login',
         component: () => import('@/views/Login/index.vue'),
-        meta: { requiresAuth: false }
+        meta: {requiresAuth: false}
     },
     {
         path: '/register',
         name: 'Register',
-        meta: { requiresAuth: false },
+        meta: {requiresAuth: false},
         component: () => import('@/views/Login/index.vue')
     },
     {
         path: '/student-dashboard',
         name: 'StudentDashboard',
         component: () => import('@/views/Dashboard/StudentDashboard.vue'),
-        meta: { 
+        meta: {
             requiresAuth: true,
             role: 'student'
         }
@@ -31,7 +31,7 @@ const routes = [
         path: '/staff-dashboard',
         name: 'StaffDashboard',
         component: () => import('@/views/Dashboard/StaffDashboard.vue'),
-        meta: { 
+        meta: {
             requiresAuth: true,
             role: 'staff'
         }
@@ -40,7 +40,7 @@ const routes = [
         path: '/admin-dashboard',
         name: 'AdminDashboard',
         component: () => import('@/views/Dashboard/AdminDashboard.vue'),
-        meta: { 
+        meta: {
             requiresAuth: true,
             role: 'admin'
         }
@@ -96,7 +96,7 @@ router.beforeEach(async (to, from, next) => {
                 // 未登录，重定向到登录页
                 next({
                     path: '/login',
-                    query: { redirect: to.fullPath }
+                    query: {redirect: to.fullPath}
                 })
             } else if (to.meta.role && to.meta.role !== userRole) {
                 // 角色不匹配，重定向到对应的仪表板
