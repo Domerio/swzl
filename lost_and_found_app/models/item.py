@@ -66,7 +66,6 @@ class SearchAPI(APIView):
 
 class UpdateStatusAPI(APIView):
     def post(self, request, pk):
-        from ..serializers import LostAndFoundSerializer
         try:
             lost_and_found = LostAndFound.objects.get(pk=pk)
             status = request.data.get('status')
@@ -75,6 +74,18 @@ class UpdateStatusAPI(APIView):
             lost_and_found.result = result
             lost_and_found.save()
             serializer = LostAndFoundSerializer(lost_and_found)
-            return Response(serializer.data)
+            return Response({
+                'status': 'success',
+                'message': '状态更新成功',
+                'data': serializer.data
+            })
         except LostAndFound.DoesNotExist:
-            return Response({'error': '失物招领信息不存在'}, status=404)
+            return Response({
+                'status': 'error',
+                'message': '失物招领信息不存在'
+            }, status=404)
+        except Exception as e:
+            return Response({
+                'status': 'error',
+                'message': f'更新状态时发生错误: {str(e)}'
+            }, status=500)

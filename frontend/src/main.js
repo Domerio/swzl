@@ -6,10 +6,12 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import axios from 'axios';
+import dayjs from 'dayjs'
 
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
 
+Vue.prototype.$dayjs = dayjs
 // 配置axios
 const service = axios.create({
     baseURL: process.env.VUE_APP_API_URL || '/api',
