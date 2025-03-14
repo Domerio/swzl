@@ -6,29 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="学生仪表盘">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/utils/request.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/request.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/views/Dashboard/StudentDashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Dashboard/StudentDashboard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lost_and_found_app/api/views/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/api/views/auth.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lost_and_found_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lost_and_found_project/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_project/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lost_and_found_project/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_project/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/641.914bef6c.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/694.914bef6c.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.914bef6c.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.914bef6c.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.914bef6c.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.914bef6c.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/632.914bef6c.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/632.914bef6c.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/641.914bef6c.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/641.914bef6c.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/694.914bef6c.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/694.914bef6c.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.914bef6c.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.914bef6c.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.914bef6c.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.914bef6c.js.map" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -184,7 +165,7 @@
       <workItem from="1741509883264" duration="21381000" />
       <workItem from="1741793738701" duration="24481000" />
       <workItem from="1741838345238" duration="1911000" />
-      <workItem from="1741947534751" duration="10185000" />
+      <workItem from="1741947534751" duration="12395000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />
@@ -330,7 +311,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741818905609</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="学生仪表盘">
+      <option name="closed" value="true" />
+      <created>1741973645785</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1741973645785</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -386,6 +375,12 @@
           <url>file://$PROJECT_DIR$/frontend/src/views/Login/index.vue</url>
           <line>149</line>
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/views/Dashboard/StudentDashboard.vue</url>
+          <line>9</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

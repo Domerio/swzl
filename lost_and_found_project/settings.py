@@ -188,8 +188,9 @@ CORS_ALLOW_HEADERS = [
     'dnt',
     'origin',
     'user-agent',
-    'x-csrftoken',
+    # 'x-csrftoken',
     'x-requested-with',
+    'x-CSRFToken',  # 确保x-CSRFToken在CORS_ALLOW_HEADERS中
 ]
 
 CSRF_COOKIE_NAME = 'csrftoken'
@@ -197,4 +198,5 @@ CSRF_HEADER_NAME = 'HTTP_X_CSRFTOKEN'
 CSRF_COOKIE_SAMESITE = None  # 临时设置为 None 以便调试
 SESSION_COOKIE_SAMESITE = None  # 临时设置为 None 以便调试
 CSRF_COOKIE_HTTPONLY = False
+CSRF_USE_SESSIONS = False
 SESSION_COOKIE_HTTPONLY = True

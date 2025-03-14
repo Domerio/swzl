@@ -17,7 +17,7 @@ from django.views.generic import TemplateView
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes, parser_classes
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
@@ -307,7 +307,8 @@ def user_profile(request):
 @permission_classes([IsAuthenticated])
 @parser_classes([MultiPartParser])
 def upload_avatar(request):
-    print(request)
+    print(request.headers)  # 打印请求头
+    print(request.data)  # 打印请求体
     logging.info(f"上传头像请求头: {dict(request.headers)}")
     try:
         if 'avatar' not in request.FILES:

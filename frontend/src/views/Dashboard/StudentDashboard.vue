@@ -7,11 +7,11 @@
           <div class="user-info">
             <el-upload
                 class="avatar-uploader"
-                action="user/upload-avatar/"
+                action="/api/user/upload-avatar/"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
-                :uploadAvatatar="uploadAvatar">
+                :upload-avatatar="uploadAvatar">
               <img v-if="userInfo.avatar" :src="userInfo.avatar" class="avatar" alt="">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
@@ -367,6 +367,14 @@ export default {
     }
   },
   computed: {
+    uploadAction() {
+      return `${this.$http.defaults.baseURL}/api/user/upload-avatar`
+    },
+    uploadHeaders() {
+      return{
+        'Authorization': `Token ${this.$store.state.token}`
+      }
+    },
     hasChartData() {
       return this.dashboardData.daily_stats?.length > 0
     },
@@ -379,6 +387,11 @@ export default {
   },
 
   methods: {
+    getCSRFToken() {
+      return document.cookie.split(';')
+          .find(row => row.startsWith('csrftoken'))
+      ?.split('=')[1] || '';
+    },
     formatTime(time) {
       return dayjs(time).format('YYYY-MM-DD HH:mm:ss')
     },
@@ -470,7 +483,7 @@ export default {
     },
     // 头像上传预处理
     beforeAvatarUpload(file) {
-      const isImage = ['image/jpeg', 'image/png'].includes(file.type)
+      const isImage = ['image/jpeg', 'image/png']
       const isLt2M = file.size / 1024 / 1024 < 2
       if (!isImage) {
         this.$message.error('只能上传 JPG/PNG 格式的图片')
@@ -480,6 +493,7 @@ export default {
       }
       if (isImage && isLt2M)
         this.uploadAvatar(file)
+      return isImage.includes(file.type) && isLt2M
     },
     // 通知相关方法
     markAllAsRead() {
