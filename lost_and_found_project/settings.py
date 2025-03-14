@@ -47,7 +47,6 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [  # 约束仅返回 JSON
         'rest_framework.renderers.JSONRenderer',
     ]
-
 }
 
 MIDDLEWARE = [
@@ -55,7 +54,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -166,11 +165,12 @@ CORS_ORIGIN_WHITELIST = [  # 更安全的方式替代 CORS_ORIGIN_ALLOW_ALL
     'http://localhost:8000',  # Django 后端默认地址
     'http://127.0.0.1:8000',
     'http://localhost:8080',  # Vue 前端默认地址
+    'http://127.0.0.1:8080',
 ]
 
 CSRF_TRUSTED_ORIGINS = CORS_ORIGIN_WHITELIST  # 同步CSRF信任源
-SESSION_COOKIE_SAMESITE = 'Lax'  # ✅ 生产环境推荐值
-CSRF_COOKIE_SAMESITE = 'Lax'  # ✅ 提高安全性
+# SESSION_COOKIE_SAMESITE = 'Lax'  # ✅ 生产环境推荐值
+# CSRF_COOKIE_SAMESITE = 'Lax'  # ✅ 提高安全性
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',
@@ -183,20 +183,13 @@ CORS_ALLOW_METHODS = [
 CORS_ALLOW_HEADERS = [
     'accept',
     'accept-encoding',
-    'authorization',
+    'authorization',  # 确保authorization在CORS_ALLOW_HEADERS中
     'content-type',
     'dnt',
     'origin',
     'user-agent',
     'x-csrftoken',
     'x-requested-with',
-]
-
-# CSRF设置
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:8080',
-    'http://127.0.0.1:8000',
-    'http://localhost:8000',
 ]
 
 CSRF_COOKIE_NAME = 'csrftoken'

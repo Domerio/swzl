@@ -7,10 +7,11 @@
           <div class="user-info">
             <el-upload
                 class="avatar-uploader"
-                action="upload-avatar/"
+                action="user/upload-avatar/"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
-                :before-upload="beforeAvatarUpload">
+                :before-upload="beforeAvatarUpload"
+                :uploadAvatatar="uploadAvatar">
               <img v-if="userInfo.avatar" :src="userInfo.avatar" class="avatar" alt="">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
@@ -249,8 +250,8 @@ import {use} from 'echarts/core'
 import {CanvasRenderer} from 'echarts/renderers'
 import {BarChart} from 'echarts/charts'
 import {GridComponent, LegendComponent, TitleComponent, TooltipComponent} from 'echarts/components'
-// import {formatDate} from "@/utils/date";
-// import {formatTime} from "echarts/types/dist/shared";
+import dayjs from "dayjs";
+
 
 use([
   CanvasRenderer,
@@ -378,6 +379,9 @@ export default {
   },
 
   methods: {
+    formatTime(time) {
+      return dayjs(time).format('YYYY-MM-DD HH:mm:ss')
+    },
     handleLogout() {
       this.$confirm('确定要退出系统吗？', '操作确认', {
         type: 'warning',
@@ -416,6 +420,8 @@ export default {
           bookmarks: dashboardRes.data.bookmarks || [],
           recent_posts: dashboardRes.data.recent_posts || [],
           notifications: dashboardRes.data.notifications || [],
+          total_bookmarks: dashboardRes.data.total_bookmarks || 0,
+          total_posts: dashboardRes.data.total_posts || 0,
         }
         this.updateChart();
       } catch (error) {
@@ -447,22 +453,34 @@ export default {
     },
     // 头像上传处理
     handleAvatarSuccess(res) {
-      this.userInfo.avatar = res.url
-      this.$message.success('头像更新成功')
+      if (res.url) {
+        this.userInfo.avatar = res.url + `?t=${Date.now()}` // 添加时间戳以强制刷新图片
+        this.$message.success('头像更新成功')
+        this.$store.dispatch('api/user/upload-avatar', this.userInfo.avatar)
+      }
+      // this.userInfo.avatar = res.url
     },
+    // 头像上传
+    uploadAvatar(file) {
+      const response = fetch(`http://localhost:8000/api/user/upload-avatar/`, {
+        method: 'POST',
+        body: file,
+      });
+      this.handleAvatarSuccess(response);
+    },
+    // 头像上传预处理
     beforeAvatarUpload(file) {
-      const isImage = file.type.startsWith('image/')
+      const isImage = ['image/jpeg', 'image/png'].includes(file.type)
       const isLt2M = file.size / 1024 / 1024 < 2
-
       if (!isImage) {
-        this.$message.error('请上传图片文件')
+        this.$message.error('只能上传 JPG/PNG 格式的图片')
       }
       if (!isLt2M) {
         this.$message.error('图片大小不能超过2MB')
       }
-      return isImage && isLt2M
+      if (isImage && isLt2M)
+        this.uploadAvatar(file)
     },
-
     // 通知相关方法
     markAllAsRead() {
       this.$confirm('确定要标记所有通知为已读吗？', '操作确认', {
@@ -474,25 +492,21 @@ export default {
       }).catch(() => {
       })
     },
-
     // 用户资料编辑
     showEditDialog() {
       this.profileForm = {...this.userInfo}
       this.editDialogVisible = true
     },
-
     resetForm() {
       this.$refs.profileForm.resetFields()
     },
-
     submitProfile() {
       this.$refs.profileForm.validate(async valid => {
         if (!valid) return
-
         this.submitting = true
         try {
           await this.$http.put('/user/profile/', this.profileForm)
-          this.userInfo = {...this.profileForm}
+          this.userInfo = {...this.profileForm} //将profileForm对象的所有属性和值复制到userInfo对象中，实现了对象的浅拷贝
           this.$message.success('资料更新成功')
           this.editDialogVisible = false
         } catch (error) {
@@ -502,7 +516,6 @@ export default {
         }
       })
     },
-
     // 时间格式化
     formatDate(dateStr) {
       return dateStr.slice(5) // 显示月-日(例如 03-13)
@@ -511,8 +524,8 @@ export default {
   mounted() {
     this.loadData();
   },
-
 }
+
 </script>
 
 <style scoped>

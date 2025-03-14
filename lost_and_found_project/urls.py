@@ -13,7 +13,7 @@ from lost_and_found_project import settings
 
 urlpatterns = [
     path('api/', include('lost_and_found_app.api.urls')),  # 包含api路由
-    path('user/', include('lost_and_found_app.urls')),  # 普通页面路由入口
+    path('auth/', include('lost_and_found_app.urls')),  # 普通页面路由入口
     # → 明确的前后端分离模式 ↓
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
 ]
