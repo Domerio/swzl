@@ -419,13 +419,15 @@ export default {
         console.log('API Response Structure:', dashboardRes);
         console.log('User Response:', userRes);
         // 安全解构数据
-        // this.userInfo = userRes.data || {};
+        // this.userInfo = userRes || {};
         this.userInfo = {
           real_name: userRes.real_name || '',
           role: userRes.role || '',
           phone: userRes.phone || '',
           avatar: userRes.avatar || '',
         }
+        console.log('User Avatar URL:', this.userInfo.avatar); // 打印头像 URL
+
         this.dashboardData = {
           daily_stats: dashboardRes.data.daily_stats || [],
           status_summary: dashboardRes.data.status_summary || [],
@@ -473,30 +475,11 @@ export default {
         this.userInfo.avatar = `${res.data.avatar_url}?t=${Date.now()}`
         this.$message.success('头像更新成功')
         // 同步到 Vuex store
-        this.$store.commit('updateAvatar', this.userInfo.avatar_url)
+        this.$store.commit('updateAvatar', this.userInfo.avatar)
       } else {
         this.$message.error(res.message || '头像更新失败')
       }
-      // this.userInfo.avatar = res.url
     },
-    // 头像上传
-    // uploadAvatar(file) {
-    //   const formData = new FormData();
-    //   formData.append('avatar', file);
-    //   console.log(formData)
-    //   fetch(this.uploadAction, {
-    //     method: 'POST',
-    //     body: formData,
-    //     headers: this.uploadHeaders
-    //   })
-    //       .then(response => response.json())
-    //       .then(data => {
-    //         this.handleAvatarSuccess(data);
-    //       })
-    //       .catch(error => {
-    //         console.error('Upload failed:', error);
-    //       })
-    // },
     // 头像上传预处理
     beforeAvatarUpload(file) {
       const isImage = ['image/jpeg', 'image/png'].includes(file.type);

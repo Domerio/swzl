@@ -6,16 +6,12 @@ from django.views.static import serve
 
 from lost_and_found_project import settings
 
-# 定义一个视图函数，用于重定向到登录页面
-# def login(request):
-#     return redirect('lost_and_found:login')
-
-
 urlpatterns = [
     path('api/', include('lost_and_found_app.api.urls')),  # 包含api路由
     path('auth/', include('lost_and_found_app.urls')),  # 普通页面路由入口
     # → 明确的前后端分离模式 ↓
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 ]
 # ONLY IN DEBUG MODE
 if settings.DEBUG:

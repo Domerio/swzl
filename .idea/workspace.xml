@@ -6,28 +6,29 @@
   <component name="ChangeListManager">
     <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="学生仪表盘">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/utils/request.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/request.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/store/modules/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/modules/user.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/views/Dashboard/StudentDashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Dashboard/StudentDashboard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lost_and_found_app/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/api/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lost_and_found_app/api/views/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/api/views/auth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_app/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/serializers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lost_and_found_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lost_and_found_project/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_project/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/156.896442c9.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/641.896442c9.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.896442c9.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.896442c9.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/156.896442c9.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/156.896442c9.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.896442c9.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.896442c9.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/632.896442c9.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/632.896442c9.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/641.896442c9.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/641.896442c9.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.896442c9.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.896442c9.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.896442c9.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.896442c9.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_project/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_project/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/avatars/3_1742039695_zhangsan.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/641.54f9bf4c.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/817.54f9bf4c.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.54f9bf4c.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.54f9bf4c.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.54f9bf4c.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.54f9bf4c.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/632.54f9bf4c.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/632.54f9bf4c.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/641.54f9bf4c.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/641.54f9bf4c.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/817.54f9bf4c.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/817.54f9bf4c.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.54f9bf4c.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.54f9bf4c.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.54f9bf4c.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.54f9bf4c.js.map" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -76,6 +77,9 @@
     &quot;accountId&quot;: &quot;4037e5b0-cdf2-4d40-8e3a-2d5fe7473651&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 1
@@ -113,6 +117,23 @@
     ]
   }
 }</component>
+  <component name="QodanaHighlightedReportService">
+    <option name="localRunNotPublishedPersistedInfo">
+      <LocalReportPersistedInfo>
+        <option name="path" value="C:\Users\doido\AppData\Local\Temp\qodana_output\qodana.sarif.json" />
+        <option name="reportGuid" value="18c9b19b-c6e1-468f-bc1c-a63342f7649b" />
+        <option name="reportName" value="lost_and_found_system/qodana/2025-03-16" />
+      </LocalReportPersistedInfo>
+    </option>
+  </component>
+  <component name="QodanaIsSelectedPersistenceService">
+    <option name="selectedOrLoading" value="true" />
+  </component>
+  <component name="QodanaReportsService">
+    <option name="descriptions">
+      <ReportDescription localRun="true" path="C:\Users\doido\AppData\Local\Temp\qodana_output\qodana.sarif.json" reportGuid="18c9b19b-c6e1-468f-bc1c-a63342f7649b" reportId="lost_and_found_system/qodana/2025-03-16" />
+    </option>
+  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\frontend\src\assets" />
@@ -404,6 +425,12 @@
           <url>file://$PROJECT_DIR$/frontend/src/views/Login/index.vue</url>
           <line>149</line>
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/views/Dashboard/StudentDashboard.vue</url>
+          <line>477</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

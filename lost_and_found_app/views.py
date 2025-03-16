@@ -275,12 +275,13 @@ def user_profile(request):
     获取和更新用户资料
     """
     if request.method == 'GET':
+        # print(request.build_absolute_uri(request.user.avatar.url))
         return Response({
             'username': request.user.username,
             'real_name': request.user.real_name,
             'role': request.user.role,
             'phone': request.user.phone,
-            'avatar': request.build_absolute_uri(request.user.avatar.url),
+            'avatar': request.build_absolute_uri(request.user.avatar.url) if request.user.avatar else None,
             'is_verified': request.user.is_verified
         })
 
@@ -298,7 +299,7 @@ def user_profile(request):
             'message': '个人资料更新成功',
             'real_name': user.real_name,
             'phone': user.phone,
-            'avatar': user.avatar.url if user.avatar else None
+            'avatar': user.avatar if user.avatar else None
         })
 
 
@@ -311,7 +312,7 @@ def upload_avatar(request):
         return Response({
             'status': 'success',
             'data': {
-                'avatar_url': request.user.avatar.url
+                'avatar_url': request.user.avatar.url if request.user.avatar else None,
             }
         })
 

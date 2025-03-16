@@ -7,7 +7,7 @@ from .models import User, Category, Notification
 
 # from .models.item import LostAndFound
 
-User = get_user_model()
+# User = get_user_model()
 
 
 class LoginSerializer(serializers.Serializer):
