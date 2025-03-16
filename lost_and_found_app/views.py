@@ -1,6 +1,5 @@
 # lost_and_found_app/views.py
 import logging
-import os
 import time
 from datetime import datetime, timedelta
 
@@ -281,7 +280,7 @@ def user_profile(request):
             'real_name': request.user.real_name,
             'role': request.user.role,
             'phone': request.user.phone,
-            'avatar': request.user.avatar.url if request.user.avatar else None,
+            'avatar': request.build_absolute_uri(request.user.avatar.url),
             'is_verified': request.user.is_verified
         })
 
@@ -307,46 +306,21 @@ def user_profile(request):
 @permission_classes([IsAuthenticated])
 @parser_classes([MultiPartParser])
 def upload_avatar(request):
-    print(request.headers)  # 打印请求头
-    print(request.data)  # 打印请求体
-    logging.info(f"上传头像请求头: {dict(request.headers)}")
     try:
-        if 'avatar' not in request.FILES:
-            logging.warning("未检测到上传文件")
-            return Response({'error': '请选择头像文件'}, status=400)
 
-        avatar_file = request.FILES['avatar']
-        user = request.user
-
-        # 文件校验
-        if avatar_file.content_type not in ['image/jpeg', 'image/png']:
-            return Response({'error': '仅支持 JPG/PNG 格式'}, status=400)
-        if avatar_file.size > 2 * 1024 * 1024:
-            return Response({'error': '文件不得超过2MB'}, status=400)
-
-        # 保存逻辑
-        ext = os.path.splitext(avatar_file.name)[1]
-        filename = f'avatars/{user.username}_{int(time.time())}{ext}'
-
-        # 删除旧头像
-        if user.avatar:
-            try:
-                default_storage.delete(user.avatar.name)
-            except Exception as del_error:
-                logger.error(f"旧头像删除失败: {str(del_error)}")
-
-        # 存储新头像
-        file_path = default_storage.save(filename, avatar_file)
-        user.avatar = file_path
-        user.save()
         return Response({
-            'message': '上传成功',
-            'avatar_url': user.avatar.url
-        }, status=200)
+            'status': 'success',
+            'data': {
+                'avatar_url': request.user.avatar.url
+            }
+        })
 
     except Exception as e:
-        logger.error(f"头像上传系统级错误: {str(e)}", exc_info=True)
-        return Response({'error': '服务器处理文件时发生异常'}, status=500)
+        logger.error(f"头像上传失败: {str(e)}")
+        return Response(
+            {'error': '头像上传失败'},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
 
 
 @api_view(['POST'])

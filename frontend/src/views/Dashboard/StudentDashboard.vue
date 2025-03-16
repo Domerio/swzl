@@ -7,11 +7,14 @@
           <div class="user-info">
             <el-upload
                 class="avatar-uploader"
-                action="/api/user/upload-avatar/"
+                :action="uploadAction"
+                :headers="uploadHeaders"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
-                :upload-avatatar="uploadAvatar">
+                :method="requestMethod"
+            name="file">
+              <!--                :upload-avatar="uploadAvatar"-->
               <img v-if="userInfo.avatar" :src="userInfo.avatar" class="avatar" alt="">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
@@ -251,6 +254,7 @@ import {CanvasRenderer} from 'echarts/renderers'
 import {BarChart} from 'echarts/charts'
 import {GridComponent, LegendComponent, TitleComponent, TooltipComponent} from 'echarts/components'
 import dayjs from "dayjs";
+import {post} from "axios";
 
 
 use([
@@ -363,16 +367,18 @@ export default {
         system: 'el-icon-s-comment',
         match: 'el-icon-connection',
         reminder: 'el-icon-alarm-clock'
-      }
+      },
+      requestMethod:'POST'
     }
   },
   computed: {
     uploadAction() {
-      return `${this.$http.defaults.baseURL}/api/user/upload-avatar`
+      return `${this.$http.defaults.baseURL}/user/upload-avatar/`
     },
     uploadHeaders() {
-      return{
-        'Authorization': `Token ${this.$store.state.token}`
+      return {
+        'Authorization': `Token ${this.$store.state.token}`,
+        'X-CSRFToken': this.getCSRFToken(),
       }
     },
     hasChartData() {
@@ -383,15 +389,11 @@ export default {
         name: item.name,
         value: item.value
       }))
-    }
+    },
   },
 
   methods: {
-    getCSRFToken() {
-      return document.cookie.split(';')
-          .find(row => row.startsWith('csrftoken'))
-      ?.split('=')[1] || '';
-    },
+    post,
     formatTime(time) {
       return dayjs(time).format('YYYY-MM-DD HH:mm:ss')
     },
@@ -466,34 +468,48 @@ export default {
     },
     // 头像上传处理
     handleAvatarSuccess(res) {
-      if (res.url) {
-        this.userInfo.avatar = res.url + `?t=${Date.now()}` // 添加时间戳以强制刷新图片
+      console.log('res', res)
+      if (res.status === 'success' && res.data?.avatar_url) {
+        this.userInfo.avatar = `${res.data.avatar_url}?t=${Date.now()}`
         this.$message.success('头像更新成功')
-        this.$store.dispatch('api/user/upload-avatar', this.userInfo.avatar)
+        // 同步到 Vuex store
+        this.$store.commit('updateAvatar', this.userInfo.avatar_url)
+      } else {
+        this.$message.error(res.message || '头像更新失败')
       }
       // this.userInfo.avatar = res.url
     },
     // 头像上传
-    uploadAvatar(file) {
-      const response = fetch(`http://localhost:8000/api/user/upload-avatar/`, {
-        method: 'POST',
-        body: file,
-      });
-      this.handleAvatarSuccess(response);
-    },
+    // uploadAvatar(file) {
+    //   const formData = new FormData();
+    //   formData.append('avatar', file);
+    //   console.log(formData)
+    //   fetch(this.uploadAction, {
+    //     method: 'POST',
+    //     body: formData,
+    //     headers: this.uploadHeaders
+    //   })
+    //       .then(response => response.json())
+    //       .then(data => {
+    //         this.handleAvatarSuccess(data);
+    //       })
+    //       .catch(error => {
+    //         console.error('Upload failed:', error);
+    //       })
+    // },
     // 头像上传预处理
     beforeAvatarUpload(file) {
-      const isImage = ['image/jpeg', 'image/png']
-      const isLt2M = file.size / 1024 / 1024 < 2
+      const isImage = ['image/jpeg', 'image/png'].includes(file.type);
+      const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isImage) {
-        this.$message.error('只能上传 JPG/PNG 格式的图片')
+        this.$message.error('只能上传 JPG/PNG 格式的图片');
+        return false;
       }
       if (!isLt2M) {
-        this.$message.error('图片大小不能超过2MB')
+        this.$message.error('图片大小不能超过2MB');
+        return false;
       }
-      if (isImage && isLt2M)
-        this.uploadAvatar(file)
-      return isImage.includes(file.type) && isLt2M
+      return true;
     },
     // 通知相关方法
     markAllAsRead() {
@@ -533,6 +549,13 @@ export default {
     // 时间格式化
     formatDate(dateStr) {
       return dateStr.slice(5) // 显示月-日(例如 03-13)
+    },
+    getCSRFToken() {
+      const cookieValue = document.cookie
+          .split('; ')
+          .find(row => row.startsWith('csrftoken='))
+          ?.split('=')[1] || '';
+      return cookieValue;
     }
   },
   mounted() {

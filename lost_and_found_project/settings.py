@@ -167,7 +167,7 @@ CORS_ORIGIN_WHITELIST = [  # 更安全的方式替代 CORS_ORIGIN_ALLOW_ALL
     'http://localhost:8080',  # Vue 前端默认地址
     'http://127.0.0.1:8080',
 ]
-
+CORS_ALLOW_ORIGINS = True  # 允许所有来源
 CSRF_TRUSTED_ORIGINS = CORS_ORIGIN_WHITELIST  # 同步CSRF信任源
 # SESSION_COOKIE_SAMESITE = 'Lax'  # ✅ 生产环境推荐值
 # CSRF_COOKIE_SAMESITE = 'Lax'  # ✅ 提高安全性
@@ -179,6 +179,8 @@ CORS_ALLOW_METHODS = [
     'POST',
     'PUT',
 ]
+# 允许前端访问后端资源
+
 
 CORS_ALLOW_HEADERS = [
     'accept',
@@ -188,11 +190,13 @@ CORS_ALLOW_HEADERS = [
     'dnt',
     'origin',
     'user-agent',
-    # 'x-csrftoken',
+    'x-csrftoken',
     'x-requested-with',
-    'x-CSRFToken',  # 确保x-CSRFToken在CORS_ALLOW_HEADERS中
+    # 'x-CSRFToken',  # 确保x-CSRFToken在CORS_ALLOW_HEADERS中
 ]
 
+
+APPEND_SLASH = False  # 关闭自动补全路径
 CSRF_COOKIE_NAME = 'csrftoken'
 CSRF_HEADER_NAME = 'HTTP_X_CSRFTOKEN'
 CSRF_COOKIE_SAMESITE = None  # 临时设置为 None 以便调试

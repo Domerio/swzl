@@ -2,7 +2,7 @@
 
 from django.urls import path
 
-from .views.auth import LoginAPI
+from .views.auth import LoginAPI, UploadAvatar
 from .views.auth import RegisterAPI
 from .views.items import LostAndFoundListCreateAPI  # 确保导入路径正确
 from .. import views
@@ -12,10 +12,11 @@ urlpatterns = [
     path('dashboard/', views.student_dashboard, name='student-dashboard'),
     path('login/', LoginAPI.as_view(), name='login_api'),
     path('register/', RegisterAPI.as_view(), name='register'),
+    path('user/upload-avatar/', UploadAvatar.as_view(), name='upload_avatar'),
     path('items/', LostAndFoundListCreateAPI.as_view(), name='items'),
     # 用户资料
     path('user/profile/', views.user_profile, name='user-profile'),
-    path('user/upload-avatar/', views.upload_avatar, name='upload-avatar'),
+    # path('user/upload-avatar/', views.upload_avatar, name='upload-avatar'),
     path('user/notifications/mark-all-read/', views.mark_all_notifications_read, name='mark-all-read'),
     # 认证相关端点
     path('logout/', views.user_logout, name='logout'),

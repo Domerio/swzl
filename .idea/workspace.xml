@@ -8,8 +8,26 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/utils/request.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/request.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/views/Dashboard/StudentDashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Dashboard/StudentDashboard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_app/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/api/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_app/api/views/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/api/views/auth.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lost_and_found_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lost_and_found_project/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_project/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/156.896442c9.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/641.896442c9.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.896442c9.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.896442c9.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/156.896442c9.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/156.896442c9.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.896442c9.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.896442c9.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/632.896442c9.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/632.896442c9.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/641.896442c9.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/641.896442c9.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.896442c9.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.896442c9.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.896442c9.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.896442c9.js.map" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -85,7 +103,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.sync&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\PyCharm 2024.2.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
@@ -165,7 +183,10 @@
       <workItem from="1741509883264" duration="21381000" />
       <workItem from="1741793738701" duration="24481000" />
       <workItem from="1741838345238" duration="1911000" />
-      <workItem from="1741947534751" duration="12395000" />
+      <workItem from="1741947534751" duration="23018000" />
+      <workItem from="1742028423395" duration="115000" />
+      <workItem from="1742028940873" duration="12584000" />
+      <workItem from="1742050086337" duration="682000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />
@@ -319,7 +340,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741973645785</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="学生仪表盘">
+      <option name="closed" value="true" />
+      <created>1741976094646</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1741976094646</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -375,12 +404,6 @@
           <url>file://$PROJECT_DIR$/frontend/src/views/Login/index.vue</url>
           <line>149</line>
           <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/frontend/src/views/Dashboard/StudentDashboard.vue</url>
-          <line>9</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

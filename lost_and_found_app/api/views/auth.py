@@ -1,11 +1,14 @@
 # lost_and_found_app/api/views/auth.py
 import logging
+import time
 
+from django.core.files.storage import default_storage
 from rest_framework import generics, status
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from ...models import User
 from ...serializers import UserRegisterSerializer
@@ -61,3 +64,40 @@ class RegisterAPI(generics.CreateAPIView):
             'real_name': user.real_name,
             'message': '注册成功'
         }, status=status.HTTP_201_CREATED)
+
+
+class UploadAvatar(APIView):
+    def post(self, request, *args, **kwargs):
+        # 输出请求检查
+        print(request)
+        print(request.FILES)
+        if 'file' not in request.FILES:
+            return Response(
+                {'error': '没有上传文件'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        avatar_file = request.FILES['file']
+
+        if not avatar_file.content_type.startswith('image/'):
+            return Response(
+                {'error': '请上传图片文件'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # 生成文件名
+        timestamp = int(time.time())
+        filename = f'avatars/{request.user.id}_{timestamp}_{avatar_file.name}'
+
+        # 保存文件
+        file_path = default_storage.save(filename, avatar_file)
+
+        # 更新用户头像
+        request.user.avatar = file_path
+        request.user.save()
+        # 处理头像上传的逻辑
+        return Response({
+            "status": "success",
+            "data": {
+                'avatar_url': request.build_absolute_uri(request.user.avatar.url)
+            }
+        }, status=status.HTTP_200_OK)
