@@ -6,29 +6,23 @@
   <component name="ChangeListManager">
     <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="学生仪表盘">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/modules/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/modules/user.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/views/Dashboard/StudentDashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Dashboard/StudentDashboard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lost_and_found_app/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lost_and_found_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lost_and_found_project/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_project/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lost_and_found_project/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_project/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/avatars/3_1742039695_zhangsan.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/641.54f9bf4c.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/817.54f9bf4c.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.54f9bf4c.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.54f9bf4c.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.54f9bf4c.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.54f9bf4c.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/632.54f9bf4c.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/632.54f9bf4c.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/641.54f9bf4c.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/641.54f9bf4c.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/817.54f9bf4c.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/817.54f9bf4c.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.54f9bf4c.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.54f9bf4c.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.54f9bf4c.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.54f9bf4c.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/641.5412e1dd.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/827.5412e1dd.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.5412e1dd.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.5412e1dd.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.5412e1dd.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.5412e1dd.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/632.5412e1dd.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/632.5412e1dd.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/641.5412e1dd.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/641.5412e1dd.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/827.5412e1dd.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/827.5412e1dd.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.5412e1dd.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.5412e1dd.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.5412e1dd.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.5412e1dd.js.map" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -425,12 +419,6 @@
           <url>file://$PROJECT_DIR$/frontend/src/views/Login/index.vue</url>
           <line>149</line>
           <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/frontend/src/views/Dashboard/StudentDashboard.vue</url>
-          <line>477</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

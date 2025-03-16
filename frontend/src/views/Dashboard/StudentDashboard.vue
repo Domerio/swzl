@@ -548,129 +548,301 @@ export default {
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+// 颜色变量
+$primary-color: #409EFF;
+$success-color: #67C23A;
+$warning-color: #E6A23C;
+$danger-color: #F56C6C;
+$text-primary: #303133;
+$text-regular: #606266;
+$text-secondary: #909399;
+$border-color: #DCDFE6;
+$bg-color: #f5f7fa;
+$card-bg: #ffffff;
+
+.dashboard-container {
+  padding: 24px;
+  background: $bg-color;
+  min-height: calc(100vh - 84px);
+}
+
+/* 卡片全局样式 */
+.el-card {
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  ::v-deep .el-card__header {
+    padding: 18px 24px;
+    border-bottom: 1px solid rgba($border-color, 0.6);
+    background: linear-gradient(135deg, rgba($primary-color, 0.05), transparent);
+  }
+
+  ::v-deep .el-card__body {
+    padding: 24px;
+  }
+}
+
+/* 用户信息区域 */
+.user-card {
+  .user-info {
+    text-align: center;
+
+    // 头像上传
+    .avatar-uploader {
+      width: 128px;
+      height: 128px;
+      margin: 0 auto 20px;
+      border: 2px dashed rgba($primary-color, 0.3);
+      border-radius: 50%;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.3s;
+
+      &:hover {
+        border-color: $primary-color;
+        .avatar-uploader-icon {
+          color: $primary-color;
+        }
+      }
+
+      .avatar {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .avatar-uploader-icon {
+        color: $text-secondary;
+        font-size: 32px;
+        line-height: 128px;
+        transition: color 0.3s;
+      }
+    }
+
+    // 用户名称
+    .user-name {
+      margin: 0 0 8px;
+      font-size: 20px;
+      font-weight: 600;
+      color: $text-primary;
+    }
+
+    // 用户角色
+    .user-role {
+      margin: 0 0 24px;
+      color: $text-secondary;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  // 统计信息
+  .stats-wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 24px 0;
+
+    .stat-item {
+      padding: 12px;
+      background: rgba($primary-color, 0.08);
+      border-radius: 8px;
+      text-align: center;
+
+      .stat-number {
+        display: block;
+        font-size: 22px;
+        font-weight: 600;
+        color: $primary-color;
+        line-height: 1.2;
+      }
+
+      .stat-label {
+        font-size: 12px;
+        color: $text-secondary;
+        letter-spacing: 0.3px;
+      }
+    }
+  }
+
+  // 操作按钮组
+  .el-button {
+    margin-top: 16px;
+    width: 100%;
+  }
+}
+
+/* 快捷操作区域 */
+.quick-actions {
+  .el-button {
+    margin-bottom: 12px;
+    width: 100%;
+    transition: all 0.3s;
+
+    &:last-child {
+      margin: 0;
+    }
+
+    &:hover {
+      transform: translateY(-6px);
+    }
+  }
+}
+
+/* 状态统计卡片 */
+.status-card {
+  .status-content {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+
+    .status-icon {
+      width: 48px;
+      height: 48px;
+      font-size: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: rgba($primary-color, 0.1);
+      color: $primary-color;
+      flex-shrink: 0;
+    }
+
+    .status-info {
+      margin-left: 16px;
+
+      .status-title {
+        margin: 0;
+        font-size: 14px;
+        color: $text-secondary;
+      }
+
+      .status-count {
+        margin: 4px 0 0;
+        font-size: 24px;
+        font-weight: 600;
+        color: $text-primary;
+      }
+    }
+  }
+}
+
+/* 表格区域 */
+.data-section {
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+
+    .el-button {
+      padding: 4px 8px;
+    }
+  }
+
+  .el-table {
+    border-radius: 8px;
+
+    ::v-deep th.el-table__cell {
+      background: rgba($primary-color, 0.06) !important;
+    }
+
+    ::v-deep .el-tag {
+      border-radius: 4px;
+      font-weight: 500;
+    }
+  }
+}
+
+/* 图表区域 */
+.chart-wrapper {
+  height: 320px;
+}
+
 .no-data-tip {
   height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
-  color: #909399;
+  font-size: 16px;
+  color: $text-secondary;
+  flex-direction: column;
+
+  &::before {
+    content: "📊";
+    font-size: 48px;
+    margin-bottom: 12px;
+  }
 }
 
-.dashboard-container {
-  padding: 20px;
-  background-color: #f5f7fa;
-  min-height: calc(100vh - 84px);
+/* 通知列表 */
+.notification-list {
+  .notification-item {
+    display: flex;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba($border-color, 0.4);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .icon {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      background: rgba($primary-color, 0.1);
+      color: $primary-color;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .content {
+      margin-left: 16px;
+
+      .time {
+        font-size: 12px;
+        color: $text-secondary;
+        margin-bottom: 4px;
+      }
+
+      .text {
+        margin: 0;
+        font-size: 14px;
+        color: $text-primary;
+        line-height: 1.4;
+      }
+    }
+  }
 }
 
-/* 用户卡片样式 */
-.user-card {
-  margin-bottom: 20px;
-}
+/* 响应式适配 */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 16px;
+  }
 
-.user-info {
-  text-align: center;
-}
+  .stats-wrapper {
+    grid-template-columns: 1fr !important;
+  }
 
-.avatar-uploader {
-  width: 120px;
-  height: 120px;
-  margin: 0 auto 15px;
-  border: 1px dashed #dcdfe6;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
+  .el-col-md-8 {
+    margin-bottom: 16px;
+  }
 
-.avatar-uploader:hover {
-  border-color: #409EFF;
-}
-
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 120px;
-  height: 120px;
-  line-height: 120px;
-}
-
-.avatar {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.user-name {
-  margin: 10px 0;
-  font-size: 18px;
-  color: #303133;
-}
-
-.user-role {
-  color: #909399;
-  margin-bottom: 15px;
-}
-
-.stats-wrapper {
-  display: flex;
-  justify-content: space-around;
-  margin: 20px 0;
-}
-
-.stat-item {
-  text-align: center;
-}
-
-.stat-number {
-  font-size: 20px;
-  font-weight: bold;
-  color: #409EFF;
-  display: block;
-}
-
-.stat-label {
-  color: #909399;
-  font-size: 12px;
-}
-
-/* 状态卡片 */
-.status-card {
-  margin-bottom: 20px;
-}
-
-.status-content {
-  display: flex;
-  align-items: center;
-}
-
-.status-icon {
-  font-size: 32px;
-  margin-right: 15px;
-}
-
-.status-title {
-  margin: 0 0 5px;
-  font-size: 14px;
-  color: #909399;
-}
-
-.status-count {
-  font-size: 24px;
-  margin: 0;
-  color: #303133;
-}
-
-/* 通用卡片头部样式 */
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* 图表容器 */
-.chart-wrapper {
-  height: 300px;
+  .data-section .el-col {
+    margin-bottom: 16px;
+  }
 }
 </style>
+
