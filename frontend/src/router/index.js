@@ -2,6 +2,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '@/store'
+import {Message} from "element-ui";
 
 Vue.use(VueRouter)
 
@@ -37,7 +38,7 @@ const routes = [
         }
     },
     {
-        path: '/items/lost',
+        path: '/api/items/lost/',
         name: 'LostItemRegister',
         component: () => import('@/views/LostItemRegister.vue'),
     },
@@ -72,7 +73,13 @@ const router = new VueRouter({
 router.onError((error) => {
     console.error('Router error:', error)
     if (error.name === 'ChunkLoadError') {
-        window.location.reload()
+        Message.error('页面加载失败，请点击重试。');
+        const retryButton = document.createElement('button');
+        retryButton.textContent = '重试';
+        retryButton.addEventListener('click', () => {
+            window.location.reload();
+        });
+        document.body.appendChild(retryButton);
     }
 })
 
@@ -82,10 +89,13 @@ router.beforeEach(async (to, from, next) => {
         const isAuthenticated = store.getters.isAuthenticated
         const userRole = store.getters.userRole
 
-        // 输出
-        console.log('isAuthenticated:', isAuthenticated)
-        console.log('userRole:', userRole)
-
+        // // 输出
+        // console.log('isAuthenticated:', isAuthenticated)
+        // console.log('userRole:', userRole)
+        if (to.fullPath === from.fullPath) {
+            // 目标路由与当前路由相同，不进行跳转
+            next(false);
+        }
         // 如果路由需要认证
         if (to.matched.some(record => record.meta.requiresAuth)) {
             if (!isAuthenticated) {
@@ -115,21 +125,14 @@ router.beforeEach(async (to, from, next) => {
                     next();
                 }
             }
-        } else if (to.path === '/login' && isAuthenticated) {
-            // 已登录用户访问登录页，重定向到对应的仪表板
-            const roleRouteMap = {
-                student: '/user-dashboard',
-                staff: '/user-dashboard',
-                admin: '/admin-dashboard'
-            }
-            next(roleRouteMap[userRole] || '/');
         } else {
             // 不需要认证的路由
             next();
         }
     } catch (error) {
         console.error('Navigation error:', error)
-        next('/login');
+        Message.error('导航出错，请稍后重试。');
+        next('/login')
     }
 })
 

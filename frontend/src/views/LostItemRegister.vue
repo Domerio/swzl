@@ -10,9 +10,9 @@
       </el-form-item>
       <el-form-item label="丢失时间" prop="lost_time">
         <el-date-picker
-          v-model="form.lost_time"
-          type="datetime"
-          placeholder="选择丢失时间"
+            v-model="form.lost_time"
+            type="datetime"
+            placeholder="选择丢失时间"
         ></el-date-picker>
       </el-form-item>
       <el-form-item label="地点" prop="location">
@@ -21,10 +21,10 @@
       <el-form-item label="物品分类" prop="category">
         <el-select v-model="form.category" placeholder="请选择物品分类">
           <el-option
-            v-for="category in categories"
-            :key="category.id"
-            :label="category.name"
-            :value="category.id"
+              v-for="category in categories"
+              :key="category.id"
+              :label="category.name"
+              :value="category.id"
           ></el-option>
         </el-select>
       </el-form-item>
@@ -33,12 +33,12 @@
       </el-form-item>
       <el-form-item label="物品图片">
         <el-upload
-          action="/api/upload/"
-          :multiple="true"
-          :on-success="handleUploadSuccess"
-          :before-upload="beforeUpload"
-          :file-list="fileList"
-          :disabled="isSubmitting"
+            action="/api/upload/"
+            :multiple="true"
+            :on-success="handleUploadSuccess"
+            :before-upload="beforeUpload"
+            :file-list="fileList"
+            :disabled="isSubmitting"
         >
           <el-button size="small" type="primary">点击上传</el-button>
         </el-upload>
@@ -71,22 +71,22 @@ export default {
       fileList: [],
       rules: {
         title: [
-          { required: true, message: '请输入标题', trigger: 'blur' }
+          {required: true, message: '请输入标题', trigger: 'blur'}
         ],
         description: [
-          { required: true, message: '请输入详细描述', trigger: 'blur' }
+          {required: true, message: '请输入详细描述', trigger: 'blur'}
         ],
         lost_time: [
-          { required: true, message: '请选择丢失时间', trigger: 'change' }
+          {required: true, message: '请选择丢失时间', trigger: 'change'}
         ],
         location: [
-          { required: true, message: '请输入地点', trigger: 'blur' }
+          {required: true, message: '请输入地点', trigger: 'blur'}
         ],
         category: [
-          { required: true, message: '请选择物品分类', trigger: 'change' }
+          {required: true, message: '请选择物品分类', trigger: 'change'}
         ],
         contact: [
-          { required: true, message: '请输入联系方式', trigger: 'blur' }
+          {required: true, message: '请输入联系方式', trigger: 'blur'}
         ]
       },
       isSubmitting: false
@@ -106,28 +106,25 @@ export default {
       }
     },
     async submitForm() {
-      this.$refs.formRef.validate(async (valid) => {
-        if (valid) {
-          this.isSubmitting = true
-          try {
-            await axios.post('/api/items/lost/', this.form)
-            this.$message.success('失物信息已成功登记')
-            await this.$router.push('/items/lost/list')
-          } catch (error) {
-            console.error('提交失物信息失败:', error)
-            if (error.response && error.response.data) {
-              const errorMessage = Object.values(error.response.data).flat().join(', ')
-              this.$message.error(`提交失败: ${errorMessage}`)
-            } else {
-              this.$message.error('提交失败，请检查输入信息。')
+      try {
+        const response = await axios.post('/api/items/lost/', this.form);
+        const itemId = response.data.id;
+        // 上传图片并关联到失物信息
+        for (let i = 0; i < this.form.images.length; i++) {
+          const formData = new FormData();
+          formData.append('image', this.form.images[i]);
+          formData.append('item_id', itemId);
+          await axios.post('/api/upload/', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
             }
-          } finally {
-            this.isSubmitting = false
-          }
-        } else {
-          this.$message.error('请填写完整且正确的信息')
+          });
         }
-      })
+        this.$message.success('失物信息已成功登记');
+        await this.$router.push('/items/lost/list');
+      } catch (error) {
+        this.$message.error('提交失败，请检查输入信息。');
+      }
     },
     handleUploadSuccess(response) {
       this.form.images.push(response.url)

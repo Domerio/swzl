@@ -6,12 +6,11 @@ from datetime import datetime, timedelta
 from django.contrib import messages  # 用于显示消息
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
-from django.core.files.storage import default_storage
 from django.db.models import Count
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
 from django.shortcuts import render, redirect
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from django.views.generic import TemplateView
 from rest_framework import status
 from rest_framework.authtoken.models import Token
@@ -20,7 +19,7 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from .models import LostAndFound, Bookmark, Notification
+from .models import LostAndFound, Bookmark, Notification, Category, Attachment
 from .serializers import UserRegisterSerializer
 
 logger = logging.getLogger(__name__)
@@ -145,13 +144,49 @@ def user_logout(request):
 @login_required
 def lost_item_register(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
-        lost_time = request.POST.get('lost_time')
-        lost_location = request.POST.get('lost_location')
+        title = request.POST.get('title')
         description = request.POST.get('description')
-        image = request.FILES.get('image')
-        return JsonResponse({'success': True})
+        lost_time = request.POST.get('lost_time')
+        location = request.POST.get('location')
+        category_id = request.POST.get('category')
+        contact = request.POST.get('contact')
+        try:
+            category = Category.objects.get(id=category_id)
+            lost_and_found = LostAndFound.objects.create(
+                user=request.user,
+                title=title,
+                description=description,
+                lost_time=lost_time,
+                location=location,
+                category=category,
+                contact=contact,
+                status='pending',
+                item_type='lost',
+                created_at=time.timezone.now(),
+                updated_at=time.timezone.now()
+            )
+            messages.success(request, '失物信息已成功登记')
+            return redirect('lost_item_list')
+        except Category.DoesNotExist:
+            messages.error(request, '选择的物品分类不存在，请重新选择。')
     return render(request, 'frontend/index.html')
+
+
+@csrf_exempt
+def upload_image(request):
+    if request.method == 'POST' and request.FILES.get('image'):
+        item_id = request.POST.get('item_id')
+        try:
+            lost_and_found = LostAndFound.objects.get(id=item_id)
+            image = request.FILES['image']
+            attachment = Attachment.objects.create(
+                image=image,
+                item=lost_and_found
+            )
+            return JsonResponse({'status': 'success', 'url': attachment.image.url})
+        except LostAndFound.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': '失物信息不存在'})
+    return JsonResponse({'status': 'error', 'message': '图片上传失败'})
 
 
 # 招领登记视图

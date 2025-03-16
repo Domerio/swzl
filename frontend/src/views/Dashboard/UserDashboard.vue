@@ -63,7 +63,7 @@
           <el-button
               type="primary"
               icon="el-icon-s-release"
-              @click="$router.push('/lost-item/new')">
+              @click="$router.push('/api/item/lost/')">
             失物登记
           </el-button>
           <el-button

@@ -4,26 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="学生和教职工共用一个仪表盘">
+    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="添加失物功能">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Dashboard/UserDashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Dashboard/UserDashboard.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/views/LostItemRegister.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/LostItemRegister.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lost_and_found_app/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/api/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lost_and_found_app/api/views/items.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/api/views/items.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/372.79ae1e6c.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/538.79ae1e6c.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.79ae1e6c.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.79ae1e6c.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/372.79ae1e6c.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/372.79ae1e6c.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.79ae1e6c.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.79ae1e6c.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/538.79ae1e6c.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/538.79ae1e6c.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.79ae1e6c.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.79ae1e6c.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.79ae1e6c.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.79ae1e6c.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -380,7 +366,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742127404597</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="添加失物功能">
+      <option name="closed" value="true" />
+      <created>1742128924322</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1742128924322</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -423,17 +417,13 @@
     <MESSAGE value="学生仪表盘" />
     <MESSAGE value="优化页面显示" />
     <MESSAGE value="学生和教职工共用一个仪表盘" />
-    <option name="LAST_COMMIT_MESSAGE" value="学生和教职工共用一个仪表盘" />
+    <MESSAGE value="添加失物功能" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加失物功能" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/manage.py</url>
-          <line>2</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/frontend/src/views/Login/index.vue</url>
           <line>149</line>
