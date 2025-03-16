@@ -4,25 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="学生仪表盘">
+    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="优化页面显示">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Dashboard/StaffDashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Dashboard/StaffDashboard.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/views/Dashboard/StudentDashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Dashboard/StudentDashboard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/641.5412e1dd.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/827.5412e1dd.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.5412e1dd.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.5412e1dd.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.5412e1dd.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/519.5412e1dd.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/632.5412e1dd.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/632.5412e1dd.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/641.5412e1dd.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/641.5412e1dd.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/827.5412e1dd.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/827.5412e1dd.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.5412e1dd.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.5412e1dd.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.5412e1dd.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.5412e1dd.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Login/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Login/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_app/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/api/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -363,7 +352,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741976094646</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="优化页面显示">
+      <option name="closed" value="true" />
+      <created>1742123737927</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1742123737927</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -404,7 +401,8 @@
     <MESSAGE value="Merge remote-tracking branch 'swzl/master'&#10;&#10;# Conflicts:&#10;#&#9;static/frontend/css/149.65cc60fe.chunk.css&#10;#&#9;static/frontend/css/app.65cc60fe.css&#10;#&#9;static/frontend/css/chunk-vendors.65cc60fe.css&#10;#&#9;static/frontend/js/149.65cc60fe.chunk.js&#10;#&#9;static/frontend/js/149.65cc60fe.chunk.js.map&#10;#&#9;static/frontend/js/519.65cc60fe.chunk.js&#10;#&#9;static/frontend/js/519.65cc60fe.chunk.js.map&#10;#&#9;static/frontend/js/80.65cc60fe.chunk.js&#10;#&#9;static/frontend/js/80.65cc60fe.chunk.js.map&#10;#&#9;static/frontend/js/app.65cc60fe.js.map&#10;#&#9;static/frontend/js/chunk-vendors.65cc60fe.js&#10;#&#9;static/frontend/js/chunk-vendors.65cc60fe.js.map" />
     <MESSAGE value="登录+注册" />
     <MESSAGE value="学生仪表盘" />
-    <option name="LAST_COMMIT_MESSAGE" value="学生仪表盘" />
+    <MESSAGE value="优化页面显示" />
+    <option name="LAST_COMMIT_MESSAGE" value="优化页面显示" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">

@@ -209,8 +209,8 @@ export default {
 
         // 根据角色直接跳转到对应页面
         const roleRouteMap = {
-          student: '/student-dashboard',
-          staff: '/staff-dashboard',
+          student: '/user-dashboard',
+          staff: '/user-dashboard',
           admin: '/admin-dashboard'
         }
 
@@ -272,8 +272,8 @@ export default {
         await this.$nextTick()
         // 根据角色跳转到对应的仪表板
         const roleRouteMap = {
-          student: '/student-dashboard',
-          staff: '/staff-dashboard',
+          student: '/user-dashboard',
+          staff: '/user-dashboard',
           admin: '/admin-dashboard'
         }
         // 跳转到对应的仪表板

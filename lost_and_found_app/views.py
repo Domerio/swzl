@@ -175,7 +175,7 @@ def found_item_register(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def student_dashboard(request):
+def user_dashboard(request):
     try:
         user = request.user
         logger.info(f"User {user.username} requested dashboard data")

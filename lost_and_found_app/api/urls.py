@@ -9,7 +9,7 @@ from .. import views
 
 urlpatterns = [
     # ✅ 所有路径继承主项目层的 /api/ 前缀 → 完整路径为 /api/dashboard/
-    path('dashboard/', views.student_dashboard, name='student-dashboard'),
+    path('dashboard/', views.user_dashboard, name='user-dashboard'),
     path('login/', LoginAPI.as_view(), name='login_api'),
     path('register/', RegisterAPI.as_view(), name='register'),
     path('user/upload-avatar/', UploadAvatar.as_view(), name='upload_avatar'),
