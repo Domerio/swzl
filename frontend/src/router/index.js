@@ -11,12 +11,12 @@ const routes = [
         path: '/login',
         name: 'Login',
         component: () => import('@/views/Login/index.vue'),
-        meta: { requiresAuth: false }
+        meta: {requiresAuth: false}
     },
     {
         path: '/register',
         name: 'Register',
-        meta: { requiresAuth: false },
+        meta: {requiresAuth: false},
         component: () => import('@/views/Login/index.vue')
     },
     {
@@ -41,6 +41,10 @@ const routes = [
         path: '/api/items/lost/',
         name: 'LostItemRegister',
         component: () => import('@/views/LostItemRegister.vue'),
+        meta: {
+            requiresAuth: true,
+            role: ['student', 'staff']
+        }
     },
     {
         path: '/',
@@ -102,7 +106,7 @@ router.beforeEach(async (to, from, next) => {
                 // 未登录，重定向到登录页
                 next({
                     path: '/login',
-                    query: { redirect: to.fullPath }
+                    query: {redirect: to.fullPath}
                 })
             } else {
                 const allowedRoles = Array.isArray(to.meta.role) ? to.meta.role : [to.meta.role];

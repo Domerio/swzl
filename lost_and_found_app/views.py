@@ -379,3 +379,8 @@ def mark_all_notifications_read(request):
         return Response({
             'error': '操作失败'
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+def get_categories(request):
+    categories = Category.objects.values('id', 'name')
+    return JsonResponse(list(categories), safe=False)

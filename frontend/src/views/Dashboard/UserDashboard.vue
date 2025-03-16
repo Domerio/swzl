@@ -63,7 +63,7 @@
           <el-button
               type="primary"
               icon="el-icon-s-release"
-              @click="$router.push('/api/item/lost/')">
+              @click="handleLostItemRegister">
             失物登记
           </el-button>
           <el-button
@@ -539,6 +539,9 @@ export default {
           .find(row => row.startsWith('csrftoken='))
           ?.split('=')[1] || '';
       return cookieValue;
+    },
+    handleLostItemRegister(){
+      this.$router.push('/api/items/lost/')
     }
   },
   mounted() {

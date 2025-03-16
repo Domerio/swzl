@@ -4,8 +4,9 @@ from django.urls import path
 
 from .views.auth import LoginAPI, UploadAvatar
 from .views.auth import RegisterAPI
-from .views.items import LostAndFoundListCreateAPI, LostItemCreateAPI  # 确保导入路径正确
+from .views.items import LostItemCreateAPI  # 确保导入路径正确
 from .. import views
+from ..views import get_categories
 
 urlpatterns = [
     # ✅ 所有路径继承主项目层的 /api/ 前缀 → 完整路径为 /api/dashboard/
@@ -13,8 +14,9 @@ urlpatterns = [
     path('login/', LoginAPI.as_view(), name='login_api'),
     path('register/', RegisterAPI.as_view(), name='register'),
     path('user/upload-avatar/', UploadAvatar.as_view(), name='upload_avatar'),
-    path('items/', LostAndFoundListCreateAPI.as_view(), name='items'),
-    path('items/lost/',LostItemCreateAPI.as_view(), name='lost_items'),
+    path('categories/', get_categories, name='categories'),
+    # path('items/', LostAndFoundListCreateAPI.as_view(), name='items'),
+    path('items/lost/', LostItemCreateAPI.as_view(), name='lost_items'),
     # 用户资料
     path('user/profile/', views.user_profile, name='user-profile'),
     # path('user/upload-avatar/', views.upload_avatar, name='upload-avatar'),
