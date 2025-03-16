@@ -14,3 +14,13 @@ class LostAndFoundListCreateAPI(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+class LostItemCreateAPI(generics.CreateAPIView):
+    queryset = LostAndFound.objects.all()
+    serializer_class = LostAndFoundSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        # 自动关联当前用户
+        serializer.save(user=self.request.user)

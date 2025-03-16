@@ -4,7 +4,7 @@ from django.urls import path
 
 from .views.auth import LoginAPI, UploadAvatar
 from .views.auth import RegisterAPI
-from .views.items import LostAndFoundListCreateAPI  # 确保导入路径正确
+from .views.items import LostAndFoundListCreateAPI, LostItemCreateAPI  # 确保导入路径正确
 from .. import views
 
 urlpatterns = [
@@ -14,6 +14,7 @@ urlpatterns = [
     path('register/', RegisterAPI.as_view(), name='register'),
     path('user/upload-avatar/', UploadAvatar.as_view(), name='upload_avatar'),
     path('items/', LostAndFoundListCreateAPI.as_view(), name='items'),
+    path('items/lost/',LostItemCreateAPI.as_view(), name='lost_items'),
     # 用户资料
     path('user/profile/', views.user_profile, name='user-profile'),
     # path('user/upload-avatar/', views.upload_avatar, name='upload-avatar'),

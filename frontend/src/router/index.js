@@ -37,6 +37,11 @@ const routes = [
         }
     },
     {
+        path: '/items/lost',
+        name: 'LostItemRegister',
+        component: () => import('@/views/LostItemRegister.vue'),
+    },
+    {
         path: '/',
         redirect: () => {
             if (store.getters.isAuthenticated && store.getters.userRole) {
