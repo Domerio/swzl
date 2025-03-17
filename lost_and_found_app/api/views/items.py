@@ -2,9 +2,10 @@
 from flask import Response
 from rest_framework import generics
 from rest_framework import permissions  # 添加此行
+from rest_framework.parsers import MultiPartParser
 from rest_framework.views import APIView
 
-from ...models import LostAndFound, Category
+from ...models import LostAndFound, Category, Attachment
 from ...serializers import LostAndFoundSerializer
 
 
@@ -27,10 +28,19 @@ class LostItemCreateAPI(generics.CreateAPIView):
     queryset = LostAndFound.objects.all()
     serializer_class = LostAndFoundSerializer
     permission_classes = [permissions.IsAuthenticated]
+    parser_classes = (MultiPartParser,)
 
     def perform_create(self, serializer):
         # 自动关联当前用户
-        serializer.save(user=self.request.user)
+        lost_and_found = serializer.save(user=self.request.user)
+
+        # 处理图片上传
+        images = self.request.FILES.getlist('images')
+        for image in images:
+            Attachment.objects.create(
+                image=image,
+                item=lost_and_found
+            )
 
 
 class CategoryListAPI(APIView):
