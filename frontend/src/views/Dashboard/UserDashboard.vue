@@ -301,7 +301,7 @@
               </el-tag>
             </el-descriptions-item>
             <el-descriptions-item label="登记时间">
-              {{ currentItem.created_at }}
+              {{ formatTime(currentItem.created_at) }}
             </el-descriptions-item>
             <el-descriptions-item label="联系方式" :span="2">
               <el-link
@@ -491,12 +491,11 @@ export default {
   methods: {
     // 点击表格行触发
     async handleRowClick(row) {
-      const cacheKey = `item-${row.id}`;
-      if (localStorage.getItem(cacheKey)) {
-        this.currentItem = JSON.parse(localStorage.getItem(cacheKey));
-        // this.detailDialogVisible = true;
-        return;
-      }
+      // const cacheKey = `item-${row.id}`;
+      // if (localStorage.getItem(cacheKey)) {
+      //   this.currentItem = localStorage.getItem(cacheKey);
+      //   return;
+      // }
       const apiUrl = `/items/${row.id}/`;
       console.log('Request URL:', apiUrl); // 打印请求地址
       try {
@@ -507,7 +506,7 @@ export default {
           images: response.images || []  // 确保有图册数据
         };
         this.detailDialogVisible = true;
-        localStorage.setItem(cacheKey, JSON.stringify(response.data));
+        // localStorage.setItem(cacheKey, JSON.stringify(response));
       } catch (error) {
         this.$message.error('获取详情失败');
       }
