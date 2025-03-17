@@ -76,19 +76,21 @@
 
       <!-- 主要内容区 -->
       <el-col :span="18">
-        <!-- 主要数据展示区 -->
-        <el-row :gutter="20" class="data-section">
+        <!-- 上半部分：最近发布和我的收藏 -->
+        <el-row :gutter="20" class="top-section">
           <!-- 最近发布 -->
-          <el-col :span="12">
-            <el-card>
+          <el-col :xs="24" :sm="24" :md="12" :lg="12" class="card-wrapper">
+            <el-card class="recent-posts">
               <div slot="header" class="card-header">
                 <span>最近发布</span>
                 <el-button
                     type="text"
+                    class="header-action-btn"
                     @click="$router.push('/my-posts')">
                   查看全部 <i class="el-icon-arrow-right"></i>
                 </el-button>
               </div>
+
               <el-table
                   :data="dashboardData.recent_posts"
                   @row-click="handleRowClick"
@@ -117,12 +119,13 @@
           </el-col>
 
           <!-- 我的收藏 -->
-          <el-col :span="12">
-            <el-card>
+          <el-col :xs="24" :sm="24" :md="12" :lg="12" class="card-wrapper">
+            <el-card class="my-collection">
               <div slot="header" class="card-header">
                 <span>我的收藏</span>
                 <el-button
                     type="text"
+                    class="header-action-btn"
                     @click="$router.push('/my-bookmarks')">
                   查看全部 <i class="el-icon-arrow-right"></i>
                 </el-button>
@@ -150,18 +153,24 @@
           </el-col>
         </el-row>
 
-        <!-- 统计和通知区 -->
-        <el-row :gutter="20" class="data-section">
+        <!-- 下半部分：统计图表和通知区 -->
+        <el-row :gutter="20" class="bottom-section">
           <!-- 统计图表 -->
-          <el-col :span="12">
-            <el-card>
+          <el-col :xs="24" :sm="24" :md="12" :lg="12" class="chart-col">
+            <el-card class="stats-card">
               <div slot="header" class="card-header">
                 <span>最近7天发布统计</span>
+                <el-button
+                    type="text"
+                    class="header-action-btn">
+                </el-button>
               </div>
+
               <v-chart
                   class="chart-wrapper"
                   :option="chartOption"
                   autoresize
+                  style="height: 300px"
                   v-if="hasChartData"
               />
               <div v-else class="no-data-tip">
@@ -171,16 +180,18 @@
           </el-col>
 
           <!-- 未读通知 -->
-          <el-col :span="12">
-            <el-card>
+          <el-col :xs="24" :sm="24" :md="12" :lg="12" class="notification-col">
+            <el-card class="notification-card">
               <div slot="header" class="card-header">
                 <span>未读通知（{{ dashboardData.unread_notifications }}）</span>
                 <el-button
                     type="text"
+                    class="header-action-btn"
                     @click="markAllAsRead">
                   全部已读
                 </el-button>
               </div>
+
               <div class="notification-list">
                 <div
                     v-for="item in dashboardData.notifications"
@@ -682,6 +693,81 @@ $text-secondary: #909399;
 $border-color: #DCDFE6;
 $bg-color: #f5f7fa;
 $card-bg: #ffffff;
+// 调整卡片高度和间距
+.top-section {
+  margin-bottom: 20px;
+
+  .card-wrapper {
+    margin-bottom: 0;
+
+    .el-card {
+      height: 300px;
+      display: flex;
+      flex-direction: column;
+
+      ::v-deep .el-card__body {
+        flex: 1;
+        overflow: auto;
+      }
+    }
+  }
+}
+
+.bottom-section {
+  .chart-col {
+    .stats-card {
+      height: 350px;
+
+      .chart-wrapper {
+        height: calc(350px - 57px); // 减去header高度
+      }
+    }
+  }
+
+  .notification-col {
+    .notification-card {
+      height: 350px;
+
+      .notification-list {
+        height: calc(350px - 57px);
+        overflow-y: auto;
+      }
+    }
+  }
+}
+
+// 响应式适配
+@media (max-width: 1200px) {
+  .top-section .card-wrapper .el-card {
+    height: 380px;
+  }
+
+  .bottom-section {
+    .chart-col,
+    .notification-col {
+      .el-card {
+        height: 340px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .card-wrapper {
+    margin-bottom: 15px !important;
+
+    .el-card {
+      height: auto !important;
+    }
+  }
+
+  .bottom-section {
+    .chart-col,
+    .notification-col {
+      margin-bottom: 15px;
+    }
+  }
+}
 
 .dashboard-container {
   padding: 24px;
@@ -819,6 +905,34 @@ $card-bg: #ffffff;
   }
 }
 
+// 统一卡片头部按钮样式
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px !important;
+  .header-action-btn {
+    padding: 0;
+    color: $text-regular;
+    transition: all 0.3s;
+
+    &:hover {
+      color: $primary-color;
+      transform: translateX(4px);
+
+      .el-icon-arrow-right {
+        opacity: 1;
+        margin-left: 4px;
+      }
+    }
+    .el-icon-arrow-right {
+      opacity: 0;
+      margin-left: 0;
+      transition: all 0.3s;
+    }
+  }
+}
+
 /* 表格区域 */
 .data-section {
   .card-header {
@@ -848,7 +962,7 @@ $card-bg: #ffffff;
 
 /* 图表区域 */
 .chart-wrapper {
-  height: 320px;
+  height: 300px;
 }
 
 .no-data-tip {
@@ -907,25 +1021,6 @@ $card-bg: #ffffff;
         line-height: 1.4;
       }
     }
-  }
-}
-
-/* 响应式适配 */
-@media (max-width: 768px) {
-  .dashboard-container {
-    padding: 16px;
-  }
-
-  .stats-wrapper {
-    grid-template-columns: 1fr !important;
-  }
-
-  .el-col-md-8 {
-    margin-bottom: 16px;
-  }
-
-  .data-section .el-col {
-    margin-bottom: 16px;
   }
 }
 
