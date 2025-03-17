@@ -78,10 +78,12 @@ class UploadAvatar(APIView):
             )
         avatar_file = request.FILES['file']
 
+        # 检查上传的文件是否为图片类型
         if not avatar_file.content_type.startswith('image/'):
+            # 如果文件类型不是以'image/'开头，说明不是图片文件
             return Response(
-                {'error': '请上传图片文件'},
-                status=status.HTTP_400_BAD_REQUEST
+                {'error': '请上传图片文件'},  # 返回一个包含错误信息的响应体
+                status=status.HTTP_400_BAD_REQUEST  # 设置响应状态码为400，表示客户端请求错误
             )
 
         # 生成文件名

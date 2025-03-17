@@ -269,7 +269,7 @@ export default {
         this.isSubmitting = true
         // 统一提交数据（含图片）
         const formData = new FormData()
-        console.log(formData)
+        // console.log(formData)
         Object.keys(this.form).forEach(key => {
           if (key !== 'images') {
             formData.append(key, this.form[key])
@@ -290,7 +290,7 @@ export default {
           ...response.data,
           images: this.form.images // 保留前端临时预览图
         }
-
+        console.log(this.submittedItem)
         // 清空表单（根据需求选择保留或清除）
         this.$refs.formRef.resetFields()
         this.form.images = []

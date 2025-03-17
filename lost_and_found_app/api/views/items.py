@@ -9,13 +9,17 @@ from ...serializers import LostAndFoundSerializer
 
 
 class LostAndFoundListCreateAPI(generics.ListCreateAPIView):
+    # 指定使用的序列化器类，用于将模型实例转换为JSON格式
     serializer_class = LostAndFoundSerializer
+    # 指定权限类，确保只有经过身份验证的用户才能访问此API
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
+        # 获取当前视图的查询集，即过滤出状态为'active'的LostAndFound对象
         return LostAndFound.objects.filter(status='active')
 
     def perform_create(self, serializer):
+        # 在创建新的LostAndFound对象时，自动将当前请求的用户关联到该对象
         serializer.save(user=self.request.user)
 
 

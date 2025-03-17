@@ -1,9 +1,8 @@
 # lost_and_found_app/serializers.py
 
-from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from .models import User, Category, Notification
+from .models import User, Category, Notification, Attachment, LostAndFound
 
 
 # from .models.item import LostAndFound
@@ -44,12 +43,44 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
+# serializers.py
 class LostAndFoundSerializer(serializers.ModelSerializer):
+    # 添加必填字段验证
+    location = serializers.CharField(max_length=100, required=True)
+    contact = serializers.CharField(max_length=50, required=True)
+    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
+
     class Meta:
-        from .models.item import LostAndFound
         model = LostAndFound
-        fields = '__all__'
-        read_only_fields = ['user', 'status']  # 用户和状态不可修改
+        fields = [
+            'user', 'title', 'description', 'lost_time', 'is_anonymous',
+            'location', 'category', 'contact', 'status', 'created_at', 'updated_at', 'result', 'location_lat', 'location_lng',
+        ]
+        read_only_fields = ['user', 'status']
+        extra_kwargs = {
+            'lost_time': {
+                'input_formats': ['iso-8601', '%Y-%m-%d %H:%M:%S', '%Y-%m-%dT%H:%M']  # 增加时间格式兼容
+            }
+        }
+
+    def validate_category(self, value):
+        if not Category.objects.filter(id=value.id).exists():
+            raise serializers.ValidationError("无效的物品分类")
+        return value
+
+
+class AttachmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Attachment
+        fields = ['image', 'is_primary']
+
+
+class LostAndFoundDetailSerializer(LostAndFoundSerializer):
+    attachments = AttachmentSerializer(many=True, read_only=True)
+
+    class Meta(LostAndFoundSerializer.Meta):
+        # 💡 确保父类fields是列表时可直接合并
+        fields = [*LostAndFoundSerializer.Meta.fields, 'attachments']
 
 
 class CategorySerializer(serializers.ModelSerializer):
