@@ -76,15 +76,6 @@
 
       <!-- 主要内容区 -->
       <el-col :span="18">
-        <el-row :gutter="20">
-          <!-- 状态统计卡片 -->
-          <el-col
-              v-for="(count, status) in dashboardData.status_summary"
-              :key="status"
-              :span="8">
-          </el-col>
-        </el-row>
-
         <!-- 主要数据展示区 -->
         <el-row :gutter="20" class="data-section">
           <!-- 最近发布 -->
