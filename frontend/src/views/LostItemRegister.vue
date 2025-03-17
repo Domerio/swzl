@@ -120,7 +120,61 @@
         </el-button>
       </el-form-item>
     </el-form>
+    <!-- 在模板底部添加此对话框 -->
+    <el-dialog
+        title="✅ 登记成功"
+        :visible.sync="dialogVisible"
+        width="700px"
+        @closed="handleDialogClosed"
+    >
+      <el-descriptions
+          :column="2"
+          border
+          label-class-name="detail-label"
+      >
+        <!-- 弹窗内容 -->
+        <el-descriptions-item label="物品标题">{{ submittedItem.title }}</el-descriptions-item>
+        <el-descriptions-item label="分类">
+          {{ getCategoryName(submittedItem.category) }}
+        </el-descriptions-item>
+        <el-descriptions-item label="丢失时间">
+          {{ submittedItem.lost_time }}
+        </el-descriptions-item>
+        <el-descriptions-item label="丢失地点">{{ submittedItem.location }}</el-descriptions-item>
+        <el-descriptions-item label="联系方式" :span="2">
+          <el-link type="primary">{{ submittedItem.contact }}</el-link>
+        </el-descriptions-item>
+        <el-descriptions-item label="详细描述" :span="2">
+          <pre class="description-pre">{{ submittedItem.description }}</pre>
+        </el-descriptions-item>
+        <el-descriptions-item label="物品照片" :span="2" v-if="submittedItem.images?.length">
+          <el-image
+              v-for="(img, index) in submittedItem.images"
+              :key="index"
+              :src="img.url"
+              fit="cover"
+              class="detail-image"
+          />
+        </el-descriptions-item>
+      </el-descriptions>
+      <!-- 底部操作按钮 -->
+      <span slot="footer">
+      <el-button
+          type="success"
+          @click="handleConfirm"
+      >
+        打印回执 (Ctrl+P)
+      </el-button>
+      <el-button
+          type="primary"
+          @click="dialogVisible = false"
+      >
+        确定返回
+      </el-button>
+    </span>
+    </el-dialog>
   </div>
+
 </template>
 
 
@@ -170,13 +224,56 @@ export default {
           {required: true, message: '请输入联系方式', trigger: 'blur'}
         ]
       },
-      isSubmitting: false
+      isSubmitting: false,
+      dialogVisible: false,
+      submittedItem: {}, // 存储服务器返回的完整数据
+      printStyle: `
+      @media print {
+        body * { visibility: hidden; }
+        .el-dialog { width: 210mm!important; visibility: visible; }
+        .el-dialog__header, .el-dialog__footer { display: none; }
+      }
+    `
+
     }
   },
   mounted() {
     this.fetchCategories()
+    document.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.key === 'p' && this.dialogVisible) {
+        e.preventDefault()
+        this.handleConfirm()
+      }
+    })
+
   },
   methods: {
+    // 分类ID转名称（匹配用户原有分类数据）
+    getCategoryName(categoryId) {
+      return this.categories.find(item => item.id === categoryId)?.name || '未知分类'
+    },
+
+    // // 格式化时间显示
+    // formatDateTime(isoString) {
+    //   return this.$moment(isoString).format('YYYY-MM-DD HH:mm')
+    // },
+
+    // 处理弹窗关闭后的操作
+    handleDialogClosed() {
+      this.$router.go(-1) // 或自定义跳转逻辑
+    },
+
+    // 打印功能
+    handleConfirm() {
+      const printWindow = window.open('', '_blank')
+      printWindow.document.write(`
+      <style>${this.printStyle}</style>
+      ${document.querySelector('.el-dialog').outerHTML}
+    `)
+      printWindow.print()
+      printWindow.close()
+    },
+
     async fetchCategories() {
       try {
         const response = await axios.get('/api/categories/')
@@ -202,12 +299,24 @@ export default {
         this.form.images.forEach((file, index) => {
           formData.append(`images_${index}`, file.raw)
         })
-        await axios.post('/api/items/lost/', formData, {
+        const response = await axios.post('/api/items/lost/', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             'Authorization': `Token ${this.$store.state.token}`
           }
         })
+        // 保存服务器返回的完整数据
+        this.submittedItem = {
+          ...response.data,
+          images: this.form.images // 保留前端临时预览图
+        }
+
+        // 清空表单（根据需求选择保留或清除）
+        this.$refs.formRef.resetFields()
+        this.form.images = []
+
+        this.dialogVisible = true // 显示弹窗
+
         this.$message.success({
           message: '登记成功，3秒后自动跳转',
           duration: 3000
@@ -216,9 +325,9 @@ export default {
         // setTimeout(() => {
         //   this.$router.push(`/items/detail/${data.id}`)
         // }, 3000)
-        setTimeout(() => {
-          this.$router.go(-1)
-        },3000)
+        // setTimeout(() => {
+        //   this.$router.go(-1)
+        // }, 3000)
       } catch (error) {
         const msg = error.response?.data?.detail || '提交失败，请检查网络连接'
         this.$message.error(msg)
@@ -430,4 +539,51 @@ $bg-color: #f6f8fa;
     }
   }
 }
+// 在<style>标签中添加：
+.el-dialog {
+  border-radius: 12px;
+
+  &__header {
+    background: #f8f9fa;
+    border-radius: 12px 12px 0 0;
+    padding: 20px;
+  }
+
+  &__body {
+    padding: 30px;
+  }
+}
+
+.detail-label {
+  width: 100px;
+  text-align: justify;
+  text-justify: inter-ideograph;
+  font-weight: 500;
+
+  &::after {
+    content: "："
+  }
+}
+
+.description-pre {
+  white-space: pre-wrap;
+  line-height: 1.6;
+  margin: 0;
+  font-family: inherit;
+}
+
+.detail-image {
+  width: 150px;
+  height: 150px;
+  margin-right: 12px;
+  border: 1px solid #ebeef5;
+  border-radius: 8px;
+  transition: transform 0.3s;
+
+  &:hover {
+    transform: scale(1.05);
+    cursor: zoom-in;
+  }
+}
+
 </style>

@@ -384,3 +384,31 @@ def mark_all_notifications_read(request):
 def get_categories(request):
     categories = Category.objects.values('id', 'name')
     return JsonResponse(list(categories), safe=False)
+
+
+@api_view(['GET'])
+def item_detail(request):
+    print(request.GET)
+    try:
+        item_id = request.GET.get('item_id')
+        item = LostAndFound.objects.get(id=item_id)
+        return Response({
+            'data':{
+                'id': item.id,
+                'title': item.title,
+                'description': item.description,
+                'category': item.category.name,
+                'images': [image.image.url for image in item.images.all()],  # 获取图片URL列表
+                'created_at': item.created_at,
+                'updated_at': item.updated_at,
+                'user': item.user.username,
+                'status': item.status,  # 添加状态字段
+                'location': item.location,
+                'lost_time': item.lost_time,
+                'contact': item.contact,
+            },
+            'status': 'success'
+        })
+    except Exception as e:
+        logger.error(f"Item detail error: {str(e)}")
+        return JsonResponse({'error': '获取物品详情失败'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

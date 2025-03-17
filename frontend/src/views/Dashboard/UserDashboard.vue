@@ -13,7 +13,7 @@
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
                 :method="requestMethod"
-            name="file">
+                name="file">
               <!--                :upload-avatar="uploadAvatar"-->
               <img v-if="userInfo.avatar" :src="userInfo.avatar" class="avatar" alt="">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -108,7 +108,10 @@
                   查看全部 <i class="el-icon-arrow-right"></i>
                 </el-button>
               </div>
-              <el-table :data="dashboardData.recent_posts">
+              <el-table
+                  :data="dashboardData.recent_posts"
+                  @row-click="handleRowClick"
+                  class="click-table">
                 <el-table-column
                     prop="title"
                     label="标题"
@@ -143,7 +146,10 @@
                   查看全部 <i class="el-icon-arrow-right"></i>
                 </el-button>
               </div>
-              <el-table :data="dashboardData.bookmarks">
+              <el-table
+                  :data="dashboardData.bookmarks"
+                  @row-click="handleRowClick"
+                  class="clickable-table">
                 <el-table-column
                     prop="title"
                     label="标题"
@@ -243,6 +249,93 @@
         </el-button>
       </div>
     </el-dialog>
+    <!-- 失物详情弹窗 -->
+    <el-dialog
+        title="🔍 物品详情"
+        :visible.sync="detailDialogVisible"
+        width="800px"
+        custom-class="item-detail-dialog"
+    >
+      <el-row :gutter="20">
+        <!-- 图片轮播区 -->
+        <el-col :span="8">
+          <el-carousel
+              :interval="5000"
+              height="300px"
+              arrow="always"
+          >
+            <el-carousel-item
+                v-for="(img, index) in currentItem.images"
+                :key="index"
+            >
+              <el-image
+                  :src="img.url"
+                  fit="cover"
+                  class="detail-image"
+              >
+                <div slot="error" class="image-error">
+                  <i class="el-icon-picture-outline"></i>
+                </div>
+              </el-image>
+            </el-carousel-item>
+          </el-carousel>
+        </el-col>
+        <!-- 详细信息区 -->
+        <el-col :span="16">
+          <el-descriptions
+              :column="2"
+              border
+              label-class-name="detail-label"
+          >
+            <el-descriptions-item label="物品名称">{{ currentItem.title }}</el-descriptions-item>
+            <el-descriptions-item label="物品分类">
+              {{ currentItem.category }}
+            </el-descriptions-item>
+            <el-descriptions-item label="丢失时间">
+              {{ currentItem.lost_time }}
+            </el-descriptions-item>
+            <el-descriptions-item label="丢失地点">{{ currentItem.location }}</el-descriptions-item>
+            <el-descriptions-item label="当前状态">
+              <el-tag :type="statusTypeMap[currentItem.status]" size="medium">
+                {{ statusTextMap[currentItem.status] }}
+              </el-tag>
+            </el-descriptions-item>
+            <el-descriptions-item label="登记时间">
+              {{ currentItem.created_at }}
+            </el-descriptions-item>
+            <el-descriptions-item label="联系方式" :span="2">
+              <el-link
+                  type="primary"
+                  :href="currentItem.contact"
+              >
+                {{ currentItem.contact }}
+              </el-link>
+            </el-descriptions-item>
+            <el-descriptions-item label="详细描述" :span="2">
+              <pre class="description-pre">{{ currentItem.description }}</pre>
+            </el-descriptions-item>
+          </el-descriptions>
+        </el-col>
+      </el-row>
+      <!-- 底部操作按钮 -->
+      <div slot="footer">
+        <el-button
+            @click="detailDialogVisible = false"
+            size="medium"
+        >
+          关闭
+        </el-button>
+        <el-button
+            type="danger"
+            v-if="currentItem.status === 'active'"
+            @click="handleCloseItem"
+            size="medium"
+        >
+          标记为已找回
+        </el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -368,7 +461,9 @@ export default {
         match: 'el-icon-connection',
         reminder: 'el-icon-alarm-clock'
       },
-      requestMethod:'POST'
+      requestMethod: 'POST',
+      detailDialogVisible: false,
+      currentItem: {}, // 当前查看的条目
     }
   },
   computed: {
@@ -390,9 +485,52 @@ export default {
         value: item.value
       }))
     },
+
   },
 
   methods: {
+    // 点击表格行触发
+    async handleRowClick(row) {
+      const cacheKey = `item-${row.id}`
+      if(localStorage.getItem(cacheKey)) {
+        this.currentItem = JSON.parse(localStorage.getItem(cacheKey))
+        // this.detailDialogVisible = true
+        return
+      }
+      try {
+        const response = await this.$http.get(`/items/${row.id}/`)
+        console.log('get response:', response)
+        this.currentItem = {
+          ...response.data,
+          images: response.data.images || []  // 确保有图册数据
+        }
+        this.detailDialogVisible = true
+        localStorage.setItem(cacheKey,JSON.stringify(response.data))
+      } catch (error) {
+        this.$message.error('获取详情失败')
+      }
+    },
+    // // 联系链接处理
+    // contactLink(contact) {
+    //   return contact.includes('@') ?
+    //       `mailto:${contact}` :
+    //       `tel:${contact}`
+    // },
+
+    // 标记为已找回
+    async handleCloseItem() {
+      try {
+        await this.$http.patch(`/items/${this.currentItem.id}/`, {
+          status: 'completed'
+        })
+        this.$message.success('操作成功')
+        await this.loadData()  // 刷新数据
+        this.detailDialogVisible = false
+      } catch {
+        this.$message.error('操作失败')
+      }
+    },
+    // 处理上传成功
     post,
     formatTime(time) {
       return dayjs(time).format('YYYY-MM-DD HH:mm:ss')
@@ -416,8 +554,8 @@ export default {
           this.$http.get('/user/profile/'),
           this.$http.get('/dashboard/')
         ]);
-        console.log('API Response Structure:', dashboardRes);
-        console.log('User Response:', userRes);
+        // console.log('API Response Structure:', dashboardRes);
+        // console.log('User Response:', userRes);
         // 安全解构数据
         // this.userInfo = userRes || {};
         this.userInfo = {
@@ -540,12 +678,23 @@ export default {
           ?.split('=')[1] || '';
       return cookieValue;
     },
-    handleLostItemRegister(){
+    handleLostItemRegister() {
       this.$router.push('/api/items/lost/')
     }
   },
   mounted() {
     this.loadData();
+    document.addEventListener('keydown', (e) => {
+      if (this.detailDialogVisible) {
+        if (e.key === 'ArrowLeft') {
+          // 切换至上一个对象
+        }
+        if (e.key === 'ArrowRight') {
+          // 切换至下一个对象
+        }
+      }
+    })
+
   },
 }
 
@@ -610,6 +759,7 @@ $card-bg: #ffffff;
 
       &:hover {
         border-color: $primary-color;
+
         .avatar-uploader-icon {
           color: $primary-color;
         }
@@ -847,5 +997,80 @@ $card-bg: #ffffff;
     margin-bottom: 16px;
   }
 }
+
+// 详情弹窗样式
+.item-detail-dialog {
+  .el-dialog__header {
+    padding: 20px;
+    border-bottom: 1px solid #EBEEF5;
+
+    .el-dialog__title {
+      font-size: 20px;
+      color: #303133;
+    }
+  }
+
+  .el-carousel {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+
+    &__item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f8f9fa;
+    }
+  }
+
+  .detail-label {
+    width: 100px;
+    font-weight: 500;
+    color: #909399;
+
+    &::after {
+      content: "：";
+    }
+  }
+
+  .description-pre {
+    white-space: pre-wrap;
+    line-height: 1.6;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 4px;
+  }
+}
+
+// 可点击表格行样式
+.clickable-table {
+  ::v-deep .el-table__row {
+    cursor: pointer;
+    transition: background 0.3s;
+
+    &:hover {
+      background: rgba(64, 158, 255, 0.08);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}
+
+// 错误图片占位样式
+.image-error {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #DCDFE6;
+
+  i {
+    font-size: 40px;
+  }
+}
+
 </style>
 
