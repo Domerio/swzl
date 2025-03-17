@@ -5,18 +5,17 @@ from datetime import datetime, timedelta
 from django.contrib import messages  # 用于显示消息
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
-from django.db import transaction
 from django.db.models import Count
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
 from django.shortcuts import render, redirect
+from django.utils import timezone
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from django.views.generic import TemplateView
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes, parser_classes
-from rest_framework.exceptions import ValidationError
-from rest_framework.parsers import MultiPartParser
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
@@ -139,70 +138,6 @@ def user_logout(request):
             "code": 500,
             "message": "登出过程发生错误：" + str(e)
         })
-
-
-# views.py
-@api_view(['POST'])
-@parser_classes([MultiPartParser])
-@permission_classes([IsAuthenticated])
-def create_lost_item(request):
-    logger.info(f"创建失物: {request}")
-    serializer = LostAndFoundSerializer(
-        data=request.data,
-        context={'request': request}
-    )
-    try:
-        serializer.is_valid(raise_exception=True)
-        with transaction.atomic():
-            item = serializer.save(user=request.user)
-            # 处理图片附件
-            # 从请求中获取名为 'images' 的所有文件，返回一个文件对象列表
-            images = request.FILES.getlist('images')
-            # 遍历文件对象列表，enumerate函数同时返回索引和文件对象
-            for idx, image in enumerate(images):
-                # 创建一个Attachment对象，并保存到数据库中
-                # item: 关联的item对象
-                # image: 当前遍历到的文件对象
-                # is_primary: 如果当前文件是列表中的第一个文件（idx == 0），则标记为True，否则为False
-                Attachment.objects.create(
-                    item=item,
-                    image=image,
-                    is_primary=(idx == 0)
-                )
-        return Response({
-            'status': 'success',
-            'data': LostAndFoundSerializer(item).data
-        }, status=201)
-
-    except ValidationError as e:
-        logger.error(f"Validation error: {e.detail}")
-        return Response({
-            'status': 'error',
-            'errors': e.detail
-        }, status=400)
-    except Exception as e:
-        logger.error(f"Server Error: {str(e)}")
-        return Response({
-            'status': 'error',
-            'message': '内部服务器错误'
-        }, status=500)
-
-
-@csrf_exempt
-def upload_image(request):
-    if request.method == 'POST' and request.FILES.get('image'):
-        item_id = request.POST.get('item_id')
-        try:
-            lost_and_found = LostAndFound.objects.get(id=item_id)
-            image = request.FILES['image']
-            attachment = Attachment.objects.create(
-                image=image,
-                item=lost_and_found
-            )
-            return JsonResponse({'status': 'success', 'url': attachment.image.url})
-        except LostAndFound.DoesNotExist:
-            return JsonResponse({'status': 'error', 'message': '失物信息不存在'})
-    return JsonResponse({'status': 'error', 'message': '图片上传失败'})
 
 
 # 招领登记视图

@@ -266,46 +266,45 @@ export default {
     // 优化后的提交方法
     async submitForm() {
       try {
-        this.isSubmitting = true
+        this.isSubmitting = true;
         // 统一提交数据（含图片）
-        const formData = new FormData()
-        // console.log(formData)
+        const formData = new FormData();
         Object.keys(this.form).forEach(key => {
           if (key !== 'images') {
-            formData.append(key, this.form[key])
+            formData.append(key, this.form[key]);
           }
-        })
+        });
         // 添加图片文件
-        this.form.images.forEach((file, index) => {
-          formData.append(`images_${index}`, file.raw)
-        })
+        this.form.images.forEach((file) => {
+          formData.append('images', file.raw);
+        });
         const response = await axios.post('/api/items/lost/', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             'Authorization': `Token ${this.$store.state.token}`
           }
-        })
+        });
         // 保存服务器返回的完整数据
         this.submittedItem = {
           ...response.data,
           images: this.form.images // 保留前端临时预览图
-        }
-        console.log(this.submittedItem)
-        // 清空表单（根据需求选择保留或清除）
-        this.$refs.formRef.resetFields()
-        this.form.images = []
+        };
 
-        this.dialogVisible = true // 显示弹窗
+        // 清空表单（根据需求选择保留或清除）
+        this.$refs.formRef.resetFields();
+        this.form.images = [];
+
+        this.dialogVisible = true; // 显示弹窗
 
         this.$message.success({
           message: '登记成功，3秒后自动跳转',
           duration: 3000
-        })
+        });
       } catch (error) {
-        const msg = error.response?.data?.detail || '提交失败，请检查网络连接'
-        this.$message.error(msg)
+        const msg = error.response?.data?.detail || '提交失败，请检查网络连接';
+        this.$message.error(msg);
       } finally {
-        this.isSubmitting = false
+        this.isSubmitting = false;
       }
     },
 
