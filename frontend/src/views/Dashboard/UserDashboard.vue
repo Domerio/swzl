@@ -269,7 +269,7 @@
                 :key="index"
             >
               <el-image
-                  :src="img.url"
+                  :src="img"
                   fit="cover"
                   class="detail-image"
               >
@@ -491,11 +491,6 @@ export default {
   methods: {
     // 点击表格行触发
     async handleRowClick(row) {
-      // const cacheKey = `item-${row.id}`;
-      // if (localStorage.getItem(cacheKey)) {
-      //   this.currentItem = localStorage.getItem(cacheKey);
-      //   return;
-      // }
       const apiUrl = `/items/${row.id}/`;
       console.log('Request URL:', apiUrl); // 打印请求地址
       try {
@@ -511,12 +506,6 @@ export default {
         this.$message.error('获取详情失败');
       }
     },
-    // // 联系链接处理
-    // contactLink(contact) {
-    //   return contact.includes('@') ?
-    //       `mailto:${contact}` :
-    //       `tel:${contact}`
-    // },
     // 标记为已找回
     async handleCloseItem() {
       try {

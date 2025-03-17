@@ -339,11 +339,23 @@ def get_categories(request):
 @api_view(['GET'])
 def item_detail(request, item_id):
     try:
-        logger.info(f"Received request for item with ID：{item_id}")
+        logger.info(f"Received request for item with ID: {item_id}")
         item = LostAndFound.objects.get(id=item_id)
         serializer = LostAndFoundSerializer(item)
         logger.info(f"Item details: {serializer.data}")
-        return Response(serializer.data)
+
+        # 查询与该物品关联的所有图片
+        attachments = Attachment.objects.filter(item=item)
+        image_urls = [attachment.image.url for attachment in attachments]
+
+        # 将图片信息添加到返回的数据中
+        response_data = serializer.data
+        response_data['images'] = image_urls
+
+        return Response(response_data)
     except LostAndFound.DoesNotExist:
         logger.error(f"Item with ID {item_id} does not exist")
-        return Response({'error:': 'Item not found'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'error': 'Item not found'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        logger.error(f"Error retrieving item details: {str(e)}")
+        return Response({'error': 'An error occurred while retrieving item details'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
