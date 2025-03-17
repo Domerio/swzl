@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="增加用户仪表盘显示物品详情功能">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/Dashboard/UserDashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Dashboard/UserDashboard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/LostItemRegister.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/LostItemRegister.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -174,7 +173,7 @@
       <workItem from="1742028423395" duration="115000" />
       <workItem from="1742028940873" duration="12584000" />
       <workItem from="1742050086337" duration="682000" />
-      <workItem from="1742198521175" duration="7487000" />
+      <workItem from="1742198521175" duration="8047000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />
@@ -392,7 +391,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742205642730</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="增加用户仪表盘显示物品详情功能">
+      <option name="closed" value="true" />
+      <created>1742206180103</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1742206180103</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

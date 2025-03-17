@@ -88,21 +88,6 @@
         >
           <i class="el-icon-plus"/>
         </el-upload>
-        <div class="image-preview-container">
-          <div
-              v-for="(img, index) in form.images"
-              :key="index"
-              class="preview-item">
-            <img :src="img.url" :alt="img.name"/>
-            <el-button
-                class="delete-btn"
-                type="danger"
-                icon="el-icon-delete"
-                circle
-                @click="removeImage(index)"
-            />
-          </div>
-        </div>
         <div class="el-upload__tip">
           支持上传 JPG/PNG 格式图片，单张不超过5MB
         </div>
@@ -253,11 +238,6 @@ export default {
       return this.categories.find(item => item.id === categoryId)?.name || '未知分类'
     },
 
-    // // 格式化时间显示
-    // formatDateTime(isoString) {
-    //   return this.$moment(isoString).format('YYYY-MM-DD HH:mm')
-    // },
-
     // 处理弹窗关闭后的操作
     handleDialogClosed() {
       this.$router.go(-1) // 或自定义跳转逻辑
@@ -321,13 +301,6 @@ export default {
           message: '登记成功，3秒后自动跳转',
           duration: 3000
         })
-
-        // setTimeout(() => {
-        //   this.$router.push(`/items/detail/${data.id}`)
-        // }, 3000)
-        // setTimeout(() => {
-        //   this.$router.go(-1)
-        // }, 3000)
       } catch (error) {
         const msg = error.response?.data?.detail || '提交失败，请检查网络连接'
         this.$message.error(msg)
@@ -375,12 +348,6 @@ export default {
       }
       return true
     },
-
-    // 图片删除功能
-    removeImage(index) {
-      this.form.images.splice(index, 1)
-    },
-
   }
 }
 </script>
@@ -539,6 +506,7 @@ $bg-color: #f6f8fa;
     }
   }
 }
+
 // 在<style>标签中添加：
 .el-dialog {
   border-radius: 12px;
