@@ -14,7 +14,6 @@
                 :before-upload="beforeAvatarUpload"
                 :method="requestMethod"
                 name="file">
-              <!--                :upload-avatar="uploadAvatar"-->
               <img v-if="userInfo.avatar" :src="userInfo.avatar" class="avatar" alt="">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
@@ -83,15 +82,6 @@
               v-for="(count, status) in dashboardData.status_summary"
               :key="status"
               :span="8">
-            <el-card class="status-card">
-              <div class="status-content">
-                <i :class="['status-icon', statusIconMap[status]]"></i>
-                <div class="status-info">
-                  <h3 class="status-title">{{ statusTextMap[status] }}</h3>
-                  <p class="status-count">{{ count }}</p>
-                </div>
-              </div>
-            </el-card>
           </el-col>
         </el-row>
 
@@ -368,7 +358,6 @@ export default {
         avatar: require('@/assets/touxiang.jpg'),
         phone: ''
       },
-
       // 仪表盘数据
       dashboardData: {
         recent_posts: [],
@@ -524,6 +513,7 @@ export default {
     formatTime(time) {
       return dayjs(time).format('YYYY-MM-DD HH:mm:ss')
     },
+    // 退出登录
     handleLogout() {
       this.$confirm('确定要退出系统吗？', '操作确认', {
         type: 'warning',
@@ -834,45 +824,6 @@ $card-bg: #ffffff;
 
     &:hover {
       transform: translateY(-6px);
-    }
-  }
-}
-
-/* 状态统计卡片 */
-.status-card {
-  .status-content {
-    display: flex;
-    align-items: center;
-    padding: 8px;
-
-    .status-icon {
-      width: 48px;
-      height: 48px;
-      font-size: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 8px;
-      background: rgba($primary-color, 0.1);
-      color: $primary-color;
-      flex-shrink: 0;
-    }
-
-    .status-info {
-      margin-left: 16px;
-
-      .status-title {
-        margin: 0;
-        font-size: 14px;
-        color: $text-secondary;
-      }
-
-      .status-count {
-        margin: 4px 0 0;
-        font-size: 24px;
-        font-weight: 600;
-        color: $text-primary;
-      }
     }
   }
 }

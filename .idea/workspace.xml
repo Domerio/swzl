@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="修复失物登记图片保存逻辑">
+    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="修复用户仪表盘失物图片信息的显示">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/views/Dashboard/UserDashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Dashboard/UserDashboard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_app/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -174,7 +176,7 @@
       <workItem from="1742028423395" duration="115000" />
       <workItem from="1742028940873" duration="12584000" />
       <workItem from="1742050086337" duration="682000" />
-      <workItem from="1742198521175" duration="20430000" />
+      <workItem from="1742198521175" duration="22940000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />
@@ -440,7 +442,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742218545876</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="修复用户仪表盘失物图片信息的显示">
+      <option name="closed" value="true" />
+      <created>1742219340342</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1742219340342</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -488,7 +498,8 @@
     <MESSAGE value="增加用户仪表盘显示物品详情功能" />
     <MESSAGE value="删除失物登记中图片预览" />
     <MESSAGE value="修复失物登记图片保存逻辑" />
-    <option name="LAST_COMMIT_MESSAGE" value="修复失物登记图片保存逻辑" />
+    <MESSAGE value="修复用户仪表盘失物图片信息的显示" />
+    <option name="LAST_COMMIT_MESSAGE" value="修复用户仪表盘失物图片信息的显示" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">

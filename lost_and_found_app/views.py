@@ -9,13 +9,12 @@ from django.db.models import Count
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
 from django.shortcuts import render, redirect
-from django.utils import timezone
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import TemplateView
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes, parser_classes
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
@@ -201,6 +200,8 @@ def user_dashboard(request):
             user=user,
             created_at__gte=datetime.now() - timedelta(days=30)
         ).dates('created_at', 'day')
+        total_posts = LostAndFound.objects.filter(user=user).count()
+        total_bookmarks = Bookmark.objects.filter(user=user).count()
         # 输出返回信息
         # (1) 打印原始查询结果到服务器控制台
         logger.debug("<=============== 分类统计原始查询数据 ===============>")
@@ -239,7 +240,9 @@ def user_dashboard(request):
                     'value': stat['value']
                 } for stat in category_stats],
                 'activity_dates': [date.strftime('%Y-%m-%d') for date in activity_dates],
-                'unread_notifications': unread_notifications.count()
+                'unread_notifications': unread_notifications.count(),
+                'total_posts': total_posts,
+                'total_bookmarks': total_bookmarks
             }
         }
 
@@ -358,4 +361,5 @@ def item_detail(request, item_id):
         return Response({'error': 'Item not found'}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
         logger.error(f"Error retrieving item details: {str(e)}")
-        return Response({'error': 'An error occurred while retrieving item details'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({'error': 'An error occurred while retrieving item details'},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)

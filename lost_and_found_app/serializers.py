@@ -1,13 +1,7 @@
 # lost_and_found_app/serializers.py
 
 from rest_framework import serializers
-
 from .models import User, Category, Notification, Attachment, LostAndFound
-
-
-# from .models.item import LostAndFound
-
-# User = get_user_model()
 
 
 class LoginSerializer(serializers.Serializer):
