@@ -491,23 +491,25 @@ export default {
   methods: {
     // 点击表格行触发
     async handleRowClick(row) {
-      const cacheKey = `item-${row.id}`
-      if(localStorage.getItem(cacheKey)) {
-        this.currentItem = JSON.parse(localStorage.getItem(cacheKey))
-        // this.detailDialogVisible = true
-        return
+      const cacheKey = `item-${row.id}`;
+      if (localStorage.getItem(cacheKey)) {
+        this.currentItem = JSON.parse(localStorage.getItem(cacheKey));
+        // this.detailDialogVisible = true;
+        return;
       }
+      const apiUrl = `/items/${row.id}/`;
+      console.log('Request URL:', apiUrl); // 打印请求地址
       try {
-        const response = await this.$http.get(`/items/${row.id}/`)
-        console.log('get response:', response)
+        const response = await this.$http.get(apiUrl);
+        console.log('get response:', response);
         this.currentItem = {
-          ...response.data,
-          images: response.data.images || []  // 确保有图册数据
-        }
-        this.detailDialogVisible = true
-        localStorage.setItem(cacheKey,JSON.stringify(response.data))
+          ...response,
+          images: response.images || []  // 确保有图册数据
+        };
+        this.detailDialogVisible = true;
+        localStorage.setItem(cacheKey, JSON.stringify(response.data));
       } catch (error) {
-        this.$message.error('获取详情失败')
+        this.$message.error('获取详情失败');
       }
     },
     // // 联系链接处理
@@ -516,7 +518,6 @@ export default {
     //       `mailto:${contact}` :
     //       `tel:${contact}`
     // },
-
     // 标记为已找回
     async handleCloseItem() {
       try {
