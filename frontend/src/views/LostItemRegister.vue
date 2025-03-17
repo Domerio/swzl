@@ -88,21 +88,21 @@
         >
           <i class="el-icon-plus"/>
         </el-upload>
-        <div class="image-preview-container">
-          <div
-              v-for="(img, index) in form.images"
-              :key="index"
-              class="preview-item">
-            <img :src="img.url" :alt="img.name"/>
-            <el-button
-                class="delete-btn"
-                type="danger"
-                icon="el-icon-delete"
-                circle
-                @click="removeImage(index)"
-            />
-          </div>
-        </div>
+<!--        <div class="image-preview-container">-->
+<!--          <div-->
+<!--              v-for="(img, index) in form.images"-->
+<!--              :key="index"-->
+<!--              class="preview-item">-->
+<!--            <img :src="img.url" :alt="img.name"/>-->
+<!--            <el-button-->
+<!--                class="delete-btn"-->
+<!--                type="danger"-->
+<!--                icon="el-icon-delete"-->
+<!--                circle-->
+<!--                @click="removeImage(index)"-->
+<!--            />-->
+<!--          </div>-->
+<!--        </div>-->
         <div class="el-upload__tip">
           支持上传 JPG/PNG 格式图片，单张不超过5MB
         </div>
@@ -376,10 +376,10 @@ export default {
       return true
     },
 
-    // 图片删除功能
-    removeImage(index) {
-      this.form.images.splice(index, 1)
-    },
+    // // 图片删除功能
+    // removeImage(index) {
+    //   this.form.images.splice(index, 1)
+    // },
 
   }
 }
