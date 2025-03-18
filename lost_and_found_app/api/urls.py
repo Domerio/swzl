@@ -9,7 +9,7 @@ from .. import views
 from ..views import get_categories
 
 urlpatterns = [
-    # ✅ 所有路径继承主项目层的 /api/ 前缀 → 完整路径为 /api/dashboard/
+    # ✅ 所有路径继承主项目层的 /api/ 前缀
     path('dashboard/', views.user_dashboard, name='user-dashboard'),
     path('login/', LoginAPI.as_view(), name='login_api'),
     path('register/', RegisterAPI.as_view(), name='register'),
@@ -22,6 +22,9 @@ urlpatterns = [
     path('user/profile/', views.user_profile, name='user-profile'),
     # path('user/upload-avatar/', views.upload_avatar, name='upload-avatar'),
     path('user/notifications/mark-all-read/', views.mark_all_notifications_read, name='mark-all-read'),
+    path('admin/stats/', views.admin_stats, name='admin_stats'),
+    path('admin/recent-posts/', views.admin_recent_posts, name='admin_recent_posts'),
+    path('admin/recent-users/', views.admin_recent_users, name='admin_recent_users'),
     # 认证相关端点
     path('logout/', views.user_logout, name='logout'),
     path('csrf-token/', views.get_csrf_token, name='get-csrf-token'),

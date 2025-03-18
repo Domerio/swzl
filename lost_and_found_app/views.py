@@ -363,3 +363,57 @@ def item_detail(request, item_id):
         logger.error(f"Error retrieving item details: {str(e)}")
         return Response({'error': 'An error occurred while retrieving item details'},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def admin_stats(request):
+    if request.user.role == 'admin':
+        pending_count = LostAndFound.objects.filter(status='pending').count()
+        active_count = LostAndFound.objects.filter(status='active').count()
+        completed_count = LostAndFound.objects.filter(status='completed').count()
+
+        return Response({
+            'pending_count': pending_count,
+            'active_count': active_count,
+            'completed_count': completed_count
+        })
+    else:
+        return Response({'error': 'You are not authorized to access this endpoint'}, status=status.HTTP_403_FORBIDDEN)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def admin_recent_posts(request):
+    if request.user.role == 'admin':
+        recent_posts = LostAndFound.objects.order_by('-created_at')[:5]
+        data = [{
+            'id': post.id,
+            'title': post.title,
+            'status': post.status,
+            'category': post.category.name if post.category else None
+        } for post in recent_posts]
+
+        return Response({
+            'recent_posts': data
+        })
+    else:
+        return Response({'error': 'You are not authorized to access this endpoint'}, status=status.HTTP_403_FORBIDDEN)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def admin_recent_users(request):
+    if request.user.role == 'admin':
+        recent_users = User.objects.order_by('-date_joined')[:5]
+        data = [{
+            'id': user.id,
+            'username': user.username,
+            'real_name': user.real_name,
+            'role': user.role
+        } for user in recent_users]
+        return Response({
+            'recent_users': data
+        })
+    else:
+        return Response({'error': 'You are not authorized to access this endpoint'}, status=status.HTTP_403_FORBIDDEN)
