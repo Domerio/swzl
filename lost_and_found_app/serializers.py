@@ -50,7 +50,7 @@ class LostAndFoundSerializer(serializers.ModelSerializer):
         fields = [
             'user', 'title', 'description', 'lost_time', 'is_anonymous',
             'location', 'category', 'contact', 'status', 'created_at', 'updated_at', 'result', 'location_lat',
-            'location_lng',
+            'location_lng', 'id'
         ]
         read_only_fields = ['user', 'status']
         extra_kwargs = {

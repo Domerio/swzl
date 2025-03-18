@@ -321,10 +321,10 @@
             type="danger"
             v-if="currentItem.status === 'active'"
             @click="handleCloseItem"
-            size="medium"
-        >
+            size="medium">
           标记为已找回
         </el-button>
+
       </div>
     </el-dialog>
 
@@ -478,7 +478,6 @@ export default {
     },
 
   },
-
   methods: {
     getCategoryName(categoryId) {
       return axios.get(`/api/category/name/${categoryId}/`)
@@ -500,7 +499,6 @@ export default {
           images: response.images || []  // 确保有图册数据
         };
         this.detailDialogVisible = true;
-        // localStorage.setItem(cacheKey, JSON.stringify(response));
       } catch (error) {
         this.$message.error('获取详情失败');
       }
@@ -508,16 +506,33 @@ export default {
     // 标记为已找回
     async handleCloseItem() {
       try {
-        await this.$http.patch(`/items/${this.currentItem.id}/`, {
-          status: 'completed'
-        })
+        console.log(this.currentItem.id)
+        const response = await this.$http.patch(
+            `/items/${this.currentItem.id}/status/`,
+            {status: 'completed'},  // 只传必要参数
+            {
+              headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/json'
+              }
+            }
+        )
+        console.log("状态更新响应:", response.data)
         this.$message.success('操作成功')
-        await this.loadData()  // 刷新数据
+
+        // 刷新数据时强制从服务器获取
+        await this.loadData(true)
         this.detailDialogVisible = false
-      } catch {
-        this.$message.error('操作失败')
+
+      } catch (error) {
+        console.error("标记已找回失败:", {
+          error: error.response?.data || error.message,
+          config: error.config
+        })
+        this.$message.error(`操作失败: ${error.response?.data?.error || '服务器错误'}`)
       }
     },
+
     // 处理上传成功
     post,
     formatTime(time) {

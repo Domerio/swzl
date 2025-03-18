@@ -359,7 +359,6 @@ def get_category_name(request, category_id):
         return Response({'error': 'Internal server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-
 @api_view(['GET'])
 def item_detail(request, item_id):
     try:
@@ -475,3 +474,42 @@ def admin_user_detail(request, user_id):
         return Response(data)
     except User.DoesNotExist:
         return Response({'error': '用户不存在'}, status=404)
+
+
+# 新增状态更新接口
+# 增加请求方法校验和日志记录
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def update_item_status(request, item_id):
+    try:
+        logger.info(f"开始处理状态更新请求，物品ID: {item_id}")
+        logger.debug(f"请求用户: {request.user.username}，请求数据: {request.data}")
+
+        item = LostAndFound.objects.get(id=item_id)
+
+        # 权限校验增强
+        if item.user != request.user and request.user.role != 'admin':
+            logger.warning(f"用户{request.user.id}无权限修改物品{item_id}")
+            return Response({'error': '无操作权限'}, status=status.HTTP_403_FORBIDDEN)
+
+        # 强制只更新状态字段
+        new_status = request.data.get('status')
+        if new_status not in ['completed', 'active']:
+            return Response({'error': '无效状态值'}, status=400)
+
+        item.status = new_status
+        item.save()
+
+        logger.info(f"物品状态更新成功，ID: {item_id} 新状态: {new_status}")
+        return Response({
+            'status': 'success',
+            'data': LostAndFoundSerializer(item).data
+        })
+
+    except LostAndFound.DoesNotExist:
+        logger.error(f"物品不存在，ID: {item_id}")
+        return Response({'error': '物品不存在'}, status=404)
+    except Exception as e:
+        logger.error(f"状态更新异常: {str(e)}", exc_info=True)
+        return Response({'error': '服务器内部错误'}, status=500)
+

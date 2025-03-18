@@ -19,6 +19,8 @@ urlpatterns = [
     # path('items/', LostAndFoundListCreateAPI.as_view(), name='items'),
     path('items/lost/', LostItemCreateAPI.as_view(), name='lost_items'),
     path('items/<int:item_id>/', views.item_detail, name='item-detail'),
+    path('items/<int:item_id>/status/', views.update_item_status, name='update-item-status'),
+
     # 用户资料
     path('user/profile/', views.user_profile, name='user-profile'),
     # path('user/upload-avatar/', views.upload_avatar, name='upload-avatar'),
