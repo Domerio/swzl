@@ -1,114 +1,151 @@
 <template>
   <div class="admin-dashboard">
-    <h1>管理员控制台 - 欢迎 {{ user.real_name }}</h1>
-    <!-- 统计信息展示 -->
-    <el-row :gutter="20">
-      <!-- 待审核信息数量 -->
-      <el-col :span="8">
-        <el-card class="status-card">
-          <div class="status-content">
-            <i class="status-icon el-icon-time"></i>
-            <div class="status-info">
-              <h3 class="status-title">待审核信息</h3>
-              <p class="status-count">{{ pendingCount }}</p>
+    <!-- 头部区域 -->
+    <div class="dashboard-header">
+      <h1 class="welcome-title">欢迎回来，{{ user.real_name }}！👋</h1>
+      <p class="welcome-sub">今日有 {{ pendingCount }} 项待处理事务</p>
+    </div>
+    <!-- 数据概览卡片 -->
+    <el-row :gutter="24" class="metric-grid">
+      <el-col :xs="24" :sm="12" :lg="8">
+        <el-card class="metric-card metric-pending" shadow="hover">
+          <div class="metric-content">
+            <div class="metric-icon">
+              <i class="el-icon-time"></i>
+            </div>
+            <div class="metric-info">
+              <span class="metric-label">待审核</span>
+              <span class="metric-value">{{ pendingCount }}</span>
             </div>
           </div>
         </el-card>
       </el-col>
-      <!-- 进行中信息数量 -->
-      <el-col :span="8">
-        <el-card class="status-card">
-          <div class="status-content">
-            <i class="status-icon el-icon-circle-check"></i>
-            <div class="status-info">
-              <h3 class="status-title">进行中信息</h3>
-              <p class="status-count">{{ activeCount }}</p>
+      <el-col :xs="24" :sm="12" :lg="8">
+        <el-card class="metric-card metric-active" shadow="hover">
+          <div class="metric-content">
+            <div class="metric-icon">
+              <i class="el-icon-loading"></i>
+            </div>
+            <div class="metric-info">
+              <span class="metric-label">进行中</span>
+              <span class="metric-value">{{ activeCount }}</span>
             </div>
           </div>
         </el-card>
       </el-col>
-      <!-- 已完成信息数量 -->
-      <el-col :span="8">
-        <el-card class="status-card">
-          <div class="status-content">
-            <i class="status-icon el-icon-check"></i>
-            <div class="status-info">
-              <h3 class="status-title">已完成信息</h3>
-              <p class="status-count">{{ completedCount }}</p>
+      <el-col :xs="24" :sm="12" :lg="8">
+        <el-card class="metric-card metric-completed" shadow="hover">
+          <div class="metric-content">
+            <div class="metric-icon">
+              <i class="el-icon-success"></i>
+            </div>
+            <div class="metric-info">
+              <span class="metric-label">已完成</span>
+              <span class="metric-value">{{ completedCount }}</span>
             </div>
           </div>
         </el-card>
       </el-col>
     </el-row>
+    <!-- 数据表格区域 -->
+    <el-row :gutter="24" class="data-grid">
+      <el-col :xs="24" :lg="12">
+        <el-card class="data-card" shadow="never">
+          <template #header>
+            <div class="card-header">
+              <div class="header-title">
+                <i class="el-icon-box"></i>
+                <span>最新失物信息</span>
+              </div>
+              <el-button
+                  type="text"
+                  class="view-more"
+                  @click="$router.push('/admin/found-items')">
+                管理全部 <i class="el-icon-arrow-right"></i>
+              </el-button>
+            </div>
+          </template>
 
-    <!-- 管理员特定功能模块 -->
-    <el-row :gutter="20" class="data-section">
-      <!-- 查看失物信息 -->
-      <el-col :span="12">
-        <el-card>
-          <div slot="header" class="card-header">
-            <span>查看失物信息</span>
-            <el-button
-                type="text"
-                @click="$router.push('/admin/found-items')">
-              查看全部 <i class="el-icon-arrow-right"></i>
-            </el-button>
-          </div>
           <el-table
               :data="recentPosts"
               @row-click="handleRowClick"
-              class="clickable-table">
-            <el-table-column
-                prop="title"
-                label="标题"
-                min-width="120">
+              class="data-table"
+              empty-text="暂无待处理信息"
+              v-loading="loading.posts"
+              :header-cell-style="{ background: '#f8f9fa' }">
+            <!--添加空插槽-->
+            <template #empty>
+              <div class="empty-state">
+                <i class="el-icon-document-remove"></i>
+                <span>当前没有可显示的失物信息</span>
+              </div>
+            </template>
+            <el-table-column prop="title" label="物品名称" min-width="180">
+              <template #default="{row}">
+                <span class="text-ellipsis">{{ row.title }}</span>
+              </template>
             </el-table-column>
-            <el-table-column
-                prop="category"
-                label="分类"
-                width="100">
+
+            <el-table-column prop="category" label="分类" width="120">
+              <template #default="{row}">
+                <el-tag effect="plain">{{ row.category }}</el-tag>
+              </template>
             </el-table-column>
-            <el-table-column
-                label="状态"
-                width="100">
-              <template slot-scope="scope">
-                <el-tag :type="statusTypeMap[scope.row.status]" size="small">
-                  {{ scope.row.status }}
+            <el-table-column label="状态" width="100" align="center">
+              <template #default="{row}">
+                <el-tag
+                    :type="statusTypeMap[row.status]"
+                    effect="light"
+                    class="status-tag">
+                  {{ row.status }}
                 </el-tag>
               </template>
             </el-table-column>
           </el-table>
         </el-card>
       </el-col>
-      <!-- 查看用户信息 -->
-      <el-col :span="12">
-        <el-card>
-          <div slot="header" class="card-header">
-            <span>查看用户信息</span>
-            <el-button
-                type="text"
-                @click="$router.push('/admin/users')">
-              查看全部 <i class="el-icon-arrow-right"></i>
-            </el-button>
-          </div>
+      <el-col :xs="24" :lg="12">
+        <el-card class="data-card" shadow="never">
+          <template #header>
+            <div class="card-header">
+              <div class="header-title">
+                <i class="el-icon-user"></i>
+                <span>新增用户</span>
+              </div>
+              <el-button
+                  type="text"
+                  class="view-more"
+                  @click="$router.push('/admin/users')">
+                管理全部 <i class="el-icon-arrow-right"></i>
+              </el-button>
+            </div>
+          </template>
           <el-table
               :data="recentUsers"
               @row-click="handleUserRowClick"
-              class="clickable-table">
-            <el-table-column
-                prop="username"
-                label="学号/工号"
-                min-width="120">
+              class="data-table"
+              v-loading="loading.users"
+              :header-cell-style="{ background: '#f8f9fa' }">
+            <el-table-column prop="username" label="学工号" min-width="120">
+              <template #default="{row}">
+                <div class="user-cell">
+                  <el-avatar :size="24" :src="row.avatar || defaultAvatar">
+                    {{ row.real_name?.charAt(0) || '?' }}
+                  </el-avatar>
+                  <span>{{ row.username || '无数据' }}</span>
+                </div>
+              </template>
             </el-table-column>
-            <el-table-column
-                prop="real_name"
-                label="真实姓名"
-                width="100">
-            </el-table-column>
-            <el-table-column
-                prop="role"
-                label="角色"
-                width="100">
+            <el-table-column prop="real_name" label="姓名" width="100"/>
+            <el-table-column prop="role" label="角色" width="100">
+              <template #default="{row}">
+                <el-tag
+                    :type="roleTagType(row.role)"
+                    effect="light"
+                    class="role-tag">
+                  {{ row.role }}
+                </el-tag>
+              </template>
             </el-table-column>
           </el-table>
         </el-card>
@@ -116,6 +153,7 @@
     </el-row>
   </div>
 </template>
+
 
 <script>
 import axios from 'axios';
@@ -126,13 +164,21 @@ export default {
   data() {
     return {
       user: {
-        real_name: '加载中...'
+        real_name: '加载中...',
+        avatar: require('@/assets/touxiang.jpg'),
+        role: '',
+        phone: ''
       },
+      defaultAvatar: require('@/assets/touxiang.jpg'),
       pendingCount: 0,
       activeCount: 0,
       completedCount: 0,
       recentPosts: [],
       recentUsers: [],
+      loading: {
+        posts: true,
+        users: true
+      },
       statusTypeMap: {
         pending: 'warning',
         active: 'primary',
@@ -143,36 +189,57 @@ export default {
   },
   mounted() {
     this.fetchAdminData();
+    this.$nextTick(() => {
+      const observer = new MutationObserver(() => {
+        const loadingElements = document.querySelectorAll('.el-loading-mask');
+        loadingElements.forEach(el => {
+          if (el.style.display !== 'none') {
+            setTimeout(() => el.style.display = 'none', 5000); // 异常情况下最多展示5秒
+          }
+        });
+      });
+
+      observer.observe(this.$el, {
+        childList: true,
+        subtree: true
+      });
+    });
   },
   methods: {
+    roleTagType(role) {
+      const roleTypes = {
+        admin: 'danger',
+        teacher: 'warning',
+        student: 'success'
+      };
+      return roleTypes[role] || 'info';
+    },
     async fetchAdminData() {
       try {
+        this.loading = {posts: true, users: true} // 重置加载状态
         const config = {
-          headers: {
-            Authorization: `Token ${localStorage.getItem('token')}` // 添加token验证
-          }
+          headers: {Authorization: `Token ${localStorage.getItem('token')}`}
         };
-
-        // 获取用户信息
-        const userResponse = await axios.get('/api/user/profile/', config);
-        this.user = userResponse.data;
-
-        // 获取失物招领信息统计
-        const statsResponse = await axios.get('/api/admin/stats/', config);
-        this.pendingCount = statsResponse.data.pending_count;
-        this.activeCount = statsResponse.data.active_count;
-        this.completedCount = statsResponse.data.completed_count;
-
-        // 获取最近的失物招领信息
-        const postsResponse = await axios.get('/api/admin/recent-posts/', config);
-        this.recentPosts = postsResponse.data.recent_posts;
-
-        // 获取最近的用户信息
-        const usersResponse = await axios.get('/api/admin/recent-users/', config);
-        this.recentUsers = usersResponse.data.recent_users;
+        // 并行请求优化
+        const [userResp, statsResp, postsResp, usersResp] = await Promise.all([
+          axios.get('/api/user/profile/', config),
+          axios.get('/api/admin/stats/', config),
+          axios.get('/api/admin/recent-posts/', config),
+          axios.get('/api/admin/recent-users/', config)
+        ]);
+        // 数据赋值
+        this.user = userResp.data;
+        this.pendingCount = statsResp.data.pending_count;
+        this.activeCount = statsResp.data.active_count;
+        this.completedCount = statsResp.data.completed_count;
+        this.recentPosts = postsResp.data.recent_posts;
+        this.recentUsers = usersResp.data.recent_users;
+        console.log(this.recentUsers)
       } catch (error) {
-        console.error('Error fetching admin data:', error);
-        this.$message.error('获取数据失败: ' + error.response?.data?.message || error.message);
+        console.error('Error:', error);
+        this.$message.error(error.response?.data?.message || '数据加载失败');
+      } finally { // 确保最终清除加载状态
+        this.loading = {posts: false, users: false};
       }
     },
 
@@ -190,33 +257,217 @@ export default {
 
 <style scoped lang="scss">
 .admin-dashboard {
-  padding: 20px;
+  padding: 24px;
+  background: #f8fafc;
+  min-height: 100vh;
 }
 
-.status-card {
-  text-align: center;
+.dashboard-header {
+  margin-bottom: 32px;
+
+  .welcome-title {
+    font-size: 24px;
+    color: #1a2b3c;
+    margin: 0 0 8px;
+    font-weight: 600;
+  }
+
+  .welcome-sub {
+    color: #6b7280;
+    margin: 0;
+    font-size: 14px;
+  }
 }
 
-.status-icon {
-  font-size: 36px;
-  color: #909399;
-  margin-bottom: 10px;
+.metric-grid {
+  margin-bottom: 24px;
+
+  .metric-card {
+    margin-bottom: 24px;
+    border: 0;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    .metric-content {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+
+      .metric-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 16px;
+
+        i {
+          font-size: 28px;
+          color: white;
+        }
+      }
+
+      .metric-info {
+        display: flex;
+        flex-direction: column;
+
+        .metric-label {
+          color: #6b7280;
+          font-size: 14px;
+          margin-bottom: 4px;
+        }
+
+        .metric-value {
+          font-size: 28px;
+          font-weight: 600;
+          color: #1a2b3c;
+        }
+      }
+    }
+
+    &.metric-pending {
+      .metric-icon {
+        background: linear-gradient(135deg, #f59e0b, #fbbf24);
+      }
+    }
+
+    &.metric-active {
+      .metric-icon {
+        background: linear-gradient(135deg, #3b82f6, #60a5fa);
+      }
+    }
+
+    &.metric-completed {
+      .metric-icon {
+        background: linear-gradient(135deg, #10b981, #34d399);
+      }
+    }
+  }
 }
 
-.status-title {
-  font-size: 16px;
-  color: #303133;
+.data-grid {
+  .data-card {
+    border-radius: 12px;
+
+    ::v-deep .el-card__header {
+      padding: 16px 24px;
+      background: #f8f9fa;
+    }
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .header-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      color: #1a2b3c;
+      font-weight: 500;
+
+      i {
+        font-size: 18px;
+      }
+    }
+
+    .view-more {
+      padding: 8px;
+      color: #6b7280;
+
+      &:hover {
+        color: #3b82f6;
+      }
+    }
+  }
+
+  .data-table {
+    border-radius: 8px;
+
+    ::v-deep th {
+      font-weight: 500;
+    }
+
+    .user-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .user-avatar {
+        flex-shrink: 0;
+      }
+    }
+
+    .status-tag, .role-tag {
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    .text-ellipsis {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: inline-block;
+      max-width: 200px;
+    }
+  }
 }
 
-.status-count {
-  font-size: 24px;
-  color: #606266;
-  margin-top: 5px;
+@media (max-width: 768px) {
+  .admin-dashboard {
+    padding: 16px;
+  }
+  .metric-grid {
+    .metric-card {
+      margin-bottom: 16px;
+
+      .metric-content {
+        padding: 16px;
+
+        .metric-icon {
+          width: 48px;
+          height: 48px;
+
+          i {
+            font-size: 24px;
+          }
+        }
+
+        .metric-value {
+          font-size: 24px;
+        }
+      }
+    }
+  }
+  .data-grid {
+    .data-card {
+      ::v-deep .el-card__header {
+        padding: 12px 16px;
+      }
+    }
+  }
 }
 
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+::v-deep .el-loading-mask {
+  background-color: rgba(255, 255, 255, 0.8);
+
+  .el-loading-spinner {
+    .circular {
+      width: 42px;
+      height: 42px;
+    }
+
+    .el-loading-text {
+      font-weight: 500;
+      color: #4b5563;
+    }
+  }
 }
+
 </style>

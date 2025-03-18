@@ -410,7 +410,8 @@ def admin_recent_users(request):
             'id': user.id,
             'username': user.username,
             'real_name': user.real_name,
-            'role': user.role
+            'role': user.role,
+            'avatar': user.avatar.url if user.avatar else None
         } for user in recent_users]
         return Response({
             'recent_users': data
