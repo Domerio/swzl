@@ -508,7 +508,7 @@ export default {
       try {
         console.log(this.currentItem.id)
         const response = await this.$http.patch(
-            `/items/${this.currentItem.id}/status/`,
+            `/user/items/${this.currentItem.id}/status/`,
             {status: 'completed'},  // 只传必要参数
             {
               headers: {

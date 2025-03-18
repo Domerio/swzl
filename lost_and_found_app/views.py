@@ -9,6 +9,7 @@ from django.db.models import Count
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
 from django.shortcuts import render, redirect
+from django.utils import timezone
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import TemplateView
 from rest_framework import status
@@ -512,4 +513,57 @@ def update_item_status(request, item_id):
     except Exception as e:
         logger.error(f"状态更新异常: {str(e)}", exc_info=True)
         return Response({'error': '服务器内部错误'}, status=500)
+
+
+# 新增专门的管理员审核接口
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def admin_approve_item(request, item_id):
+    logger.info(f"管理员审批请求 - 用户: {request.user.id} 物品: {item_id}")
+
+    try:
+        # # 强校验管理员权限
+        # if not hasattr(request.user, 'adminprofile'):
+        #     logger.warning(f"非法审批尝试: 用户{request.user.id}非管理员")
+        #     return Response(
+        #         {"detail": "仅限管理员操作"},
+        #         status=status.HTTP_403_FORBIDDEN
+        #     )
+        item = LostAndFound.objects.select_related('user').get(id=item_id)
+
+        # 校验状态合法性
+        if item.status != 'pending':
+            return Response(
+                {"error": "非待审状态物品无法操作"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # 处理审批逻辑
+        item.status = 'active'
+        item.admin_operator = request.user
+        item.review_time = timezone.now()
+        item.save()
+
+        # 发站内通知给提交者
+        Notification.objects.create(
+            user=item.user,
+            content=f"您提交的 {item.title} 已通过审核",
+            notification_type='system'
+        )
+
+        return Response(LostAndFoundDetailSerializer(item).data)
+
+    except LostAndFound.DoesNotExist:
+        logger.error(f"审批目标不存在: {item_id}")
+        return Response(
+            {"error": "目标物品不存在"},
+            status=status.HTTP_404_NOT_FOUND
+        )
+    except Exception as e:
+        logger.error(f"审批过程异常: {str(e)}", exc_info=True)
+        return Response(
+            {"error": "审批过程中发生系统错误"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
 

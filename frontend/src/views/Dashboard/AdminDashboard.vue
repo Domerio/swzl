@@ -224,9 +224,12 @@
         <el-button
             v-if="currentItem.status === 'pending'"
             type="success"
-            @click="handleApproveItem">
-          审核通过
+            :disabled="!currentItem.id || approvalProcessing"
+            @click="handleApproveItem"
+            :loading="approvalProcessing">
+          {{ approvalProcessing ? '正在处理...' : '审核通过' }}
         </el-button>
+
       </div>
     </el-dialog>
 
@@ -422,26 +425,58 @@ export default {
     },
     async handleApproveItem() {
       try {
-        await this.$confirm('确定要通过该物品的审核吗？', '操作确认', {
-          type: 'warning'
-        });
-
-        await axios.patch(`/api/admin/found-items/${this.currentItem.id}/`, {
-          status: 'active'
-        }, {
-          headers: {Authorization: `Token ${localStorage.getItem('token')}`}
-        });
-
-        this.currentItem.status = 'active';
-        this.$message.success('物品已通过审核');
-        await this.fetchAdminData(); // 刷新统计数字
-
-      } catch (error) {
-        if (error !== 'cancel') {
-          this.$message.error(error.response?.data?.message || '操作失败');
+        // 强校验物品状态
+        if (this.currentItem.status !== 'pending') {
+          throw new Error('只能审核待处理状态的物品')
         }
+        await this.$confirm('确定要通过该物品的审核吗？', '操作确认', {
+          confirmButtonClass: 'el-button--danger' // 使用危险按钮样式
+        });
+        const startTime = Date.now()
+        await this.$http.patch(
+            `/admin/items/${this.currentItem.id}/status/`, // 使用专用状态接口
+            {
+              status: 'active',
+              admin_remark: '已通过审核' // 添加审核备注
+            },
+            {
+              headers: {
+                'X-Request-ID': `approve-req-${this.currentItem.id}-${Date.now()}`, // 唯一请求标识
+                'Content-Type': 'application/json-patch+json' // 标准PATCH类型
+              }
+            }
+        )
+        // 执行本地数据更新
+        this.currentItem = {
+          ...this.currentItem,
+          status: 'active',
+          admin_remark: '已通过审核'
+        }
+
+        // 更新统计数字
+        this.pendingCount--
+        this.activeCount++
+        // 更新表格数据
+        this.recentPosts = this.recentPosts.map(item =>
+            item.id === this.currentItem.id ?
+                {...item, status: 'active'} :
+                item
+        )
+        console.log(`审核操作耗时 ${Date.now() - startTime}ms`)
+        this.$message.success(`${this.currentItem.title} 审核通过`)
+      } catch (error) {
+        const isCancel = error === 'cancel'
+        const msg = isCancel ? '操作已取消' :
+            error.response?.data?.error || `审核失败: ${error.message}`
+
+        !isCancel && console.error('审核错误详情:', {
+          error: error.response?.data,
+          item: this.currentItem
+        })
+
+        this.$message[isCancel ? 'info' : 'error'](msg)
       }
-    }
+    },
   }
 };
 </script>
