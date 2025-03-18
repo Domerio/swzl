@@ -281,10 +281,10 @@
           >
             <el-descriptions-item label="物品名称">{{ currentItem.title }}</el-descriptions-item>
             <el-descriptions-item label="物品分类">
-              {{ currentItem.category }}
+              {{ currentItem.category_name }}
             </el-descriptions-item>
             <el-descriptions-item label="丢失时间">
-              {{ currentItem.lost_time }}
+              {{ formatTime(currentItem.lost_time) }}
             </el-descriptions-item>
             <el-descriptions-item label="丢失地点">{{ currentItem.location }}</el-descriptions-item>
             <el-descriptions-item label="当前状态">
@@ -339,7 +339,7 @@ import {CanvasRenderer} from 'echarts/renderers'
 import {BarChart} from 'echarts/charts'
 import {GridComponent, LegendComponent, TitleComponent, TooltipComponent} from 'echarts/components'
 import dayjs from "dayjs";
-import {post} from "axios";
+import axios, {post} from "axios";
 
 
 use([
@@ -480,6 +480,11 @@ export default {
   },
 
   methods: {
+    getCategoryName(categoryId) {
+      return axios.get(`/api/category/name/${categoryId}/`)
+          .then(response => response.data.name)
+          .catch(() => '未知分类');
+    },
     // 点击表格行触发
     async handleRowClick(row) {
       const apiUrl = `/items/${row.id}/`;
@@ -487,8 +492,11 @@ export default {
       try {
         const response = await this.$http.get(apiUrl);
         console.log('get response:', response);
+        // 新增：获取分类名称并合并到数据
+        const categoryName = await this.getCategoryName(response.category);
         this.currentItem = {
           ...response,
+          category_name: categoryName,
           images: response.images || []  // 确保有图册数据
         };
         this.detailDialogVisible = true;
@@ -911,6 +919,7 @@ $card-bg: #ffffff;
   justify-content: space-between;
   align-items: center;
   padding: 0 8px !important;
+
   .header-action-btn {
     padding: 0;
     color: $text-regular;
@@ -925,6 +934,7 @@ $card-bg: #ffffff;
         margin-left: 4px;
       }
     }
+
     .el-icon-arrow-right {
       opacity: 0;
       margin-left: 0;

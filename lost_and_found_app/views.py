@@ -19,7 +19,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from .models import LostAndFound, Bookmark, Notification, Category, Attachment
-from .serializers import UserRegisterSerializer, LostAndFoundSerializer
+from .serializers import UserRegisterSerializer, LostAndFoundSerializer, LostAndFoundDetailSerializer
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
@@ -340,6 +340,27 @@ def get_categories(request):
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])  # 根据需要调整权限设置
+def get_category_name(request, category_id):
+    """
+    获取指定分类ID的名称
+    """
+    try:
+        category = Category.objects.get(id=category_id)
+        return Response({
+            'id': category.id,
+            'name': category.name
+        })
+    except Category.DoesNotExist:
+        logger.error(f"Category with ID {category_id} does not exist")
+        return Response({'error': 'Category not found'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        logger.error(f"Error getting category name: {str(e)}")
+        return Response({'error': 'Internal server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+@api_view(['GET'])
 def item_detail(request, item_id):
     try:
         logger.info(f"Received request for item with ID: {item_id}")
@@ -418,3 +439,39 @@ def admin_recent_users(request):
         })
     else:
         return Response({'error': 'You are not authorized to access this endpoint'}, status=status.HTTP_403_FORBIDDEN)
+
+
+# 在views.py中修改admin_item_detail视图
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def admin_item_detail(request, item_id):
+    try:
+        item = LostAndFound.objects.select_related('user').prefetch_related('attachments').get(id=item_id)
+        serializer = LostAndFoundDetailSerializer(item)  # 使用包含附件的详细序列化器
+        return Response(serializer.data)
+    except LostAndFound.DoesNotExist:
+        return Response({'error': '物品不存在'}, status=404)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def admin_user_detail(request, user_id):
+    if not request.user.is_superuser:
+        return Response({'error': '权限不足'}, status=403)
+
+    try:
+        user = User.objects.get(id=user_id)
+        data = {
+            'id': user.id,
+            'username': user.username,
+            'real_name': user.real_name,
+            'role': user.role,
+            'phone': user.phone,
+            'email': user.email,
+            'date_joined': user.date_joined,
+            'last_login': user.last_login,
+            'is_active': user.is_active
+        }
+        return Response(data)
+    except User.DoesNotExist:
+        return Response({'error': '用户不存在'}, status=404)

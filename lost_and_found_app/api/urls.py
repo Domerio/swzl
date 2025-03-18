@@ -15,6 +15,7 @@ urlpatterns = [
     path('register/', RegisterAPI.as_view(), name='register'),
     path('user/upload-avatar/', UploadAvatar.as_view(), name='upload_avatar'),
     path('categories/', get_categories, name='categories'),
+    path('category/name/<int:category_id>/', views.get_category_name, name='category-name'),
     # path('items/', LostAndFoundListCreateAPI.as_view(), name='items'),
     path('items/lost/', LostItemCreateAPI.as_view(), name='lost_items'),
     path('items/<int:item_id>/', views.item_detail, name='item-detail'),
@@ -25,6 +26,9 @@ urlpatterns = [
     path('admin/stats/', views.admin_stats, name='admin_stats'),
     path('admin/recent-posts/', views.admin_recent_posts, name='admin_recent_posts'),
     path('admin/recent-users/', views.admin_recent_users, name='admin_recent_users'),
+    path('admin/found-items/<int:item_id>/', views.admin_item_detail, name='admin_items'),
+    path('admin/users/<int:user_id>/', views.admin_user_detail, name='admin_users'),
+
     # 认证相关端点
     path('logout/', views.user_logout, name='logout'),
     path('csrf-token/', views.get_csrf_token, name='get-csrf-token'),

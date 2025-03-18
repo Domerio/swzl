@@ -1,6 +1,7 @@
 # lost_and_found_app/serializers.py
 
 from rest_framework import serializers
+
 from .models import User, Category, Notification, Attachment, LostAndFound
 
 
@@ -48,7 +49,8 @@ class LostAndFoundSerializer(serializers.ModelSerializer):
         model = LostAndFound
         fields = [
             'user', 'title', 'description', 'lost_time', 'is_anonymous',
-            'location', 'category', 'contact', 'status', 'created_at', 'updated_at', 'result', 'location_lat', 'location_lng',
+            'location', 'category', 'contact', 'status', 'created_at', 'updated_at', 'result', 'location_lat',
+            'location_lng',
         ]
         read_only_fields = ['user', 'status']
         extra_kwargs = {
@@ -63,18 +65,27 @@ class LostAndFoundSerializer(serializers.ModelSerializer):
         return value
 
 
+class UserSimpleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'real_name', 'role']
+
+
+class LostAndFoundDetailSerializer(LostAndFoundSerializer):
+    user = UserSimpleSerializer()  # 嵌套用户信息
+    images = serializers.SerializerMethodField()  # 采用与创建接口相同的数据格式
+
+    class Meta(LostAndFoundSerializer.Meta):
+        fields = [*LostAndFoundSerializer.Meta.fields, 'user', 'images']
+
+    def get_images(self, obj):
+        return [attachment.image.url for attachment in obj.attachments.all()]
+
+
 class AttachmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attachment
         fields = ['image', 'is_primary']
-
-
-class LostAndFoundDetailSerializer(LostAndFoundSerializer):
-    attachments = AttachmentSerializer(many=True, read_only=True)
-
-    class Meta(LostAndFoundSerializer.Meta):
-        # 💡 确保父类fields是列表时可直接合并
-        fields = [*LostAndFoundSerializer.Meta.fields, 'attachments']
 
 
 class CategorySerializer(serializers.ModelSerializer):

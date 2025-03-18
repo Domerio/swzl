@@ -8,11 +8,11 @@
 
         </div>
         <el-button
-          type="danger"
-          plain
-          @click="handleLogout"
-          class="logout-btn"
-          icon="el-icon-switch-button">
+            type="danger"
+            plain
+            @click="handleLogout"
+            class="logout-btn"
+            icon="el-icon-switch-button">
           退出登录
         </el-button>
       </div>
@@ -165,12 +165,100 @@
         </el-card>
       </el-col>
     </el-row>
+
+    <!-- 物品详情弹窗 -->
+    <el-dialog title="📦 物品详情" :visible.sync="itemDialogVisible" width="800px" class="admin-detail-dialog">
+      <el-row :gutter="20">
+        <!-- 添加图片轮播区 -->
+        <el-col :span="8">
+          <el-carousel :interval="5000" height="300px" arrow="always">
+            <el-carousel-item v-for="(img, index) in currentItem.images"
+                              :key="index">
+              <el-image
+                  :src="img"
+                  :preview-src-list="currentItem.images"
+                  fit="cover"
+                  class="detail-image">
+                <div slot="error" class="image-error">
+                  <i class="el-icon-picture-outline"></i>
+                </div>
+              </el-image>
+            </el-carousel-item>
+          </el-carousel>
+        </el-col>
+
+        <!-- 调整信息展示区 -->
+        <el-col :span="16">
+          <el-descriptions :column="2" border label-class-name="detail-label">
+            <el-descriptions-item label="物品名称">{{ currentItem.title }}</el-descriptions-item>
+            <el-descriptions-item label="分类">{{ currentItem.category }}</el-descriptions-item>
+            <el-descriptions-item label="丢失时间">{{ formatTime(currentItem.lost_time) }}</el-descriptions-item>
+            <el-descriptions-item label="丢失地点">{{ currentItem.location }}</el-descriptions-item>
+            <el-descriptions-item label="提交人">
+              <el-tooltip
+                  v-if="currentItem.user?.role === 'admin'"
+                  content="管理员账号">
+                <i class="el-icon-s-custom"></i>
+              </el-tooltip>
+              {{ currentItem.user?.real_name || '匿名用户' }}
+              <span v-if="currentItem.user" class="user-role-tag">
+                ({{ roleMap[currentItem.user.role] }})
+              </span>
+            </el-descriptions-item>
+            <el-descriptions-item label="状态">
+              <el-tag :type="statusTypeMap[currentItem.status]">{{ currentItem.status }}</el-tag>
+            </el-descriptions-item>
+            <el-descriptions-item label="联系方式" :span="2">
+              <el-link type="primary">{{ currentItem.contact }}</el-link>
+            </el-descriptions-item>
+            <el-descriptions-item label="详细描述" :span="2">
+              <pre class="description-pre">{{ currentItem.description }}</pre>
+            </el-descriptions-item>
+          </el-descriptions>
+        </el-col>
+      </el-row>
+
+      <!-- 添加底部操作按钮 -->
+      <div slot="footer">
+        <el-button @click="itemDialogVisible = false">关闭</el-button>
+        <el-button
+            v-if="currentItem.status === 'pending'"
+            type="success"
+            @click="handleApproveItem">
+          审核通过
+        </el-button>
+      </div>
+    </el-dialog>
+
+
+    <!-- 用户详情弹窗 -->
+    <el-dialog
+        title="👤 用户详情"
+        :visible.sync="userDialogVisible"
+        width="600px"
+        class="admin-detail-dialog">
+      <el-descriptions :column="2" border>
+        <el-descriptions-item label="用户ID">{{ currentUser.id }}</el-descriptions-item>
+        <el-descriptions-item label="用户名">{{ currentUser.username }}</el-descriptions-item>
+        <el-descriptions-item label="真实姓名">{{ currentUser.real_name }}</el-descriptions-item>
+        <el-descriptions-item label="用户角色">
+          <el-tag :type="roleTagType(currentUser.role)">{{ currentUser.role }}</el-tag>
+        </el-descriptions-item>
+        <el-descriptions-item label="注册时间">{{ currentUser.date_joined }}</el-descriptions-item>
+        <el-descriptions-item label="最后登录">{{ currentUser.last_login }}</el-descriptions-item>
+        <el-descriptions-item label="联系方式">{{ currentUser.phone }}</el-descriptions-item>
+        <el-descriptions-item label="电子邮箱">{{ currentUser.email }}</el-descriptions-item>
+      </el-descriptions>
+    </el-dialog>
+
   </div>
+
 </template>
 
 
 <script>
 import axios from 'axios';
+import dayjs from "dayjs";
 
 // import dayjs from 'dayjs';
 
@@ -198,8 +286,24 @@ export default {
         active: 'primary',
         completed: 'success',
         expired: 'info'
-      }
+      },
+      // 新增弹窗控制状态
+      itemDialogVisible: false,
+      userDialogVisible: false,
+      currentItem: {},
+      currentUser: {},
+
     };
+  },
+  computed: {
+    roleMap() {
+      return {
+        admin: '管理员',
+        teacher: '教职工',
+        student: '学生'
+      }
+    }
+
   },
   mounted() {
     this.fetchAdminData();
@@ -220,6 +324,14 @@ export default {
     });
   },
   methods: {
+    getCategoryName(categoryId) {
+      return axios.get(`/api/category/name/${categoryId}/`)
+          .then(response => response.data.name)
+          .catch(() => '未知分类');
+    },
+    formatTime(time) {
+      return dayjs(time).format('YYYY-MM-DD HH:mm')
+    },
     // 退出登录
     handleLogout() {
       this.$confirm('确定要退出系统吗？', '操作确认', {
@@ -261,7 +373,6 @@ export default {
         this.completedCount = statsResp.data.completed_count;
         this.recentPosts = postsResp.data.recent_posts;
         this.recentUsers = usersResp.data.recent_users;
-        console.log(this.recentUsers)
       } catch (error) {
         console.error('Error:', error);
         this.$message.error(error.response?.data?.message || '数据加载失败');
@@ -270,13 +381,66 @@ export default {
       }
     },
 
-    handleRowClick(row) {
-      // 处理失物招领信息行点击事件
-      this.$router.push(`/admin/found-items/${row.id}`);
+    async handleRowClick(row) {
+      try {
+        const apiUrl = `/api/admin/found-items/${row.id}/`;
+        const response = await axios.get(apiUrl, {
+          headers: {Authorization: `Token ${localStorage.getItem('token')}`}
+        });
+        // 新增：获取分类名称并合并到数据
+        const categoryName = await this.getCategoryName(response.data.category);
+
+        this.currentItem = {
+          ...response.data,
+          category: categoryName,  // 用分类名称替换原始ID值
+          images: response.data.images || [],
+          user: response.data.user || {}
+        };
+        this.itemDialogVisible = true;
+      } catch (error) {
+        this.$message.error('获取详情失败');
+      }
     },
-    handleUserRowClick(row) {
-      // 处理用户信息行点击事件
-      this.$router.push(`/admin/users/${row.id}`);
+    async handleUserRowClick(row) {
+      try {
+        const response = await axios.get(`/api/admin/users/${row.id}/`, {
+          headers: {Authorization: `Token ${localStorage.getItem('token')}`}
+        });
+        this.currentUser = response.data;
+        this.userDialogVisible = true;
+
+        // 处理日期格式
+        this.currentUser.date_joined = new Date(this.currentUser.date_joined)
+            .toLocaleString();
+        this.currentUser.last_login = this.currentUser.last_login
+            ? new Date(this.currentUser.last_login).toLocaleString()
+            : '从未登录';
+      } catch (error) {
+        this.$message.error('获取用户详情失败');
+        console.error('Error fetching user details:', error);
+      }
+    },
+    async handleApproveItem() {
+      try {
+        await this.$confirm('确定要通过该物品的审核吗？', '操作确认', {
+          type: 'warning'
+        });
+
+        await axios.patch(`/api/admin/found-items/${this.currentItem.id}/`, {
+          status: 'active'
+        }, {
+          headers: {Authorization: `Token ${localStorage.getItem('token')}`}
+        });
+
+        this.currentItem.status = 'active';
+        this.$message.success('物品已通过审核');
+        await this.fetchAdminData(); // 刷新统计数字
+
+      } catch (error) {
+        if (error !== 'cancel') {
+          this.$message.error(error.response?.data?.message || '操作失败');
+        }
+      }
     }
   }
 };
@@ -292,12 +456,14 @@ export default {
 .dashboard-header {
   margin-bottom: 12px;
   position: relative;
+
   .header-content {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
   }
 }
+
 .logout-btn {
   padding: 10px 16px;
   border-radius: 8px;
@@ -484,7 +650,87 @@ export default {
     }
   }
 }
-.welcome-title{
-  margin: 0px;
+
+.welcome-title {
+  margin: 0;
 }
+
+.admin-detail-dialog {
+  .el-carousel {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+
+    &__arrow {
+      background-color: rgba(255, 255, 255, 0.5);
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.8);
+      }
+    }
+
+    .detail-image {
+      width: 100%;
+      height: 300px;
+      border-radius: 4px;
+    }
+
+    .no-image {
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #909399;
+      font-size: 16px;
+      background: #f8f9fa;
+    }
+  }
+
+  .image-error {
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    i {
+      font-size: 40px;
+      color: #DCDFE6;
+    }
+  }
+
+  .description-pre {
+    white-space: pre-wrap;
+    line-height: 1.6;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    margin: 0;
+    font-family: inherit;
+  }
+
+  .detail-label {
+    width: 100px;
+
+    ::after {
+      content: '';
+    }
+  }
+}
+
+// 新增样式规则
+.user-role-tag {
+  color: #909399;
+  font-size: 12px;
+  margin-left: 6px;
+}
+
+.image-error {
+  background: #f8f9fa;
+  @apply flex items-center justify-center;
+
+  i {
+    @apply text-4xl text-gray-300;
+  }
+}
+
 </style>
