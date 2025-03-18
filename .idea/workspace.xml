@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="管理员仪表盘部分功能实现">
+    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="管理员仪表盘布局优化">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/views/Dashboard/AdminDashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Dashboard/AdminDashboard.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/index.html" afterDir="false" />
@@ -175,7 +175,7 @@
       <workItem from="1742028940873" duration="12584000" />
       <workItem from="1742050086337" duration="682000" />
       <workItem from="1742198521175" duration="29025000" />
-      <workItem from="1742265443392" duration="6177000" />
+      <workItem from="1742265443392" duration="8053000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />
@@ -481,7 +481,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742268865139</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="管理员仪表盘布局优化">
+      <option name="closed" value="true" />
+      <created>1742271981735</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1742271981735</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -533,7 +541,8 @@
     <MESSAGE value="优化用户仪表盘中数据的展示" />
     <MESSAGE value="优化用户仪表盘页面显示" />
     <MESSAGE value="管理员仪表盘部分功能实现" />
-    <option name="LAST_COMMIT_MESSAGE" value="管理员仪表盘部分功能实现" />
+    <MESSAGE value="管理员仪表盘布局优化" />
+    <option name="LAST_COMMIT_MESSAGE" value="管理员仪表盘布局优化" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">

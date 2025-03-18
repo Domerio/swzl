@@ -2,9 +2,23 @@
   <div class="admin-dashboard">
     <!-- 头部区域 -->
     <div class="dashboard-header">
-      <h1 class="welcome-title">欢迎回来，{{ user.real_name }}！👋</h1>
+      <div class="header-content">
+        <div>
+          <h1 class="welcome-title">欢迎回来，{{ user.real_name }}！👋</h1>
+
+        </div>
+        <el-button
+          type="danger"
+          plain
+          @click="handleLogout"
+          class="logout-btn"
+          icon="el-icon-switch-button">
+          退出登录
+        </el-button>
+      </div>
       <p class="welcome-sub">今日有 {{ pendingCount }} 项待处理事务</p>
     </div>
+
     <!-- 数据概览卡片 -->
     <el-row :gutter="24" class="metric-grid">
       <el-col :xs="24" :sm="12" :lg="8">
@@ -206,6 +220,19 @@ export default {
     });
   },
   methods: {
+    // 退出登录
+    handleLogout() {
+      this.$confirm('确定要退出系统吗？', '操作确认', {
+        type: 'warning',
+        confirmButtonText: '确认退出',
+        cancelButtonText: '取消'
+      }).then(() => {
+        this.$store.dispatch('logout')
+        this.$router.replace('/login')
+        this.$message.success('已安全退出系统')
+      }).catch(() => {
+      })
+    },
     roleTagType(role) {
       const roleTypes = {
         admin: 'danger',
@@ -263,21 +290,29 @@ export default {
 }
 
 .dashboard-header {
-  margin-bottom: 32px;
-
-  .welcome-title {
-    font-size: 24px;
-    color: #1a2b3c;
-    margin: 0 0 8px;
-    font-weight: 600;
-  }
-
-  .welcome-sub {
-    color: #6b7280;
-    margin: 0;
-    font-size: 14px;
+  margin-bottom: 12px;
+  position: relative;
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
   }
 }
+.logout-btn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+  }
+
+  i {
+    margin-right: 8px;
+  }
+}
+
 
 .metric-grid {
   margin-bottom: 24px;
@@ -420,39 +455,19 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .admin-dashboard {
-    padding: 16px;
-  }
-  .metric-grid {
-    .metric-card {
-      margin-bottom: 16px;
-
-      .metric-content {
-        padding: 16px;
-
-        .metric-icon {
-          width: 48px;
-          height: 48px;
-
-          i {
-            font-size: 24px;
-          }
-        }
-
-        .metric-value {
-          font-size: 24px;
-        }
-      }
+  .dashboard-header {
+    .header-content {
+      flex-direction: column;
+      gap: 16px;
     }
   }
-  .data-grid {
-    .data-card {
-      ::v-deep .el-card__header {
-        padding: 12px 16px;
-      }
-    }
+
+  .logout-btn {
+    width: 100%;
+    justify-content: center;
   }
 }
+
 
 ::v-deep .el-loading-mask {
   background-color: rgba(255, 255, 255, 0.8);
@@ -469,5 +484,7 @@ export default {
     }
   }
 }
-
+.welcome-title{
+  margin: 0px;
+}
 </style>
