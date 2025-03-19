@@ -217,6 +217,7 @@ def user_dashboard(request):
                     'id': post.id,
                     'title': post.title,
                     'status': post.get_status_display(),
+                    'item_type': post.category.item_type if post.category else None,  # 新增
                     'created_at': post.created_at,
                     'category': post.category.name if post.category else None
                 } for post in my_posts],
@@ -570,5 +571,3 @@ def admin_approve_item(request, item_id):
             {"error": "审批过程中发生系统错误"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
-
-

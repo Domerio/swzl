@@ -48,6 +48,7 @@ class FoundItemCreateAPI(generics.CreateAPIView):
     serializer_class = FoundItemSerializer
     permission_classes = [permissions.IsAuthenticated]
     parser_classes = (MultiPartParser,)
+
     def perform_create(self, serializer):
         # 自动关联当前用户
         lost_and_found = serializer.save(user=self.request.user)

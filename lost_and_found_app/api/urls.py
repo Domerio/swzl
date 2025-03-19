@@ -6,7 +6,6 @@ from .views.auth import LoginAPI, UploadAvatar
 from .views.auth import RegisterAPI
 from .views.items import LostItemCreateAPI, FoundItemCreateAPI  # 确保导入路径正确
 from .. import views
-from ..views import get_lost_categories
 
 urlpatterns = [
     # ✅ 所有路径继承主项目层的 /api/ 前缀
@@ -14,10 +13,9 @@ urlpatterns = [
     path('login/', LoginAPI.as_view(), name='login_api'),
     path('register/', RegisterAPI.as_view(), name='register'),
     path('user/upload-avatar/', UploadAvatar.as_view(), name='upload_avatar'),
-    path('lost/categories/', get_lost_categories, name='lost_categories'),
+    path('lost/categories/', views.get_lost_categories, name='lost_categories'),
     path('found/categories/', views.get_found_categories, name='found_categories'),
     path('category/name/<int:category_id>/', views.get_category_name, name='category-name'),
-    # path('items/', LostAndFoundListCreateAPI.as_view(), name='items'),
     path('items/lost/', LostItemCreateAPI.as_view(), name='lost_items'),
     path('items/found/', FoundItemCreateAPI.as_view(), name='found_items'),
     path('items/<int:item_id>/', views.item_detail, name='item-detail'),

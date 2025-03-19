@@ -44,13 +44,14 @@ class LostItemSerializer(serializers.ModelSerializer):
     location = serializers.CharField(max_length=100, required=True)
     contact = serializers.CharField(max_length=50, required=True)
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.filter(item_type='lost'), required=True)
+    item_type = serializers.CharField(source='category.item_type', read_only=True)  # 新增
 
     class Meta:
         model = LostAndFound
         fields = [
             'user', 'title', 'description', 'lost_time', 'is_anonymous',
             'location', 'category', 'contact', 'status', 'created_at', 'updated_at', 'result', 'location_lat',
-            'location_lng', 'id'
+            'location_lng', 'id', 'item_type'  # 新增
         ]
         read_only_fields = ['user', 'status']
         extra_kwargs = {
@@ -70,11 +71,13 @@ class FoundItemSerializer(serializers.ModelSerializer):
     location = serializers.CharField(max_length=100, required=True)
     contact = serializers.CharField(max_length=50, required=True)
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.filter(item_type='found'), required=True)
+    item_type = serializers.CharField(source='category.item_type', read_only=True)  # 新增
 
     class Meta:
         model = LostAndFound
-        fields = ['id', 'title', 'description', 'lost_time', 'is_anonymous', 'location', 'category', 'contact',
-                  'status', 'created_at', 'updated_at', 'result', 'location_lat', 'location_lng']
+        fields = ['user', 'title', 'description', 'lost_time', 'is_anonymous',
+                  'location', 'category', 'contact', 'status', 'created_at', 'updated_at', 'result', 'location_lat',
+                  'location_lng', 'id', 'item_type']
         read_only_fields = ['status']
         extra_kwargs = {
             'lost_time': {

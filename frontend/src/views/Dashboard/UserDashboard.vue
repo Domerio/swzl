@@ -100,6 +100,12 @@
                     label="标题"
                     min-width="120">
                 </el-table-column>
+                <el-table-column label="类型" width="100">
+                  <template slot-scope="scope">
+                    {{ getItemTypeLabel(scope.row.item_type) }}
+                  </template>
+                </el-table-column>
+
                 <el-table-column
                     prop="category"
                     label="分类"
@@ -139,6 +145,12 @@
                     label="标题"
                     min-width="120">
                 </el-table-column>
+                <el-table-column label="类型" width="100">
+                  <template slot-scope="scope">
+                    {{ getItemTypeLabel(scope.row.item_type) }}
+                  </template>
+                </el-table-column>
+
                 <el-table-column
                     label="状态"
                     width="100">
@@ -287,6 +299,10 @@
               {{ formatTime(currentItem.lost_time) }}
             </el-descriptions-item>
             <el-descriptions-item label="丢失地点">{{ currentItem.location }}</el-descriptions-item>
+            <el-descriptions-item label="发布类型">
+              {{ currentItem.item_type === 'lost' ? '失物登记' : '招领登记' }}
+            </el-descriptions-item>
+
             <el-descriptions-item label="当前状态">
               <el-tag :type="statusTypeMap[currentItem.status]" size="medium">
                 {{ statusTextMap[currentItem.status] }}
@@ -479,6 +495,10 @@ export default {
 
   },
   methods: {
+    getItemTypeLabel(type) {
+      return type === 'lost' ? '失物' : '招领';
+    },
+
     getCategoryName(categoryId) {
       return axios.get(`/api/category/name/${categoryId}/`)
           .then(response => response.data.name)
@@ -558,10 +578,6 @@ export default {
           this.$http.get('/user/profile/'),
           this.$http.get('/dashboard/')
         ]);
-        // console.log('API Response Structure:', dashboardRes);
-        // console.log('User Response:', userRes);
-        // 安全解构数据
-        // this.userInfo = userRes || {};
         this.userInfo = {
           real_name: userRes.real_name || '',
           role: userRes.role || '',
