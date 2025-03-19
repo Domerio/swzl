@@ -418,7 +418,8 @@ def admin_recent_posts(request):
             'id': post.id,
             'title': post.title,
             'status': post.status,
-            'category': post.category.name if post.category else None
+            'category': post.category.name if post.category else None,
+            'item_type': post.category.item_type if post.category else None  # 新增
         } for post in recent_posts]
 
         return Response({

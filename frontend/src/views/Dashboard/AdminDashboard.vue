@@ -99,7 +99,11 @@
                 <span class="text-ellipsis">{{ row.title }}</span>
               </template>
             </el-table-column>
-
+            <el-table-column label="类型" width="100">
+              <template #default="{row}">
+                {{ getItemTypeLabel( row.item_type ) }}
+              </template>
+            </el-table-column>
             <el-table-column prop="category" label="分类" width="120">
               <template #default="{row}">
                 <el-tag effect="plain">{{ row.category }}</el-tag>
@@ -192,6 +196,10 @@
           <el-descriptions :column="2" border label-class-name="detail-label">
             <el-descriptions-item label="物品名称">{{ currentItem.title }}</el-descriptions-item>
             <el-descriptions-item label="分类">{{ currentItem.category }}</el-descriptions-item>
+            <el-descriptions-item label="发布类型">
+              {{ currentItem.item_type === 'lost' ? '失物登记' : '招领登记' }}
+            </el-descriptions-item>
+
             <el-descriptions-item label="丢失时间">{{ formatTime(currentItem.lost_time) }}</el-descriptions-item>
             <el-descriptions-item label="丢失地点">{{ currentItem.location }}</el-descriptions-item>
             <el-descriptions-item label="提交人">
@@ -327,6 +335,9 @@ export default {
     });
   },
   methods: {
+    getItemTypeLabel(type) {
+      return type === 'lost' ? '失物' : '招领';
+    },
     getCategoryName(categoryId) {
       return axios.get(`/api/category/name/${categoryId}/`)
           .then(response => response.data.name)
