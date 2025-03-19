@@ -68,7 +68,7 @@
           <el-button
               type="success"
               icon="el-icon-s-claim"
-              @click="$router.push('/found-item/new')">
+              @click="handleFoundItemRegister">
             招领登记
           </el-button>
         </el-card>
@@ -684,6 +684,9 @@ export default {
     },
     handleLostItemRegister() {
       this.$router.push('/api/items/lost/')
+    },
+    handleFoundItemRegister() {
+      this.$router.push('/api/items/found/')
     }
   },
   mounted() {

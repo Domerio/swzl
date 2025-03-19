@@ -20,7 +20,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from .models import LostAndFound, Bookmark, Notification, Category, Attachment
-from .serializers import UserRegisterSerializer, LostAndFoundSerializer, LostAndFoundDetailSerializer
+from .serializers import UserRegisterSerializer, LostItemSerializer, LostAndFoundDetailSerializer
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
@@ -335,8 +335,13 @@ def mark_all_notifications_read(request):
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-def get_categories(request):
-    categories = Category.objects.values('id', 'name')
+def get_lost_categories(request):
+    categories = Category.objects.filter(item_type='lost').values('id', 'name')
+    return JsonResponse(list(categories), safe=False)
+
+
+def get_found_categories(request):
+    categories = Category.objects.filter(item_type='found').values('id', 'name')
     return JsonResponse(list(categories), safe=False)
 
 
@@ -365,7 +370,7 @@ def item_detail(request, item_id):
     try:
         logger.info(f"Received request for item with ID: {item_id}")
         item = LostAndFound.objects.get(id=item_id)
-        serializer = LostAndFoundSerializer(item)
+        serializer = LostItemSerializer(item)
         logger.info(f"Item details: {serializer.data}")
 
         # 查询与该物品关联的所有图片
@@ -504,7 +509,7 @@ def update_item_status(request, item_id):
         logger.info(f"物品状态更新成功，ID: {item_id} 新状态: {new_status}")
         return Response({
             'status': 'success',
-            'data': LostAndFoundSerializer(item).data
+            'data': LostItemSerializer(item).data
         })
 
     except LostAndFound.DoesNotExist:

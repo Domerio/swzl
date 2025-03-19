@@ -47,6 +47,15 @@ const routes = [
         }
     },
     {
+        path: '/api/items/found/',
+        name: 'FoundItemRegister',
+        component: () => import('@/views/FoundItemRegister.vue'),
+        meta: {
+            requiresAuth: true,
+            role: ['student', 'staff']
+        }
+    },
+    {
         path: '/',
         redirect: () => {
             if (store.getters.isAuthenticated && store.getters.userRole) {

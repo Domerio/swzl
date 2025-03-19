@@ -39,11 +39,11 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 # serializers.py
-class LostAndFoundSerializer(serializers.ModelSerializer):
+class LostItemSerializer(serializers.ModelSerializer):
     # 添加必填字段验证
     location = serializers.CharField(max_length=100, required=True)
     contact = serializers.CharField(max_length=50, required=True)
-    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
+    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.filter(item_type='lost'), required=True)
 
     class Meta:
         model = LostAndFound
@@ -65,18 +65,41 @@ class LostAndFoundSerializer(serializers.ModelSerializer):
         return value
 
 
+class FoundItemSerializer(serializers.ModelSerializer):
+    # 添加必填字段验证
+    location = serializers.CharField(max_length=100, required=True)
+    contact = serializers.CharField(max_length=50, required=True)
+    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.filter(item_type='found'), required=True)
+
+    class Meta:
+        model = LostAndFound
+        fields = ['id', 'title', 'description', 'lost_time', 'is_anonymous', 'location', 'category', 'contact',
+                  'status', 'created_at', 'updated_at', 'result', 'location_lat', 'location_lng']
+        read_only_fields = ['status']
+        extra_kwargs = {
+            'lost_time': {
+                'input_formats': ['iso-8601', '%Y-%m-%d %H:%M:%S', '%Y-%m-%dT%H:%M']  # 增加时间格式兼容
+            },
+        }
+
+        def validate_category(self, value):
+            if not Category.objects.filter(id=value.id).exists():
+                raise serializers.ValidationError("无效的物品分类")
+            return value
+
+
 class UserSimpleSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'real_name', 'role']
 
 
-class LostAndFoundDetailSerializer(LostAndFoundSerializer):
+class LostAndFoundDetailSerializer(LostItemSerializer):
     user = UserSimpleSerializer()  # 嵌套用户信息
     images = serializers.SerializerMethodField()  # 采用与创建接口相同的数据格式
 
-    class Meta(LostAndFoundSerializer.Meta):
-        fields = [*LostAndFoundSerializer.Meta.fields, 'user', 'images']
+    class Meta(LostItemSerializer.Meta):
+        fields = [*LostItemSerializer.Meta.fields, 'user', 'images']
 
     def get_images(self, obj):
         return [attachment.image.url for attachment in obj.attachments.all()]

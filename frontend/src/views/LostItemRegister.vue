@@ -256,7 +256,7 @@ export default {
 
     async fetchCategories() {
       try {
-        const response = await axios.get('/api/categories/')
+        const response = await axios.get('/api/lost/categories/')
         this.categories = response.data
       } catch (error) {
         console.error('获取物品分类失败:', error)
