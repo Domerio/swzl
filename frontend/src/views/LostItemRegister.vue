@@ -38,34 +38,38 @@
                 format="yyyy-MM-dd HH:mm"
                 value-format="yyyy-MM-ddTHH:mm"
                 placeholder="选择具体时间"
+                style="width: 100%;"
             />
 
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="丢失地点" prop="location">
-            <el-input
-                v-model="form.location"
-                placeholder="例如：3号教学楼201教室"
-            />
-            <el-button
-                type="primary"
-                icon="el-icon-map-location"
-                @click="showMapDialog"
-                class="map-btn"
-                plain
-            >选择位置
-            </el-button>
+            <div class="location-input-wrapper">
+              <el-input
+                  v-model="form.location"
+                  placeholder="例如：3号教学楼201教室"
+              />
+              <el-button
+                  type="primary"
+                  icon="el-icon-map-location"
+                  @click="showMapDialog"
+                  class="map-btn"
+                  circle
+              >
+              </el-button>
+            </div>
           </el-form-item>
         </el-col>
       </el-row>
 
       <!-- 分类选择 -->
-      <el-form-item label="物品分类" prop="category">
+      <el-form-item label="物品分类" prop="category" width="100%">
         <el-select
             v-model="form.category"
             placeholder="请选择最匹配的分类"
             filterable
+            style="width: 100%;"
         >
           <el-option
               v-for="category in categories"
@@ -405,10 +409,25 @@ export default {
               this.form.location = address;
 
               // 显示信息窗口
-              this.infoWindow.setContent(`<div class="map-info">
-          <h4>已选择位置：</h4>
-          <p>${address}</p>
-        </div>`);
+              // <!-- 在handleMapClick中更新信息窗口内容 -->
+              this.infoWindow.setContent(`
+<div class="map-info">
+  <div class="info-header">
+    <i class="el-icon-location"></i>
+    <h3>📍 已确认位置</h3>
+  </div>
+  <div class="info-content">
+    <div class="address-line">
+      <span class="label">详细地址：</span>
+      <span class="value">${address}</span>
+    </div>
+    <div class="coordinate">
+      <span class="lng">经度 ${e.lnglat.getLng().toFixed(6)}</span>
+      <span class="lat">纬度 ${e.lnglat.getLat().toFixed(6)}</span>
+    </div>
+  </div>
+</div>`);
+
               this.infoWindow.open(this.map, e.lnglat);
             } else {
               console.error('地址解析失败:', result);
@@ -777,22 +796,104 @@ $bg-color: #f6f8fa;
 }
 
 // 添加地图信息窗口样式
-.map-info {
-  padding: 10px;
-  min-width: 200px;
+// 更新地图信息窗口样式为纯白背景
+::v-deep .map-info {
+  $primary: #409EFF;
+  $bg-color: #ffffff; // 修改为纯白背景
+  $border-color: #dcdfe6;
 
-  h4 {
-    margin: 0 0 5px;
-    color: #409EFF;
-    font-size: 14px;
+  background: $bg-color;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba($primary, 0.2);
+  min-width: 280px;
+  padding: 0;
+  overflow: hidden;
+
+  .info-header {
+    background: $bg-color; // 头部也改为白色背景
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba($primary, 0.1);
+    display: flex;
+    align-items: center;
+
+    i {
+      color: $primary;
+      font-size: 18px;
+      margin-right: 8px;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: 15px;
+      color: darken($primary, 10%);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
   }
 
-  p {
-    margin: 0;
-    font-size: 12px;
-    color: #666;
+  .info-content {
+    padding: 16px;
+
+    .address-line {
+      display: flex;
+      line-height: 1.5;
+      margin-bottom: 12px;
+
+      .label {
+        flex-shrink: 0;
+        color: #606266;
+        font-weight: 500;
+        width: 70px;
+      }
+
+      .value {
+        color: #303133;
+        font-weight: 600;
+        word-break: break-all;
+      }
+    }
+
+    .coordinate {
+      background: rgba($primary, 0.05);
+      border-radius: 6px;
+      padding: 8px;
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+
+      span {
+        color: #606266;
+        padding: 4px 8px;
+        background: rgba(white, 0.9);
+        border-radius: 4px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+
+        &.lng::before {
+          content: "🌐 ";
+        }
+
+        &.lat::before {
+          content: "📍 ";
+        }
+      }
+    }
+  }
+
+  // 调整三角指示符颜色为白色
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 10px 8px 0;
+    border-style: solid;
+    border-color: $bg-color transparent transparent;
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.1));
   }
 }
+
 
 // 地图加载状态提示
 .map-loading {
@@ -805,5 +906,62 @@ $bg-color: #f6f8fa;
   background: rgba(0, 0, 0, 0.7);
   color: white;
   border-radius: 4px;
+}
+
+.location-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  .location-input {
+    flex: 1;
+    // 调整右侧留出按钮空间
+    margin-right: 8px;
+    // 调整输入框右侧圆角以配合按钮圆角
+    ::v-deep .el-input__inner {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+
+  .map-btn {
+    // 使按钮尺寸与输入框高度一致
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    border-radius: 0 4px 4px 0;
+    transition: all 0.3s;
+    // 隐藏文字（兼容旧浏览器）
+    span {
+      display: none;
+    }
+
+    // 调整图标位置
+    i {
+      font-size: 20px;
+      margin-left: -2px;
+    }
+
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 2px 8px rgba($primary-color, 0.2);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .map-btn {
+      width: 36px;
+      height: 36px;
+
+      i {
+        font-size: 18px;
+      }
+    }
+  }
 }
 </style>

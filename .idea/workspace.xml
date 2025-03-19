@@ -4,31 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="用户仪表盘物品详情集成高德地图API">
+    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="失物登记集成高德地图API">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/views/LostItemRegister.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/LostItemRegister.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vue.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/168.af99cf19.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/423.af99cf19.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/538.af99cf19.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/789.af99cf19.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/963.af99cf19.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.af99cf19.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.af99cf19.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/168.af99cf19.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/168.af99cf19.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/423.af99cf19.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/423.af99cf19.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/538.af99cf19.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/538.af99cf19.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/789.af99cf19.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/789.af99cf19.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/963.af99cf19.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/963.af99cf19.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.af99cf19.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.af99cf19.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.af99cf19.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.af99cf19.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/168.2e51220c.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/423.2e51220c.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/538.2e51220c.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/757.2e51220c.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/963.2e51220c.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.2e51220c.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.2e51220c.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/168.2e51220c.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/168.2e51220c.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/423.2e51220c.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/423.2e51220c.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/538.2e51220c.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/538.2e51220c.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/757.2e51220c.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/757.2e51220c.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/963.2e51220c.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/963.2e51220c.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.2e51220c.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.2e51220c.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.2e51220c.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.2e51220c.js.map" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -199,7 +198,7 @@
       <workItem from="1742347836326" duration="12859000" />
       <workItem from="1742373302177" duration="4133000" />
       <workItem from="1742399147752" duration="2014000" />
-      <workItem from="1742401260852" duration="5240000" />
+      <workItem from="1742401260852" duration="9227000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />
@@ -577,7 +576,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742362841666</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="失物登记集成高德地图API">
+      <option name="closed" value="true" />
+      <created>1742406706898</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1742406706898</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -607,7 +614,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="用element UI？" />
     <MESSAGE value="登录页面OK+首页重定向OK" />
     <MESSAGE value="登录ok，注册有问题" />
     <MESSAGE value="Merge remote-tracking branch 'swzl/master'&#10;&#10;# Conflicts:&#10;#&#9;static/frontend/css/149.65cc60fe.chunk.css&#10;#&#9;static/frontend/css/app.65cc60fe.css&#10;#&#9;static/frontend/css/chunk-vendors.65cc60fe.css&#10;#&#9;static/frontend/js/149.65cc60fe.chunk.js&#10;#&#9;static/frontend/js/149.65cc60fe.chunk.js.map&#10;#&#9;static/frontend/js/519.65cc60fe.chunk.js&#10;#&#9;static/frontend/js/519.65cc60fe.chunk.js.map&#10;#&#9;static/frontend/js/80.65cc60fe.chunk.js&#10;#&#9;static/frontend/js/80.65cc60fe.chunk.js.map&#10;#&#9;static/frontend/js/app.65cc60fe.js.map&#10;#&#9;static/frontend/js/chunk-vendors.65cc60fe.js&#10;#&#9;static/frontend/js/chunk-vendors.65cc60fe.js.map" />
@@ -632,7 +638,8 @@
     <MESSAGE value="增加用户仪表盘中物品发布类型" />
     <MESSAGE value="增加管理员仪表盘中物品发布类型" />
     <MESSAGE value="失物登记功能集成高德地图API" />
-    <option name="LAST_COMMIT_MESSAGE" value="失物登记功能集成高德地图API" />
+    <MESSAGE value="失物登记集成高德地图API" />
+    <option name="LAST_COMMIT_MESSAGE" value="失物登记集成高德地图API" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
