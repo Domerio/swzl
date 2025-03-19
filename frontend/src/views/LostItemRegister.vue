@@ -48,6 +48,14 @@
                 v-model="form.location"
                 placeholder="例如：3号教学楼201教室"
             />
+            <el-button
+                type="primary"
+                icon="el-icon-map-location"
+                @click="showMapDialog"
+                class="map-btn"
+                plain
+            >选择位置
+            </el-button>
           </el-form-item>
         </el-col>
       </el-row>
@@ -158,6 +166,23 @@
       </el-button>
     </span>
     </el-dialog>
+    <!-- 添加地图弹窗 -->
+    <!-- 在地图弹窗中添加加载状态 -->
+    <el-dialog
+        title="请在地图上选择位置"
+        :visible.sync="mapDialogVisible"
+        width="80%"
+    >
+      <div id="map-container" style="height: 500px; position: relative;">
+        <div v-if="mapLoading" class="map-loading">
+          <i class="el-icon-loading"></i> 正在获取地址信息...
+        </div>
+      </div>
+      <span slot="footer">
+      <el-button @click="mapDialogVisible = false">取消</el-button>
+      <el-button type="primary" @click="confirmLocation">确定</el-button>
+    </span>
+    </el-dialog>
   </div>
 
 </template>
@@ -167,6 +192,7 @@
 import axios from 'axios';
 
 export default {
+  /* eslint-disable no-undef */
   data() {
     return {
       // 新增手机号验证规则
@@ -185,7 +211,9 @@ export default {
         location: '',
         category: null,
         contact: '',
-        images: []
+        images: [],
+        location_lng: null, // 新增经度字段
+        location_lat: null  // 新增纬度字段
       },
       categories: [],
       fileList: [],
@@ -218,21 +246,162 @@ export default {
         .el-dialog { width: 210mm!important; visibility: visible; }
         .el-dialog__header, .el-dialog__footer { display: none; }
       }
-    `
-
+    `,
+      mapDialogVisible: false,
+      selectedLocation: {
+        lng: null,
+        lat: null,
+        address: ''
+      },
+      map: null,
+      geocoder: null, // 高德地图的Geocoder对象
+      mapLoading: false, // 新增地图加载状态
+      marker: null,      // 地图标记对象
+      infoWindow: null,   // 信息窗口对象
     }
   },
   mounted() {
     this.fetchCategories()
-    document.addEventListener('keydown', (e) => {
-      if (e.ctrlKey && e.key === 'p' && this.dialogVisible) {
-        e.preventDefault()
-        this.handleConfirm()
-      }
-    })
-
+    // 添加安全配置
+    window._AMapSecurityConfig = {
+      securityJsCode: 'd43a12d0b69aeacd6f9016db9b366433'
+    };
+    if (!window.AMap) {
+      const key = 'db70318a1cf1f196b2746f10cb9df826';
+      const script = document.createElement('script');
+      // 同时加载三个插件
+      script.src = `https://webapi.amap.com/maps?v=2.0&key=${key}&plugin=AMap.Geocoder,AMap.ToolBar,AMap.Scale`;
+      script.async = true;
+      script.onload = () => {
+        this.geocoder = new AMap.Geocoder({
+          city: "全国",
+          timeout: 5000 // 增加5秒超时
+        });
+        console.log('AMap SDK and all plugins loaded');
+      };
+      document.head.appendChild(script);
+    }
   },
   methods: {
+    // 新增地图相关方法
+    showMapDialog() {
+      this.mapDialogVisible = true;
+      this.$nextTick(() => {
+        this.initAMap();
+      });
+    },
+
+    initAMap() {
+      if (!window.AMap) return;
+      // 山西师范大学（太原校区）坐标（经度112.5865，纬度37.8603）
+      const targetLngLat = new AMap.LngLat(112.662198, 37.745788);
+      // 初始化地图
+      this.map = new AMap.Map('map-container', {
+        zoom: 15,
+        center: targetLngLat, // 设置中心点
+        resizeEnable: true,
+        securityJsCode: 'd43a12d0b69aeacd6f9016db9b366433', // 你的安全密钥
+        useAMapUI: true, // 使用高德地图UI组件
+      });
+
+      // 添加地图控件
+      this.map.addControl(new AMap.ToolBar({
+        position: 'LT'  // 左上角
+      }));
+      this.map.addControl(new AMap.Scale({
+        position: 'LB'  // 左下角
+      }));
+
+      // 初始化信息窗口
+      this.infoWindow = new AMap.InfoWindow({
+        offset: new AMap.Pixel(0, -30)
+      });
+
+      // 地图点击事件
+      // 地图点击事件
+      this.map.on('click', (e) => {
+        try {
+          this.mapLoading = true;
+
+          // 清除旧标记
+          if (this.marker) {
+            this.map.remove(this.marker);
+          }
+
+          // 添加新标记
+          this.marker = new AMap.Marker({
+            position: e.lnglat,
+            title: '选择的位置'
+          });
+          this.map.add(this.marker);
+
+          // 自动居中
+          this.map.setCenter(e.lnglat);
+
+          // 获取地址信息（使用回调函数）
+          const geocoder = new AMap.Geocoder();
+          geocoder.getAddress(e.lnglat, (status, result) => {
+            try {
+              this.mapLoading = false;
+
+              if (status === 'complete' && result.info === 'OK') {
+                const address = result.regeocode.formattedAddress;
+                this.selectedLocation = {
+                  lng: e.lnglat.getLng(),
+                  lat: e.lnglat.getLat(),
+                  address: address
+                };
+
+                // 实时更新输入框
+                this.form.location = address;
+
+                // 显示信息窗口
+                this.infoWindow.setContent(`<div class="map-info">
+          <h4>已选择位置：</h4>
+          <p>${address}</p>
+        </div>`);
+                this.infoWindow.open(this.map, e.lnglat);
+              } else {
+                console.error('地址解析失败:', result);
+                this.$message.warning('无法获取该位置地址，请重新选择');
+              }
+            } catch (err) {
+              console.error('地址解析异常:', err);
+              this.$message.warning('地址解析服务异常');
+            }
+          });
+
+        } catch (error) {
+          this.mapLoading = false;
+          console.error('地址解析异常:', error);
+          this.$message.warning('位置选择过程发生错误');
+        }
+      });
+    },
+
+    // 修改后的确认方法
+    confirmLocation() {
+      if (!this.selectedLocation.address) {
+        this.$message.warning('请先在地图上选择位置');
+        return;
+      } else {
+        this.form.location = this.selectedLocation.address;
+        // 确保赋值给form的经纬度字段
+        this.form.location_lng = this.selectedLocation.lng;
+        this.form.location_lat = this.selectedLocation.lat;
+      }
+
+      // 已经实时更新，这里只需要关闭弹窗
+      this.mapDialogVisible = false;
+
+
+      // 清除地图元素
+      if (this.marker) {
+        this.map.remove(this.marker);
+      }
+      this.infoWindow.close();
+    },
+
     // 分类ID转名称（匹配用户原有分类数据）
     getCategoryName(categoryId) {
       return this.categories.find(item => item.id === categoryId)?.name || '未知分类'
@@ -271,7 +440,15 @@ export default {
         const formData = new FormData();
         Object.keys(this.form).forEach(key => {
           if (key !== 'images') {
-            formData.append(key, this.form[key]);
+            // 处理所有非图片字段（包含经纬度）
+            const value = this.form[key];
+
+            // 处理空值情况
+            if (value === null || value === undefined) {
+              formData.append(key, '');
+            } else {
+              formData.append(key, value);
+            }
           }
         });
         // 添加图片文件
@@ -553,4 +730,34 @@ $bg-color: #f6f8fa;
   }
 }
 
+// 添加地图信息窗口样式
+.map-info {
+  padding: 10px;
+  min-width: 200px;
+
+  h4 {
+    margin: 0 0 5px;
+    color: #409EFF;
+    font-size: 14px;
+  }
+
+  p {
+    margin: 0;
+    font-size: 12px;
+    color: #666;
+  }
+}
+
+// 地图加载状态提示
+.map-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border-radius: 4px;
+}
 </style>
