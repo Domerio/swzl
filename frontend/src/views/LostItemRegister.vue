@@ -190,6 +190,7 @@
 
 <script>
 import axios from 'axios';
+import AMapLoader from '@amap/amap-jsapi-loader';
 
 export default {
   /* eslint-disable no-undef */
@@ -262,25 +263,9 @@ export default {
   },
   mounted() {
     this.fetchCategories()
-    // 添加安全配置
     window._AMapSecurityConfig = {
-      securityJsCode: 'd43a12d0b69aeacd6f9016db9b366433'
+      securityJsCode: 'c684b8bc9a42d62c059edd9fee411dce'
     };
-    if (!window.AMap) {
-      const key = 'db70318a1cf1f196b2746f10cb9df826';
-      const script = document.createElement('script');
-      // 同时加载三个插件
-      script.src = `https://webapi.amap.com/maps?v=2.0&key=${key}&plugin=AMap.Geocoder,AMap.ToolBar,AMap.Scale`;
-      script.async = true;
-      script.onload = () => {
-        this.geocoder = new AMap.Geocoder({
-          city: "全国",
-          timeout: 5000 // 增加5秒超时
-        });
-        console.log('AMap SDK and all plugins loaded');
-      };
-      document.head.appendChild(script);
-    }
   },
   methods: {
     // 新增地图相关方法
@@ -291,94 +276,155 @@ export default {
       });
     },
 
-    initAMap() {
-      if (!window.AMap) return;
-      // 山西师范大学（太原校区）坐标（经度112.5865，纬度37.8603）
-      const targetLngLat = new AMap.LngLat(112.662198, 37.745788);
-      // 初始化地图
+    async initAMap() {
+
+      try {
+        // 彻底清理所有地图相关实例
+        this.cleanupMap();
+
+        this.mapLoading = true;
+
+        // 强制禁用缓存
+        const loaderConfig = {
+          key: '3958565d98f73366bc8f766bcc44cb66',
+          version: '2.0',
+          plugins: ['AMap.Geocoder', 'AMap.Scale', 'AMap.ToolBar'],
+          securityJsCode: 'c684b8bc9a42d62c059edd9fee411dce',
+          AMapUI: {
+            version: '1.1',
+            plugins: []
+          },
+          url: `https://webapi.amap.com/maps?v=2.0&key=db70318a1cf1f196b2746f10cb9df826&t=${Date.now()}`
+        };
+
+        // 加载前检查全局AMap对象
+        if (window.AMap) {
+          window.AMap = undefined;
+          delete window.AMap;
+        }
+
+        // 增加加载超时处理
+        const AMap = await Promise.race([
+          AMapLoader.load(loaderConfig),
+          new Promise((_, reject) =>
+              setTimeout(() => reject(new Error('地图加载超时')), 5000)
+          )
+        ]);
+
+        // 增加安全校验
+        if (!AMap?.Map) {
+          throw new Error('高德地图API加载异常');
+        }
+        // 初始化地图
+        this.initMapCore(AMap);
+        this.initMapComponents(AMap);
+
+      } catch (error) {
+        console.error('地图加载失败:', error);
+        this.$message.error(`地图初始化失败: ${error.message}`);
+        this.cleanupMap();
+      } finally {
+        this.mapLoading = false;
+      }
+    },
+    cleanupMap() {
+      // 销毁所有地图相关实例
+      if (this.map) {
+        this.map.destroy();
+        this.map = null;
+      }
+      this.geocoder = null;
+      this.marker = null;
+      if (this.infoWindow) {
+        this.infoWindow.close();
+        this.infoWindow = null;
+      }
+    },
+    initMapCore(AMap) {
       this.map = new AMap.Map('map-container', {
         zoom: 15,
-        center: targetLngLat, // 设置中心点
+        center: new AMap.LngLat(112.662198, 37.745788),
         resizeEnable: true,
-        securityJsCode: 'd43a12d0b69aeacd6f9016db9b366433', // 你的安全密钥
-        useAMapUI: true, // 使用高德地图UI组件
+        animateEnable: true,
+        touchZoomCenter: 1,
+      });
+    },
+    initMapComponents(AMap) {
+      // 初始化地理编码器
+      this.geocoder = new AMap.Geocoder({
+        city: '全国',
+        timeout: 5000,
+        extensions: 'all'
       });
 
-      // 添加地图控件
-      this.map.addControl(new AMap.ToolBar({
-        position: 'LT'  // 左上角
-      }));
-      this.map.addControl(new AMap.Scale({
-        position: 'LB'  // 左下角
-      }));
+      // 添加控件
+      this.map.addControl(new AMap.ToolBar({position: 'LT'}));
+      this.map.addControl(new AMap.Scale({position: 'LB'}));
 
-      // 初始化信息窗口
+      // 自定义信息窗口
       this.infoWindow = new AMap.InfoWindow({
-        offset: new AMap.Pixel(0, -30)
+        offset: new AMap.Pixel(0, -30),
+        isCustom: true,
+        autoMove: true,
+        closeWhenClickMap: true
       });
 
-      // 地图点击事件
-      // 地图点击事件
-      this.map.on('click', (e) => {
-        try {
-          this.mapLoading = true;
+      // 绑定地图事件
+      this.map.on('click', this.handleMapClick);
+    },
 
-          // 清除旧标记
-          if (this.marker) {
-            this.map.remove(this.marker);
-          }
+    handleMapClick(e) {
+      try {
+        this.mapLoading = true;
+        // 清除旧标记
+        if (this.marker) {
+          this.map.remove(this.marker);
+        }
+        // 添加新标记
+        this.marker = new AMap.Marker({
+          position: e.lnglat,
+          title: '选择的位置'
+        });
+        this.map.add(this.marker);
 
-          // 添加新标记
-          this.marker = new AMap.Marker({
-            position: e.lnglat,
-            title: '选择的位置'
-          });
-          this.map.add(this.marker);
+        // 自动居中
+        this.map.setCenter(e.lnglat);
+        this.geocoder.getAddress(e.lnglat, (status, result) => {
+          try {
+            this.mapLoading = false;
 
-          // 自动居中
-          this.map.setCenter(e.lnglat);
+            if (status === 'complete' && result.info === 'OK') {
+              const address = result.regeocode.formattedAddress;
+              this.selectedLocation = {
+                lng: e.lnglat.getLng(),
+                lat: e.lnglat.getLat(),
+                address: address
+              };
 
-          // 获取地址信息（使用回调函数）
-          const geocoder = new AMap.Geocoder();
-          geocoder.getAddress(e.lnglat, (status, result) => {
-            try {
-              this.mapLoading = false;
+              // 实时更新输入框
+              this.form.location = address;
 
-              if (status === 'complete' && result.info === 'OK') {
-                const address = result.regeocode.formattedAddress;
-                this.selectedLocation = {
-                  lng: e.lnglat.getLng(),
-                  lat: e.lnglat.getLat(),
-                  address: address
-                };
-
-                // 实时更新输入框
-                this.form.location = address;
-
-                // 显示信息窗口
-                this.infoWindow.setContent(`<div class="map-info">
+              // 显示信息窗口
+              this.infoWindow.setContent(`<div class="map-info">
           <h4>已选择位置：</h4>
           <p>${address}</p>
         </div>`);
-                this.infoWindow.open(this.map, e.lnglat);
-              } else {
-                console.error('地址解析失败:', result);
-                this.$message.warning('无法获取该位置地址，请重新选择');
-              }
-            } catch (err) {
-              console.error('地址解析异常:', err);
-              this.$message.warning('地址解析服务异常');
+              this.infoWindow.open(this.map, e.lnglat);
+            } else {
+              console.error('地址解析失败:', result);
+              this.$message.warning('无法获取该位置地址，请重新选择');
             }
-          });
-
-        } catch (error) {
-          this.mapLoading = false;
-          console.error('地址解析异常:', error);
-          this.$message.warning('位置选择过程发生错误');
-        }
-      });
+          } catch (err) {
+            console.error('地址解析异常:', err);
+            this.$message.warning('地址解析服务异常');
+          }
+        });
+      } catch (error) {
+        this.mapLoading = false;
+        console.error('地址解析异常:', error);
+        this.$message.warning('位置选择过程发生错误');
+      }
     },
-
     // 修改后的确认方法
     confirmLocation() {
       if (!this.selectedLocation.address) {
