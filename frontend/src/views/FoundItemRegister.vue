@@ -132,10 +132,10 @@
         <el-descriptions-item label="分类">
           {{ getCategoryName(submittedItem.category) }}
         </el-descriptions-item>
-        <el-descriptions-item label="丢失时间">
+        <el-descriptions-item label="拾取时间">
           {{ submittedItem.lost_time }}
         </el-descriptions-item>
-        <el-descriptions-item label="丢失地点">{{ submittedItem.location }}</el-descriptions-item>
+        <el-descriptions-item label="拾取地点">{{ submittedItem.location }}</el-descriptions-item>
         <el-descriptions-item label="联系方式" :span="2">
           <el-link type="primary">{{ submittedItem.contact }}</el-link>
         </el-descriptions-item>

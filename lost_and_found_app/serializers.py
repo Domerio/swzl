@@ -78,7 +78,7 @@ class FoundItemSerializer(serializers.ModelSerializer):
         fields = ['user', 'title', 'description', 'lost_time', 'is_anonymous',
                   'location', 'category', 'contact', 'status', 'created_at', 'updated_at', 'result', 'location_lat',
                   'location_lng', 'id', 'item_type']
-        read_only_fields = ['status']
+        read_only_fields = ['user','status']
         extra_kwargs = {
             'lost_time': {
                 'input_formats': ['iso-8601', '%Y-%m-%d %H:%M:%S', '%Y-%m-%dT%H:%M']  # 增加时间格式兼容

@@ -5,8 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="管理员仪表盘物品详情集成高德地图API">
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/EChartsComponent.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lost_and_found_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/HelloWorld.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/MessageDialog.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/QuickActions.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/RecordTable.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/StatCard.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/StatusBadge.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/UserProfile.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Dashboard/UserDashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Dashboard/UserDashboard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/FoundItemRegister.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/FoundItemRegister.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_app/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/363.3216cd7f.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/538.3216cd7f.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/702.3216cd7f.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/779.3216cd7f.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/931.3216cd7f.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.3216cd7f.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.3216cd7f.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/363.3216cd7f.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/363.3216cd7f.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/538.3216cd7f.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/538.3216cd7f.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/702.3216cd7f.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/702.3216cd7f.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/779.3216cd7f.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/779.3216cd7f.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/931.3216cd7f.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/931.3216cd7f.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.3216cd7f.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.3216cd7f.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.3216cd7f.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.3216cd7f.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +110,7 @@
     "django.template.preview.state": "SHOW_EDITOR",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "E:/毕业设计/基于Django的校园失物招领管理系统/lost_and_found_system/frontend/src/views/Dashboard/UserDashboard.vue",
+    "last_opened_file_path": "E:/毕业设计/基于Django的校园失物招领管理系统/lost_and_found_system/frontend/src/views/LostItemRegister.vue",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -86,7 +118,7 @@
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.pluginManager",
     "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PyCharm 2024.2.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "two.files.diff.last.used.file": "E:/毕业设计/基于Django的校园失物招领管理系统/lost_and_found_system/frontend/src/views/Dashboard/UserDashboard.vue",
+    "two.files.diff.last.used.file": "E:/毕业设计/基于Django的校园失物招领管理系统/lost_and_found_system/frontend/src/views/LostItemRegister.vue",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -95,6 +127,15 @@
     ]
   }
 }]]></component>
+  <component name="QodanaHighlightedReportService">
+    <option name="localRunNotPublishedPersistedInfo">
+      <LocalReportPersistedInfo>
+        <option name="path" value="C:\Users\doido\AppData\Local\Temp\qodana_output\qodana.sarif.json" />
+        <option name="reportGuid" value="7396dcbc-47ce-49aa-a124-31d3afeae8ca" />
+        <option name="reportName" value="lost_and_found_system/qodana/2025-03-20" />
+      </LocalReportPersistedInfo>
+    </option>
+  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\frontend\src\assets" />
@@ -649,14 +690,19 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/frontend/src/views/Dashboard/UserDashboard.vue</url>
-          <line>470</line>
+          <line>450</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/frontend/src/views/Dashboard/AdminDashboard.vue</url>
           <line>203</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/views/Dashboard/UserDashboard.vue</url>
+          <line>590</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="22" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -177,15 +177,8 @@
                     class="header-action-btn">
                 </el-button>
               </div>
-
-              <v-chart
-                  class="chart-wrapper"
-                  :option="chartOption"
-                  autoresize
-                  style="height: 300px"
-                  v-if="hasChartData"
-              />
-              <div v-else class="no-data-tip">
+              <div ref="chart" class="chart-wrapper" v-show="hasChartData"></div>
+              <div v-if="!hasChartData" class="no-data-tip">
                 暂无近期发布数据 📊
               </div>
             </el-card>
@@ -357,24 +350,11 @@
 </template>
 
 <script>
-// import * as echarts from 'echarts';
-// 新增的 Vue-ECharts 相关导入
-import {use} from 'echarts/core'
-import {CanvasRenderer} from 'echarts/renderers'
-import {BarChart} from 'echarts/charts'
-import {GridComponent, LegendComponent, TitleComponent, TooltipComponent} from 'echarts/components'
 import dayjs from "dayjs";
 import axios, {post} from "axios";
+import * as echarts from 'echarts';
 
 
-use([
-  CanvasRenderer,
-  BarChart,
-  TitleComponent,
-  TooltipComponent,
-  GridComponent,
-  LegendComponent
-])
 export default {
   /* eslint-disable no-undef */
   data() {
@@ -481,6 +461,7 @@ export default {
       requestMethod: 'POST',
       detailDialogVisible: false,
       currentItem: {}, // 当前查看的条目
+      chart: null,
     }
   },
   computed: {
@@ -502,11 +483,10 @@ export default {
         value: item.value
       }))
     },
-
   },
   methods: {
     getItemTypeLabel(type) {
-      return type === 'lost' ? '失物' : '招领';
+      return type === 'lost' ? '失物登记' : '招领登记';
     },
 
     getCategoryName(categoryId) {
@@ -635,6 +615,7 @@ export default {
           name: '每日发布量'
         }]
       }
+      this.chart.setOption(this.chartOption, true) // 更新图表
     },
     // 头像上传处理
     handleAvatarSuccess(res) {
@@ -763,11 +744,43 @@ export default {
         }
         this.detailMap = null
       }
-    }
+    },
 
+    // 初始化图表
+    initChart() {
+      if (!this.$refs.chart) return;
+      // 先销毁旧实例
+      if (this.chart) {
+        this.chart.dispose();
+        this.chart = null;
+      }
+      // 使用nextTick替代setTimeout
+      this.$nextTick(() => {
+        if (!this.$refs.chart) return;
+        try {
+          this.chart = echarts.init(this.$refs.chart);
+          this.chart.setOption(this.chartOption);
+          // this.chart.resize();
+
+          // 添加容错的事件监听
+          window.addEventListener('resize', this.handleChartResize);
+        } catch (error) {
+          console.error('图表初始化失败:', error);
+        }
+      });
+    },
+
+    handleChartResize() {
+      if (this.chart) {
+        this.chart.resize();
+      }
+    },
   },
   mounted() {
-    this.loadData();
+    this.loadData()
+    this.$nextTick(() => {
+      this.initChart();
+    });
     if (!window.AMap) {
       const key = 'db70318a1cf1f196b2746f10cb9df826'
       const plugins = [
@@ -806,7 +819,7 @@ export default {
       } else {
         this.destroyDetailMap();
       }
-    }
+    },
   }
 }
 
@@ -848,9 +861,10 @@ $card-bg: #ffffff;
   .chart-col {
     .stats-card {
       height: 350px;
-
       .chart-wrapper {
-        height: calc(350px - 57px); // 减去header高度
+        height: 280px; // 增加可视区域
+        width: 100%;
+        padding-bottom: 12px;
       }
     }
   }
@@ -860,42 +874,9 @@ $card-bg: #ffffff;
       height: 350px;
 
       .notification-list {
-        height: calc(350px - 57px);
+        height: calc(280px - 57px);
         overflow-y: auto;
       }
-    }
-  }
-}
-
-// 响应式适配
-@media (max-width: 1200px) {
-  .top-section .card-wrapper .el-card {
-    height: 380px;
-  }
-
-  .bottom-section {
-    .chart-col,
-    .notification-col {
-      .el-card {
-        height: 340px;
-      }
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .card-wrapper {
-    margin-bottom: 15px !important;
-
-    .el-card {
-      height: auto !important;
-    }
-  }
-
-  .bottom-section {
-    .chart-col,
-    .notification-col {
-      margin-bottom: 15px;
     }
   }
 }
@@ -1094,9 +1075,7 @@ $card-bg: #ffffff;
 }
 
 /* 图表区域 */
-.chart-wrapper {
-  height: 300px;
-}
+
 
 .no-data-tip {
   height: 300px;
