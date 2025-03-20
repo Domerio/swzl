@@ -101,7 +101,7 @@
             </el-table-column>
             <el-table-column label="类型" width="100">
               <template #default="{row}">
-                {{ getItemTypeLabel( row.item_type ) }}
+                {{ getItemTypeLabel(row.item_type) }}
               </template>
             </el-table-column>
             <el-table-column prop="category" label="分类" width="120">
@@ -201,7 +201,15 @@
             </el-descriptions-item>
 
             <el-descriptions-item label="丢失时间">{{ formatTime(currentItem.lost_time) }}</el-descriptions-item>
-            <el-descriptions-item label="丢失地点">{{ currentItem.location }}</el-descriptions-item>
+            <el-descriptions-item label="丢失地点">
+              {{ currentItem.location }}
+              <!-- 添加地图容器 -->
+              <div
+                  v-if="currentItem.location_lat && currentItem.location_lng"
+                  class="detail-map-container"
+                  :id="'detail-map-' + currentItem.id"
+              ></div>
+            </el-descriptions-item>
             <el-descriptions-item label="提交人">
               <el-tooltip
                   v-if="currentItem.user?.role === 'admin'"
@@ -274,6 +282,7 @@ import dayjs from "dayjs";
 // import dayjs from 'dayjs';
 
 export default {
+  /* eslint-disable no-undef */
   data() {
     return {
       user: {
@@ -333,8 +342,95 @@ export default {
         subtree: true
       });
     });
+    if (!window.AMap) {
+      const key = 'db70318a1cf1f196b2746f10cb9df826'
+      const plugins = [
+        'AMap.Scale',
+        'AMap.ToolBar'
+      ].join(',')
+      const script = document.createElement('script')
+      script.src = `https://webapi.amap.com/maps?v=2.0&key=${key}&plugin=${plugins}`
+      script.onerror = () => {
+        console.error('高德地图SDK加载失败')
+      }
+      document.head.appendChild(script)
+    }
   },
   methods: {
+    // 初始化详情地图
+    // 修改initDetailMap方法
+    initDetailMap() {
+      if (!window.AMap) {
+        this.$message.warning('地图资源正在加载，请稍候')
+        return
+      }
+
+      // 确保数据有效性
+      const lng = parseFloat(this.currentItem.location_lng)
+      const lat = parseFloat(this.currentItem.location_lat)
+      if (isNaN(lng) || isNaN(lat)) {
+        console.warn('无效的经纬度数据', this.currentItem)
+        return
+      }
+
+      // 使用nextTick确保DOM更新
+      this.$nextTick(() => {
+        try {
+          this.destroyDetailMap()
+
+          const mapContainerId = `detail-map-${this.currentItem.id}`
+          const mapContainer = document.getElementById(mapContainerId)
+          if (!mapContainer) return
+
+          // 初始化地图
+          this.detailMap = new AMap.Map(mapContainerId, {
+            zoom: 17,
+            center: new AMap.LngLat(lng, lat),
+            resizeEnable: true,
+            viewMode: '3D'
+          })
+
+          // 添加控件
+          const tools = [
+            new AMap.Scale(),
+            new AMap.ToolBar({
+              position: {bottom: '20px', right: '20px'}
+            })
+          ]
+          tools.forEach(t => t.addTo(this.detailMap))
+
+          // 添加标记
+          new AMap.Marker({
+            position: new AMap.LngLat(lng, lat),
+            content: '<div class="detail-marker">📍</div>',
+            map: this.detailMap
+          })
+        } catch (e) {
+          console.error('地图初始化失败:', e)
+          this.$message.error('地图加载失败，请检查网络连接')
+        }
+      })
+    },
+    // 销毁地图
+    // 修改destroyDetailMap方法
+    destroyDetailMap() {
+      if (this.detailMap) {
+        try {
+          // 清除所有覆盖物
+          this.detailMap.clearMap()
+          // 销毁地图实例
+          this.detailMap.destroy()
+          // 移除DOM元素
+          const container = this.detailMap.getContainer()
+          if (container && container.parentNode) {
+            container.parentNode.removeChild(container)
+          }
+        } catch (e) {
+          console.warn('地图销毁异常:', e.message)
+        }
+        this.detailMap = null
+      }
+    },
     getItemTypeLabel(type) {
       return type === 'lost' ? '失物' : '招领';
     },
@@ -394,7 +490,7 @@ export default {
         this.loading = {posts: false, users: false};
       }
     },
-
+    // 物品详情
     async handleRowClick(row) {
       try {
         const apiUrl = `/api/admin/found-items/${row.id}/`;
@@ -403,7 +499,6 @@ export default {
         });
         // 新增：获取分类名称并合并到数据
         const categoryName = await this.getCategoryName(response.data.category);
-
         this.currentItem = {
           ...response.data,
           category: categoryName,  // 用分类名称替换原始ID值
@@ -415,6 +510,7 @@ export default {
         this.$message.error('获取详情失败');
       }
     },
+    // 用户详情展示
     async handleUserRowClick(row) {
       try {
         const response = await axios.get(`/api/admin/users/${row.id}/`, {
@@ -434,6 +530,7 @@ export default {
         console.error('Error fetching user details:', error);
       }
     },
+    // 审核通过
     async handleApproveItem() {
       try {
         // 强校验物品状态
@@ -463,7 +560,6 @@ export default {
           status: 'active',
           admin_remark: '已通过审核'
         }
-
         // 更新统计数字
         this.pendingCount--
         this.activeCount++
@@ -488,6 +584,30 @@ export default {
         this.$message[isCancel ? 'info' : 'error'](msg)
       }
     },
+  },
+  // 添加watch监听对话框状态
+  watch: {
+    itemDialogVisible(newVal) {
+      if (newVal) {
+        // 添加延迟确保DOM渲染完成
+        setTimeout(() => {
+          this.initDetailMap()
+        }, 300)
+      } else {
+        this.destroyDetailMap()
+      }
+    },
+    // 监听当前物品变化
+    currentItem: {
+      deep: true,
+      handler() {
+        if (this.itemDialogVisible) {
+          this.$nextTick(() => {
+            this.initDetailMap()
+          })
+        }
+      }
+    }
   }
 };
 </script>
@@ -779,4 +899,33 @@ export default {
   }
 }
 
+// 添加详情地图样式
+.detail-map-container {
+  width: 100%;
+  height: 200px;
+  margin-top: 12px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+
+  &::after {
+    content: '高德地图提供支持';
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    font-size: 10px;
+    color: #666;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 2px 5px;
+    border-radius: 3px;
+  }
+}
+
+// 标记点样式
+.detail-marker {
+  font-size: 24px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  transform: translate(-12px, -24px);
+}
 </style>

@@ -720,7 +720,6 @@ export default {
         this.$message.warning('地图资源正在加载，请稍候')
         return
       }
-
       const lng = parseFloat(this.currentItem.location_lng)
       const lat = parseFloat(this.currentItem.location_lat)
       if (isNaN(lng) || isNaN(lat)) return

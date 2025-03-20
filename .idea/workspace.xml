@@ -4,30 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="失物登记页面优化">
+    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="招领登记集成高德地图API">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/FoundItemRegister.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/FoundItemRegister.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/168.7e79a2d1.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/363.7e79a2d1.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/423.7e79a2d1.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/538.7e79a2d1.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/963.7e79a2d1.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.7e79a2d1.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.7e79a2d1.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/168.7e79a2d1.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/168.7e79a2d1.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/363.7e79a2d1.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/363.7e79a2d1.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/423.7e79a2d1.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/423.7e79a2d1.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/538.7e79a2d1.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/538.7e79a2d1.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/963.7e79a2d1.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/963.7e79a2d1.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.7e79a2d1.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.7e79a2d1.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.7e79a2d1.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.7e79a2d1.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Dashboard/AdminDashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Dashboard/AdminDashboard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Dashboard/UserDashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Dashboard/UserDashboard.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -89,34 +69,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;Django 服务器.lost_and_found_system.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/毕业设计/基于Django的校园失物招领管理系统/lost_and_found_system/frontend/src/views/FoundItemRegister.vue&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\PyCharm 2024.2.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
-    &quot;two.files.diff.last.used.file&quot;: &quot;E:/毕业设计/基于Django的校园失物招领管理系统/lost_and_found_system/frontend/src/views/FoundItemRegister.vue&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Django 服务器.lost_and_found_system.executor": "Run",
+    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "django.template.preview.state": "SHOW_EDITOR",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "E:/毕业设计/基于Django的校园失物招领管理系统/lost_and_found_system/frontend/src/views/Dashboard/UserDashboard.vue",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PyCharm 2024.2.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "two.files.diff.last.used.file": "E:/毕业设计/基于Django的校园失物招领管理系统/lost_and_found_system/frontend/src/views/Dashboard/UserDashboard.vue",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;vue.recent.templates&quot;: [
-      &quot;Vue Composition API Component&quot;
+  "keyToStringList": {
+    "vue.recent.templates": [
+      "Vue Composition API Component"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\frontend\src\assets" />
@@ -204,15 +184,7 @@
       <workItem from="1742411082939" duration="195000" />
       <workItem from="1742451854105" duration="349000" />
       <workItem from="1742452306778" duration="919000" />
-      <workItem from="1742453529144" duration="4841000" />
-    </task>
-    <task id="LOCAL-00001" summary="1">
-      <option name="closed" value="true" />
-      <created>1740413604170</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1740413604170</updated>
+      <workItem from="1742453529144" duration="7191000" />
     </task>
     <task id="LOCAL-00002" summary="1">
       <option name="closed" value="true" />
@@ -598,7 +570,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742410940473</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="招领登记集成高德地图API">
+      <option name="closed" value="true" />
+      <created>1742458451802</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1742458451803</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -633,7 +613,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="登录ok，注册有问题" />
     <MESSAGE value="Merge remote-tracking branch 'swzl/master'&#10;&#10;# Conflicts:&#10;#&#9;static/frontend/css/149.65cc60fe.chunk.css&#10;#&#9;static/frontend/css/app.65cc60fe.css&#10;#&#9;static/frontend/css/chunk-vendors.65cc60fe.css&#10;#&#9;static/frontend/js/149.65cc60fe.chunk.js&#10;#&#9;static/frontend/js/149.65cc60fe.chunk.js.map&#10;#&#9;static/frontend/js/519.65cc60fe.chunk.js&#10;#&#9;static/frontend/js/519.65cc60fe.chunk.js.map&#10;#&#9;static/frontend/js/80.65cc60fe.chunk.js&#10;#&#9;static/frontend/js/80.65cc60fe.chunk.js.map&#10;#&#9;static/frontend/js/app.65cc60fe.js.map&#10;#&#9;static/frontend/js/chunk-vendors.65cc60fe.js&#10;#&#9;static/frontend/js/chunk-vendors.65cc60fe.js.map" />
     <MESSAGE value="登录+注册" />
     <MESSAGE value="学生仪表盘" />
@@ -658,7 +637,8 @@
     <MESSAGE value="失物登记功能集成高德地图API" />
     <MESSAGE value="失物登记集成高德地图API" />
     <MESSAGE value="失物登记页面优化" />
-    <option name="LAST_COMMIT_MESSAGE" value="失物登记页面优化" />
+    <MESSAGE value="招领登记集成高德地图API" />
+    <option name="LAST_COMMIT_MESSAGE" value="招领登记集成高德地图API" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -673,6 +653,12 @@
           <url>file://$PROJECT_DIR$/frontend/src/views/Dashboard/UserDashboard.vue</url>
           <line>470</line>
           <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/views/Dashboard/AdminDashboard.vue</url>
+          <line>203</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
