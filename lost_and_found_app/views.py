@@ -529,13 +529,6 @@ def admin_approve_item(request, item_id):
     logger.info(f"管理员审批请求 - 用户: {request.user.id} 物品: {item_id}")
 
     try:
-        # # 强校验管理员权限
-        # if not hasattr(request.user, 'adminprofile'):
-        #     logger.warning(f"非法审批尝试: 用户{request.user.id}非管理员")
-        #     return Response(
-        #         {"detail": "仅限管理员操作"},
-        #         status=status.HTTP_403_FORBIDDEN
-        #     )
         item = LostAndFound.objects.select_related('user').get(id=item_id)
 
         # 校验状态合法性
@@ -555,7 +548,8 @@ def admin_approve_item(request, item_id):
         Notification.objects.create(
             user=item.user,
             content=f"您提交的 {item.title} 已通过审核",
-            notification_type='system'
+            notification_type='system',
+            related_item_id=item.id,
         )
 
         return Response(LostAndFoundDetailSerializer(item).data)
