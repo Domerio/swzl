@@ -65,11 +65,25 @@
               @click="handleLostItemRegister">
             失物登记
           </el-button>
+          <!-- 添加失物大厅按钮 -->
+          <el-button
+              type="info"
+              icon="el-icon-s-shop"
+              @click="goToLostHall">
+            失物大厅
+          </el-button>
           <el-button
               type="success"
               icon="el-icon-s-claim"
               @click="handleFoundItemRegister">
             招领登记
+          </el-button>
+          <!-- 添加招领大厅按钮 -->
+          <el-button
+              type="warning"
+              icon="el-icon-s-shop"
+              @click="goToFoundHall">
+            招领大厅
           </el-button>
         </el-card>
       </el-col>
@@ -485,6 +499,7 @@ export default {
     },
   },
   methods: {
+
     getItemTypeLabel(type) {
       return type === 'lost' ? '失物登记' : '招领登记';
     },
@@ -699,6 +714,12 @@ export default {
     handleFoundItemRegister() {
       this.$router.push('/api/items/found/')
     },
+    goToLostHall(){
+      this.$router.push('/api/user/lost-hall/')
+    },
+    goToFoundHall(){
+      this.$router.push('/api/user/found-hall/')
+    },
     // 初始化详情地图
     initDetailMap() {
       if (!window.AMap) {
@@ -862,7 +883,7 @@ $card-bg: #ffffff;
 .bottom-section {
   .chart-col {
     .stats-card {
-      height: 350px;
+      height: 360px;
 
       .chart-wrapper {
         height: 280px; // 增加可视区域
@@ -874,7 +895,7 @@ $card-bg: #ffffff;
 
   .notification-col {
     .notification-card {
-      height: 350px;
+      height: 360px;
 
       .notification-list {
         height: calc(280px - 57px);
@@ -1005,13 +1026,16 @@ $card-bg: #ffffff;
 
 /* 快捷操作区域 */
 .quick-actions {
-  .el-button {
-    margin-bottom: 12px;
-    width: 100%;
-    transition: all 0.3s;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 
-    &:last-child {
-      margin: 0;
+  .el-button {
+    width: calc(50% - 6px); /* 保留间距 */
+    margin: 0 0 12px 0 !important; /* 清除默认边距 */
+
+    &:nth-child(odd) {  /* 奇数按钮添加右边距 */
+      margin-right: 12px !important;
     }
 
     &:hover {
