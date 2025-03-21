@@ -615,7 +615,11 @@ export default {
           name: '每日发布量'
         }]
       }
-      this.chart.setOption(this.chartOption, true) // 更新图表
+      if (this.chart) {
+        this.chart.setOption(this.chartOption, true) // 更新图表
+        this.chart.resize() // 重新调整图表大小
+      }
+
     },
     // 头像上传处理
     handleAvatarSuccess(res) {
@@ -760,7 +764,7 @@ export default {
         try {
           this.chart = echarts.init(this.$refs.chart);
           this.chart.setOption(this.chartOption);
-          // this.chart.resize();
+          this.chart.resize();
 
           // 添加容错的事件监听
           window.addEventListener('resize', this.handleChartResize);
@@ -776,11 +780,9 @@ export default {
       }
     },
   },
-  mounted() {
-    this.loadData()
-    this.$nextTick(() => {
-      this.initChart();
-    });
+  async mounted() {
+    await this.loadData()
+    this.initChart()
     if (!window.AMap) {
       const key = 'db70318a1cf1f196b2746f10cb9df826'
       const plugins = [
@@ -861,6 +863,7 @@ $card-bg: #ffffff;
   .chart-col {
     .stats-card {
       height: 350px;
+
       .chart-wrapper {
         height: 280px; // 增加可视区域
         width: 100%;

@@ -4,41 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="管理员仪表盘物品详情集成高德地图API">
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/EChartsComponent.vue" afterDir="false" />
+    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="修复近7日发布统计图表的显示">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/HelloWorld.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/MessageDialog.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/QuickActions.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/RecordTable.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/StatCard.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/StatusBadge.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/UserProfile.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/Dashboard/UserDashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Dashboard/UserDashboard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/FoundItemRegister.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/FoundItemRegister.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lost_and_found_app/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/363.3216cd7f.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/538.3216cd7f.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/702.3216cd7f.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/779.3216cd7f.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/931.3216cd7f.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.3216cd7f.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.3216cd7f.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/363.3216cd7f.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/363.3216cd7f.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/538.3216cd7f.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/538.3216cd7f.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/702.3216cd7f.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/702.3216cd7f.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/779.3216cd7f.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/779.3216cd7f.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/931.3216cd7f.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/931.3216cd7f.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.3216cd7f.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.3216cd7f.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.3216cd7f.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.3216cd7f.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,34 +66,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "Django 服务器.lost_and_found_system.executor": "Run",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "django.template.preview.state": "SHOW_EDITOR",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "E:/毕业设计/基于Django的校园失物招领管理系统/lost_and_found_system/frontend/src/views/LostItemRegister.vue",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PyCharm 2024.2.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "two.files.diff.last.used.file": "E:/毕业设计/基于Django的校园失物招领管理系统/lost_and_found_system/frontend/src/views/LostItemRegister.vue",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Django 服务器.lost_and_found_system.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/毕业设计/基于Django的校园失物招领管理系统/lost_and_found_system/frontend/src/views/LostItemRegister.vue&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\PyCharm 2024.2.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;two.files.diff.last.used.file&quot;: &quot;E:/毕业设计/基于Django的校园失物招领管理系统/lost_and_found_system/frontend/src/views/LostItemRegister.vue&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "vue.recent.templates": [
-      "Vue Composition API Component"
+  &quot;keyToStringList&quot;: {
+    &quot;vue.recent.templates&quot;: [
+      &quot;Vue Composition API Component&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="QodanaHighlightedReportService">
     <option name="localRunNotPublishedPersistedInfo">
       <LocalReportPersistedInfo>
@@ -224,14 +191,7 @@
       <workItem from="1742451854105" duration="349000" />
       <workItem from="1742452306778" duration="919000" />
       <workItem from="1742453529144" duration="8425000" />
-    </task>
-    <task id="LOCAL-00003" summary="完成路由配置">
-      <option name="closed" value="true" />
-      <created>1740415547808</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1740415547808</updated>
+      <workItem from="1742538324410" duration="693000" />
     </task>
     <task id="LOCAL-00004" summary="修改前端页面">
       <option name="closed" value="true" />
@@ -617,7 +577,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742461571342</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="修复近7日发布统计图表的显示">
+      <option name="closed" value="true" />
+      <created>1742496137598</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1742496137598</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -652,7 +620,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="登录+注册" />
     <MESSAGE value="学生仪表盘" />
     <MESSAGE value="优化页面显示" />
     <MESSAGE value="学生和教职工共用一个仪表盘" />
@@ -677,7 +644,8 @@
     <MESSAGE value="失物登记页面优化" />
     <MESSAGE value="招领登记集成高德地图API" />
     <MESSAGE value="管理员仪表盘物品详情集成高德地图API" />
-    <option name="LAST_COMMIT_MESSAGE" value="管理员仪表盘物品详情集成高德地图API" />
+    <MESSAGE value="修复近7日发布统计图表的显示" />
+    <option name="LAST_COMMIT_MESSAGE" value="修复近7日发布统计图表的显示" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -701,7 +669,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/frontend/src/views/Dashboard/UserDashboard.vue</url>
           <line>590</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="22" />
         </line-breakpoint>
       </breakpoints>
