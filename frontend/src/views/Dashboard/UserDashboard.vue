@@ -351,7 +351,7 @@
         </el-button>
         <el-button
             type="danger"
-            v-if="currentItem.status === 'active'"
+            v-if="currentItem.status === 'active' && currentItem.item_type ==='lost'"
             @click="handleCloseItem"
             size="medium">
           标记为已找回
