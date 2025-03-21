@@ -43,6 +43,26 @@ class LostItemCreateAPI(generics.CreateAPIView):
             )
 
 
+class LostItemHallAPI(generics.ListAPIView):
+    queryset = LostAndFound.objects.filter(status='active')
+    serializer_class = LostItemSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    parser_classes = (MultiPartParser,)
+
+    def get_queryset(self):
+        return self.queryset.filter(status='active')
+
+
+class FoundItemHallAPI(generics.ListAPIView):
+    queryset = LostAndFound.objects.filter(status='active')
+    serializer_class = FoundItemSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    parser_classes = (MultiPartParser,)
+
+    def get_queryset(self):
+        return self.queryset.filter(status='active')
+
+
 class FoundItemCreateAPI(generics.CreateAPIView):
     queryset = LostAndFound.objects.all()
     serializer_class = FoundItemSerializer

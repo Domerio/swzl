@@ -9,5 +9,4 @@ app_name = 'lost_and_found_app'
 
 urlpatterns = [
     # 页面路由
-    path('found-item-register/', views.found_item_register, name='found_item_register'),
 ]

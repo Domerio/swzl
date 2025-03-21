@@ -5,6 +5,12 @@ from rest_framework import serializers
 from .models import User, Category, Notification, Attachment, LostAndFound
 
 
+class UserSimpleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'real_name', 'role']
+
+
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField(
@@ -41,17 +47,20 @@ class UserSerializer(serializers.ModelSerializer):
 # serializers.py
 class LostItemSerializer(serializers.ModelSerializer):
     # 添加必填字段验证
-    location = serializers.CharField(max_length=100, required=True)
-    contact = serializers.CharField(max_length=50, required=True)
+    location = serializers.CharField(max_length=100, required=True)  # 地点
+    contact = serializers.CharField(max_length=50, required=True)  # 联系方式
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.filter(item_type='lost'), required=True)
-    item_type = serializers.CharField(source='category.item_type', read_only=True)  # 新增
+    item_type = serializers.CharField(source='category.item_type', read_only=True)  # 招领登记/失物登记
+    category_name = serializers.CharField(source='category.name', read_only=True)  # 类型名
+    images = serializers.SerializerMethodField()  # 物品图片
+    user = UserSimpleSerializer()  # 显示发布者基本信息
 
     class Meta:
         model = LostAndFound
         fields = [
             'user', 'title', 'description', 'lost_time', 'is_anonymous',
             'location', 'category', 'contact', 'status', 'created_at', 'updated_at', 'result', 'location_lat',
-            'location_lng', 'id', 'item_type'  # 新增
+            'location_lng', 'id', 'item_type', 'category_name', 'images'
         ]
         read_only_fields = ['user', 'status']
         extra_kwargs = {
@@ -64,6 +73,9 @@ class LostItemSerializer(serializers.ModelSerializer):
         if not Category.objects.filter(id=value.id).exists():
             raise serializers.ValidationError("无效的物品分类")
         return value
+
+    def get_images(self, obj):
+        return [attachment.image.url for attachment in obj.attachments.all()]
 
 
 class FoundItemSerializer(serializers.ModelSerializer):
@@ -78,7 +90,7 @@ class FoundItemSerializer(serializers.ModelSerializer):
         fields = ['user', 'title', 'description', 'lost_time', 'is_anonymous',
                   'location', 'category', 'contact', 'status', 'created_at', 'updated_at', 'result', 'location_lat',
                   'location_lng', 'id', 'item_type']
-        read_only_fields = ['user','status']
+        read_only_fields = ['user', 'status']
         extra_kwargs = {
             'lost_time': {
                 'input_formats': ['iso-8601', '%Y-%m-%d %H:%M:%S', '%Y-%m-%dT%H:%M']  # 增加时间格式兼容
@@ -89,12 +101,6 @@ class FoundItemSerializer(serializers.ModelSerializer):
             if not Category.objects.filter(id=value.id).exists():
                 raise serializers.ValidationError("无效的物品分类")
             return value
-
-
-class UserSimpleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'real_name', 'role']
 
 
 class LostAndFoundDetailSerializer(LostItemSerializer):

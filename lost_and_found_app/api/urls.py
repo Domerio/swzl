@@ -4,7 +4,7 @@ from django.urls import path
 
 from .views.auth import LoginAPI, UploadAvatar
 from .views.auth import RegisterAPI
-from .views.items import LostItemCreateAPI, FoundItemCreateAPI  # 确保导入路径正确
+from .views.items import LostItemCreateAPI, FoundItemCreateAPI, FoundItemHallAPI  # 确保导入路径正确
 from .. import views
 
 urlpatterns = [
@@ -20,8 +20,9 @@ urlpatterns = [
     path('items/found/', FoundItemCreateAPI.as_view(), name='found_items'),
     path('items/<int:item_id>/', views.item_detail, name='item-detail'),
     path('user/items/<int:item_id>/status/', views.update_item_status, name='update-item-status'),
-    path('user/lost-hall',),
-    path('user/found-hall',),
+    # path('user/lost-items/', views.public_items_list, name='LostHall'),
+
+    path('user/found-hall/', FoundItemHallAPI.as_view(), name='FoundHall'),
     path('admin/items/<int:item_id>/status/', views.admin_approve_item),
 
     # 用户资料
@@ -37,4 +38,9 @@ urlpatterns = [
     # 认证相关端点
     path('logout/', views.user_logout, name='logout'),
     path('csrf-token/', views.get_csrf_token, name='get-csrf-token'),
+    # 失物大厅相关路由
+    path('public/lost-items/', views.public_lost_items, name='public-lost-items'),
+    path('bookmarks/<int:item_id>/', views.bookmarks_api, name='bookmarks-operate'),
+    path('report-found/<int:item_id>/', views.report_found_and_notify, name='report-found'),
+
 ]

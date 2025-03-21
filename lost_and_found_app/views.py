@@ -140,25 +140,6 @@ def user_logout(request):
         })
 
 
-# 招领登记视图
-@login_required
-def found_item_register(request):
-    if request.method == 'POST':
-        # 处理招领登记表单
-        # 这里可以添加具体的招领登记逻辑，例如创建 FoundItem 对象并保存
-        # 示例：
-        # name = request.POST.get('name')
-        # found_time = request.POST.get('found_time')
-        # found_location = request.POST.get('found_location')
-        # description = request.POST.get('description')
-        # contact_info = request.POST.get('contact_info')
-        # finder = request.user
-        # FoundItem.objects.create(name=name, found_time=found_time, found_location=found_location, description=description, contact_info=contact_info, finder=finder)
-        messages.success(request, '招领信息已成功登记')  # 登记成功提示
-        return redirect('found_item_list')
-    return render(request, 'frontend/found_item_register.html')
-
-
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def user_dashboard(request):
@@ -566,3 +547,88 @@ def admin_approve_item(request, item_id):
             {"error": "审批过程中发生系统错误"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
+
+
+@api_view(['POST', 'DELETE'])
+@permission_classes([IsAuthenticated])
+def bookmarks_api(request, item_id):
+    try:
+        item = LostAndFound.objects.get(id=item_id)
+        user = request.user
+
+        if request.method == 'POST':
+            Bookmark.objects.get_or_create(user=user, item=item)
+            return Response({'message': '已加入收藏'})
+
+        elif request.method == 'DELETE':
+            Bookmark.objects.filter(user=user, item=item).delete()
+            return Response({'message': '已取消收藏'}, status=204)
+
+    except LostAndFound.DoesNotExist:
+        return Response({'error': '物品不存在'}, status=404)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def report_found_and_notify(request, item_id):
+    try:
+        lost_item = LostAndFound.objects.select_related('user').get(id=item_id)
+        current_user = request.user
+
+        # 权限验证
+        if current_user != lost_item.user and request.user.role != 'admin':
+            return Response({'error': '无权操作此物品'}, status=status.HTTP_403_FORBIDDEN)
+
+        # 如果当前用户是拾到者且物品状态仍然有效
+        if lost_item.status == 'active':
+            # 给失主发送通知
+            Notification.objects.create(
+                user=lost_item.user,
+                content=f"您丢失的「{lost_item.title}」可能已被找到，查看人：{current_user.real_name}（联系方式：{current_user.phone})",
+                notification_type='match',
+                related_item=lost_item
+            )
+
+        return Response({
+            'status': 'success',
+            'message': '已发送通知给失主'
+        }, status=status.HTTP_200_OK)
+
+    except LostAndFound.DoesNotExist:
+        return Response({'error': '物品不存在'}, status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def public_lost_items(request):
+    """
+    获取所有公开的失物招领信息（无需认证）
+    - 状态为进行中 (active)
+    - 包含分类和图片附件
+    """
+    try:
+        # 获取筛选条件（示例：可能从前端传递参数扩展筛选）
+        item_type = request.query_params.get('type', 'lost')  # 可选参数，默认为失物
+
+        # 构建查询条件
+        queryset = LostAndFound.objects.select_related('category', 'user').prefetch_related('attachments').filter(
+            status='active',
+            category__item_type=item_type  # 根据类型筛选
+        ).order_by('-created_at')
+
+        # 使用详细的序列化器
+        serializer = LostAndFoundDetailSerializer(
+            queryset,
+            many=True,
+            context={'request': request}
+        )
+
+        return Response(serializer.data)
+
+    except Exception as e:
+        logger.error(f"获取公开信息失败: {str(e)}", exc_info=True)
+        return Response(
+            {"error": "无法获取数据，请稍后再试"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
