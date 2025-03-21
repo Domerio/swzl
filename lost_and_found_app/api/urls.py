@@ -20,6 +20,8 @@ urlpatterns = [
     path('items/found/', FoundItemCreateAPI.as_view(), name='found_items'),
     path('items/<int:item_id>/', views.item_detail, name='item-detail'),
     path('user/items/<int:item_id>/status/', views.update_item_status, name='update-item-status'),
+    path('user/lost-hall',),
+    path('user/found-hall',),
     path('admin/items/<int:item_id>/status/', views.admin_approve_item),
 
     # 用户资料

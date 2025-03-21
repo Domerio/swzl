@@ -56,6 +56,24 @@ const routes = [
         }
     },
     {
+        path: '/api/user/lost-hall/',
+        name: 'LostItemHall',
+        component: () => import('@/views/LostItemHall.vue'),
+        meta: {
+            requiresAuth: true,
+            role: ['student', 'staff']
+        }
+    },
+    {
+        path: '/api/user/found-hall/',
+        name: 'FoundItemHall',
+        component: () => import('@/views/FoundItemHall.vue'),
+        meta: {
+            requiresAuth: true,
+            role: ['student', 'staff']
+        }
+    },
+    {
         path: '/',
         redirect: () => {
             if (store.getters.isAuthenticated && store.getters.userRole) {
