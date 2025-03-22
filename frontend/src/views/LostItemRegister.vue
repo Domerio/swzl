@@ -65,14 +65,21 @@
 
       <!-- 分类选择 -->
       <el-form-item label="物品分类" prop="category" width="100%">
+        <!-- 修改el-cascader的options绑定 -->
         <el-cascader
             v-model="form.category"
-            :options="categoriesTree"
+            :options="categoryTreeOptions"
+            :props="{
+              checkStrictly: true,
+              expandTrigger: 'hover',
+              emitPath: false
+            }"
             placeholder="请选择最匹配的分类"
-            filterable
-            style="width: 100%;"
+            style="width: 50%;"
             @change="handleCategoryChange"
         />
+
+
       </el-form-item>
 
       <!-- 联系方式 -->
@@ -209,7 +216,7 @@ export default {
         description: '',
         lost_time: null,
         location: '',
-        category: [],
+        category: null,
         contact: '',
         images: [],
         location_lng: null, // 新增经度字段
@@ -217,6 +224,7 @@ export default {
       },
       categories: [],
       categoriesTree: [], // 新增一个用于存储树形结构数据的数组
+      categoryTreeOptions: [], // 用于存储树形结构选项的数组
       fileList: [],
       rules: {
         title: [
@@ -262,12 +270,22 @@ export default {
     }
   },
   mounted() {
-    this.fetchCategories()
+    this.fetchCategories().then(() => {
+      this.categoryTreeOptions = this.convertToCascaderOptions(this.categoriesTree)
+    })
     window._AMapSecurityConfig = {
       securityJsCode: 'c684b8bc9a42d62c059edd9fee411dce'
     };
   },
   methods: {
+    // 修改convertToCascaderOptions方法
+    convertToCascaderOptions(data) {
+      return data.map(item => ({
+        value: item.id,
+        label: item.name,
+        children: item.children.length ? this.convertToCascaderOptions(item.children) : undefined
+      }));
+    },
     getCSRFToken() {
       const cookieValue = document.cookie
           .split('; ')
@@ -494,6 +512,7 @@ export default {
       return this.categories.find(item => item.id === categoryId)?.name || '未知分类'
     },
 
+
     // 处理弹窗关闭后的操作
     handleDialogClosed() {
       this.$router.go(-1) // 或自定义跳转逻辑
@@ -510,15 +529,6 @@ export default {
       printWindow.close()
     },
 
-    // async fetchCategories() {
-    //   try {
-    //     const response = await axios.get('/api/lost/categories/')
-    //     this.categories = response.data
-    //   } catch (error) {
-    //     console.error('获取物品分类失败:', error)
-    //     this.$message.error('获取物品分类失败，请稍后重试。')
-    //   }
-    // },
     // 优化后的提交方法
     async submitForm() {
       try {
@@ -984,6 +994,16 @@ $bg-color: #f6f8fa;
         font-size: 18px;
       }
     }
+  }
+}
+
+.el-cascader {
+  input[aria-hidden="true"] {
+    display: none !important;
+  }
+
+  .el-radio:focus:not(.is-focus):not(:active):not(.is-disabled) .el-radio__inner {
+    box-shadow: none;
   }
 }
 </style>

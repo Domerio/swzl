@@ -53,7 +53,7 @@ class LostItemSerializer(serializers.ModelSerializer):
     item_type = serializers.CharField(source='category.item_type', read_only=True)  # 招领登记/失物登记
     category_name = serializers.CharField(source='category.name', read_only=True)  # 类型名
     images = serializers.SerializerMethodField()  # 物品图片
-    user = UserSimpleSerializer()  # 显示发布者基本信息
+    # user = UserSimpleSerializer()  # 显示发布者基本信息
 
     class Meta:
         model = LostAndFound
