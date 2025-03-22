@@ -225,6 +225,7 @@ export default {
       categories: [],
       categoriesTree: [], // 新增一个用于存储树形结构数据的数组
       categoryTreeOptions: [], // 用于存储树形结构选项的数组
+      categoryList: [], // 存储分类列表
       fileList: [],
       rules: {
         title: [
@@ -509,9 +510,9 @@ export default {
 
     // 分类ID转名称（匹配用户原有分类数据）
     getCategoryName(categoryId) {
-      return this.categories.find(item => item.id === categoryId)?.name || '未知分类'
+      const category = this.categoryList.find(item => item.id === categoryId);
+      return category ? category.name : '未知分类';
     },
-
 
     // 处理弹窗关闭后的操作
     handleDialogClosed() {
@@ -621,6 +622,15 @@ export default {
       }
       return true
     },
+  },
+  async created() {
+    try {
+      // 获取分类列表
+      const response = await axios.get('/api/lost/categories/');
+      this.categoryList = response.data;
+    } catch (error) {
+      console.error('获取分类列表失败:', error);
+    }
   }
 }
 </script>

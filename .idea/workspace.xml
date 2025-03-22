@@ -7,7 +7,33 @@
     <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="失物登记类别选择">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/views/LostItemRegister.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/LostItemRegister.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lost_and_found_app/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/170.14a043c9.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/178.14a043c9.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/404.14a043c9.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/538.14a043c9.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/560.14a043c9.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/589.14a043c9.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/71.14a043c9.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.14a043c9.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.14a043c9.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/170.14a043c9.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/170.14a043c9.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/178.14a043c9.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/178.14a043c9.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/404.14a043c9.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/404.14a043c9.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/538.14a043c9.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/538.14a043c9.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/560.14a043c9.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/560.14a043c9.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/589.14a043c9.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/589.14a043c9.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/71.14a043c9.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/71.14a043c9.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.14a043c9.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.14a043c9.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.14a043c9.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.14a043c9.js.map" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -196,14 +222,6 @@
       <workItem from="1742453529144" duration="8425000" />
       <workItem from="1742538324410" duration="693000" />
       <workItem from="1742539396627" duration="19505000" />
-    </task>
-    <task id="LOCAL-00013" summary="登录+注册">
-      <option name="closed" value="true" />
-      <created>1741525665111</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1741525665111</updated>
     </task>
     <task id="LOCAL-00014" summary="登录+注册">
       <option name="closed" value="true" />
@@ -589,7 +607,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742637833024</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="失物登记类别选择">
+      <option name="closed" value="true" />
+      <created>1742652714593</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1742652714593</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
