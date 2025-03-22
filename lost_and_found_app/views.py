@@ -394,7 +394,7 @@ def admin_stats(request):
 @permission_classes([IsAuthenticated])
 def admin_recent_posts(request):
     if request.user.role == 'admin':
-        recent_posts = LostAndFound.objects.order_by('-created_at')[:5]
+        recent_posts = LostAndFound.objects.order_by('-created_at')
         data = [{
             'id': post.id,
             'title': post.title,

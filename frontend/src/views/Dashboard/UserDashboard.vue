@@ -99,9 +99,8 @@
                 <span>最近发布</span>
                 <el-button
                     type="text"
-                    class="header-action-btn"
-                    @click="$router.push('/my-posts')">
-                  查看全部 <i class="el-icon-arrow-right"></i>
+                    class="header-action-btn">
+                  <i class="el-icon-arrow-right"></i>
                 </el-button>
               </div>
 
@@ -1100,9 +1099,6 @@ $card-bg: #ffffff;
     }
   }
 }
-
-/* 图表区域 */
-
 
 .no-data-tip {
   height: 300px;

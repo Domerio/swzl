@@ -73,9 +73,7 @@
               </div>
               <el-button
                   type="text"
-                  class="view-more"
-                  @click="$router.push('/admin/found-items')">
-                管理全部 <i class="el-icon-arrow-right"></i>
+                  class="view-more">
               </el-button>
             </div>
           </template>
@@ -86,7 +84,9 @@
               class="data-table"
               empty-text="暂无待处理信息"
               v-loading="loading.posts"
-              :header-cell-style="{ background: '#f8f9fa' }">
+              :header-cell-style="{ background: '#f8f9fa' }"
+              height="330"
+          >
             <!--添加空插槽-->
             <template #empty>
               <div class="empty-state">
@@ -132,9 +132,7 @@
               </div>
               <el-button
                   type="text"
-                  class="view-more"
-                  @click="$router.push('/admin/users')">
-                管理全部 <i class="el-icon-arrow-right"></i>
+                  class="view-more">
               </el-button>
             </div>
           </template>
@@ -143,7 +141,9 @@
               @row-click="handleUserRowClick"
               class="data-table"
               v-loading="loading.users"
-              :header-cell-style="{ background: '#f8f9fa' }">
+              :header-cell-style="{ background: '#f8f9fa' }"
+              height="330"
+          >
             <el-table-column prop="username" label="学工号" min-width="120">
               <template #default="{row}">
                 <div class="user-cell">
