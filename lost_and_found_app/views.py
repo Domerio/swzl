@@ -414,7 +414,7 @@ def admin_recent_posts(request):
 @permission_classes([IsAuthenticated])
 def admin_recent_users(request):
     if request.user.role == 'admin':
-        recent_users = User.objects.order_by('-date_joined')[:5]
+        recent_users = User.objects.order_by('-date_joined')
         data = [{
             'id': user.id,
             'username': user.username,
@@ -444,9 +444,8 @@ def admin_item_detail(request, item_id):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def admin_user_detail(request, user_id):
-    if not request.user.is_superuser:
+    if not request.user.role == 'admin':
         return Response({'error': '权限不足'}, status=403)
-
     try:
         user = User.objects.get(id=user_id)
         data = {

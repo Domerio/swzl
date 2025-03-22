@@ -264,7 +264,6 @@
           <el-tag :type="roleTagType(currentUser.role)">{{ currentUser.role }}</el-tag>
         </el-descriptions-item>
         <el-descriptions-item label="注册时间">{{ currentUser.date_joined }}</el-descriptions-item>
-        <el-descriptions-item label="最后登录">{{ currentUser.last_login }}</el-descriptions-item>
         <el-descriptions-item label="联系方式">{{ currentUser.phone }}</el-descriptions-item>
         <el-descriptions-item label="电子邮箱">{{ currentUser.email }}</el-descriptions-item>
       </el-descriptions>
@@ -522,9 +521,6 @@ export default {
         // 处理日期格式
         this.currentUser.date_joined = new Date(this.currentUser.date_joined)
             .toLocaleString();
-        this.currentUser.last_login = this.currentUser.last_login
-            ? new Date(this.currentUser.last_login).toLocaleString()
-            : '从未登录';
       } catch (error) {
         this.$message.error('获取用户详情失败');
         console.error('Error fetching user details:', error);
