@@ -22,7 +22,7 @@ urlpatterns = [
     path('items/lost/', LostItemCreateAPI.as_view(), name='lost_items'),
     path('items/found/', FoundItemCreateAPI.as_view(), name='found_items'),
     path('items/<int:item_id>/', views.item_detail, name='item-detail'),
-    path('items/<int:pk>/delete/',ItemDeleteView.as_view(), name='item-delete'),
+    path('user/items/<int:pk>/delete/',ItemDeleteView.as_view(), name='item-delete'),
     path('user/items/<int:item_id>/status/', views.update_item_status, name='update-item-status'),
     # path('user/lost-items/', views.public_items_list, name='LostHall'),
 

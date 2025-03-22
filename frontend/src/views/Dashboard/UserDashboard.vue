@@ -514,10 +514,10 @@ export default {
         type: 'warning'
       }).then(() => {
         // 发送删除请求
-        axios.delete(`/api/items/${this.currentItem.id}/delete/`)
+        axios.delete(`/api/user/items/${this.currentItem.id}/delete/`)
             .then(() => {
               // 删除成功后，更新页面数据
-              this.lostItems = this.lostItems.filter(item => item.id !== this.currentItem.id);
+              this.dashboardData.recent_posts = this.dashboardData.recent_posts.filter(item => item.id !== this.currentItem.id);
               this.detailDialogVisible = false;
               this.$message.success('物品删除成功');
             })
