@@ -65,19 +65,14 @@
 
       <!-- 分类选择 -->
       <el-form-item label="物品分类" prop="category" width="100%">
-        <el-select
+        <el-cascader
             v-model="form.category"
+            :options="categoriesTree"
             placeholder="请选择最匹配的分类"
             filterable
             style="width: 100%;"
-        >
-          <el-option
-              v-for="category in categories"
-              :key="category.id"
-              :label="category.name"
-              :value="category.id"
-          />
-        </el-select>
+            @change="handleCategoryChange"
+        />
       </el-form-item>
 
       <!-- 联系方式 -->
@@ -214,13 +209,14 @@ export default {
         description: '',
         lost_time: null,
         location: '',
-        category: null,
+        category: [],
         contact: '',
         images: [],
         location_lng: null, // 新增经度字段
         location_lat: null  // 新增纬度字段
       },
       categories: [],
+      categoriesTree: [], // 新增一个用于存储树形结构数据的数组
       fileList: [],
       rules: {
         title: [
@@ -272,6 +268,32 @@ export default {
     };
   },
   methods: {
+    getCSRFToken() {
+      const cookieValue = document.cookie
+          .split('; ')
+          .find(row => row.startsWith('csrftoken='))
+          ?.split('=')[1] || '';
+      return cookieValue;
+    },
+    async fetchCategories() {
+      try {
+        const response = await axios.get('/api/lost/categories/tree/',
+            {
+              headers: {
+                'Authorization': `Token ${this.$store.state.token}`,
+                'X-CSRFToken': this.getCSRFToken(),
+              }
+            }
+        );
+        this.categoriesTree = response.data;
+      } catch (error) {
+        console.error('获取物品分类失败:', error);
+      }
+    },
+    handleCategoryChange(value) {
+      // 处理分类选择变化
+      console.log('选择的分类:', value);
+    },
     // 新增地图相关方法
     showMapDialog() {
       this.mapDialogVisible = true;
@@ -488,15 +510,15 @@ export default {
       printWindow.close()
     },
 
-    async fetchCategories() {
-      try {
-        const response = await axios.get('/api/lost/categories/')
-        this.categories = response.data
-      } catch (error) {
-        console.error('获取物品分类失败:', error)
-        this.$message.error('获取物品分类失败，请稍后重试。')
-      }
-    },
+    // async fetchCategories() {
+    //   try {
+    //     const response = await axios.get('/api/lost/categories/')
+    //     this.categories = response.data
+    //   } catch (error) {
+    //     console.error('获取物品分类失败:', error)
+    //     this.$message.error('获取物品分类失败，请稍后重试。')
+    //   }
+    // },
     // 优化后的提交方法
     async submitForm() {
       try {

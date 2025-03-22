@@ -82,14 +82,6 @@ class FoundItemCreateAPI(generics.CreateAPIView):
             )
 
 
-class CategoryListAPI(APIView):
-    def get(self, request):
-        from ...serializers import CategorySerializer
-        categories = Category.objects.all()
-        serializer = CategorySerializer(categories, many=True)
-        return Response(serializer.data)
-
-
 class SearchAPI(APIView):
     def get(self, request):
         from ...serializers import LostItemSerializer
@@ -127,3 +119,24 @@ class UpdateStatusAPI(APIView):
                 'status': 'error',
                 'message': f'更新状态时发生错误: {str(e)}'
             }, status=500)
+
+
+class LostCategoryListAPI(APIView):
+    def get(self, request):
+        from rest_framework.response import Response
+        def build_tree(categories, parent_id=1):
+            result = []
+            for category in categories:
+                if category.parent_id == parent_id:
+                    children = build_tree(categories, category.id)
+                    item = {
+                        'id': category.id,
+                        'name': category.name,
+                        'children': children
+                    }
+                    result.append(item)
+            return result
+
+        all_categories = Category.objects.all()
+        tree = build_tree(all_categories)
+        return Response(tree)
