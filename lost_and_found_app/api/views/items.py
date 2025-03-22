@@ -44,13 +44,14 @@ class LostItemCreateAPI(generics.CreateAPIView):
 
 
 class LostItemHallAPI(generics.ListAPIView):
-    queryset = LostAndFound.objects.filter(status='active')
+    # 筛选状态为 'active' 且物品类型为 'lost' 的失物信息
+    queryset = LostAndFound.objects.filter(status='active', category__item_type='lost')
     serializer_class = LostItemSerializer
     permission_classes = [permissions.IsAuthenticated]
     parser_classes = (MultiPartParser,)
 
     def get_queryset(self):
-        return self.queryset.filter(status='active')
+        return self.queryset.filter(status='active', category__item_type='lost')
 
 
 class FoundItemHallAPI(generics.ListAPIView):

@@ -607,10 +607,21 @@ def public_lost_items(request):
     - 包含分类和图片附件
     """
     try:
-        # 查询所有状态为 'active' 的物品
-        active_items = LostAndFound.objects.filter(status='active')
-        serializer = LostItemSerializer(active_items, many=True)
+        # 获取筛选条件，默认值为 'lost'
+        item_type = request.query_params.get('type', 'lost')
 
+        # 构建查询条件，筛选状态为 'active' 且物品类型为指定类型的信息
+        queryset = LostAndFound.objects.select_related('category').filter(
+            status='active',
+            category__item_type=item_type
+        ).order_by('-created_at')
+
+        # 使用详细的序列化器
+        serializer = LostAndFoundDetailSerializer(
+            queryset,
+            many=True,
+            context={'request': request}
+        )
         # 查询与每个物品关联的所有图片
         for item_data in serializer.data:
             item = LostAndFound.objects.get(id=item_data['id'])
@@ -619,12 +630,10 @@ def public_lost_items(request):
             item_data['images'] = image_urls
 
         return Response(serializer.data)
-    except Exception as e:
-        return Response({'error': f'Error retrieving active items: {str(e)}'}, status=500)
 
     except Exception as e:
         logger.error(f"获取公开信息失败: {str(e)}", exc_info=True)
         return Response(
             {"error": "无法获取数据，请稍后再试"},
-            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            status=500
         )

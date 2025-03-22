@@ -97,6 +97,17 @@
             <el-descriptions-item label="物品分类">
               {{ currentItem.category_name }}
             </el-descriptions-item>
+             <el-descriptions-item label="提交人">
+              <el-tooltip
+                  v-if="currentItem.user?.role === 'admin'"
+                  content="管理员账号">
+                <i class="el-icon-s-custom"></i>
+              </el-tooltip>
+              {{ currentItem.user?.real_name || '匿名用户' }}
+              <span v-if="currentItem.user" class="user-role-tag">
+                ({{ roleMap[currentItem.user.role] }})
+              </span>
+            </el-descriptions-item>
             <el-descriptions-item label="丢失时间">
               {{ formatTime(currentItem.lost_time) }}
             </el-descriptions-item>
@@ -247,6 +258,16 @@ export default {
       }
       document.head.appendChild(script)
     }
+  },
+  computed: {
+    roleMap() {
+      return {
+        admin: '管理员',
+        teacher: '教职工',
+        student: '学生'
+      }
+    }
+
   },
   watch: {
     detailDialogVisible(newVal) {
