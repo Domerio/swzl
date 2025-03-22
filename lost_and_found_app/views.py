@@ -147,7 +147,7 @@ def user_dashboard(request):
         user = request.user
         logger.info(f"User {user.username} requested dashboard data")
         # 获取用户发布的所有信息
-        my_posts = LostAndFound.objects.filter(user=user).order_by('-created_at')[:5]
+        my_posts = LostAndFound.objects.filter(user=user).order_by('-created_at')
         logger.debug(f"Recent posts query result count: {my_posts.count()}")
         # 获取用户的收藏
         bookmarks = Bookmark.objects.filter(user=user).select_related('item').order_by('-created_at')[:5]

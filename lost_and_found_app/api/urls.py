@@ -5,7 +5,7 @@ from django.urls import path
 from .views.auth import LoginAPI, UploadAvatar
 from .views.auth import RegisterAPI
 from .views.items import LostItemCreateAPI, FoundItemCreateAPI, FoundItemHallAPI, LostCategoryListAPI, \
-    FoundCategoryListAPI  # 确保导入路径正确
+    FoundCategoryListAPI, ItemDeleteView  # 确保导入路径正确
 from .. import views
 
 urlpatterns = [
@@ -22,6 +22,7 @@ urlpatterns = [
     path('items/lost/', LostItemCreateAPI.as_view(), name='lost_items'),
     path('items/found/', FoundItemCreateAPI.as_view(), name='found_items'),
     path('items/<int:item_id>/', views.item_detail, name='item-detail'),
+    path('items/<int:pk>/delete/',ItemDeleteView.as_view(), name='item-delete'),
     path('user/items/<int:item_id>/status/', views.update_item_status, name='update-item-status'),
     # path('user/lost-items/', views.public_items_list, name='LostHall'),
 

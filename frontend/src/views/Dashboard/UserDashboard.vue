@@ -355,7 +355,14 @@
             size="medium">
           标记为已找回
         </el-button>
-
+        <!-- 添加删除按钮 -->
+        <el-button
+            type="danger"
+            @click="handleDeleteItem"
+            size="medium"
+        >
+          删除物品
+        </el-button>
       </div>
     </el-dialog>
 
@@ -498,7 +505,30 @@ export default {
     },
   },
   methods: {
-
+    // 处理删除物品的方法
+    handleDeleteItem() {
+      // 确认用户是否真的要删除物品
+      this.$confirm('确定要删除该物品吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // 发送删除请求
+        axios.delete(`/api/items/${this.currentItem.id}/delete/`)
+            .then(() => {
+              // 删除成功后，更新页面数据
+              this.lostItems = this.lostItems.filter(item => item.id !== this.currentItem.id);
+              this.detailDialogVisible = false;
+              this.$message.success('物品删除成功');
+            })
+            .catch(error => {
+              this.$message.error('物品删除失败：' + error.message);
+            });
+      }).catch(() => {
+        // 用户取消删除操作
+        this.$message.info('删除操作已取消');
+      });
+    },
     getItemTypeLabel(type) {
       return type === 'lost' ? '失物登记' : '招领登记';
     },
@@ -713,10 +743,10 @@ export default {
     handleFoundItemRegister() {
       this.$router.push('/api/items/found/')
     },
-    goToLostHall(){
+    goToLostHall() {
       this.$router.push('/api/user/lost-hall/')
     },
-    goToFoundHall(){
+    goToFoundHall() {
       this.$router.push('/api/user/found-hall/')
     },
     // 初始化详情地图
@@ -1033,7 +1063,7 @@ $card-bg: #ffffff;
     width: calc(50% - 6px); /* 保留间距 */
     margin: 0 0 12px 0 !important; /* 清除默认边距 */
 
-    &:nth-child(odd) {  /* 奇数按钮添加右边距 */
+    &:nth-child(odd) { /* 奇数按钮添加右边距 */
       margin-right: 12px !important;
     }
 

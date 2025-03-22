@@ -1,6 +1,6 @@
 # lost_and_found_app/api/views/items.py
 from flask import Response
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework import permissions  # 添加此行
 from rest_framework.parsers import MultiPartParser
 from rest_framework.views import APIView
@@ -161,3 +161,14 @@ class FoundCategoryListAPI(APIView):
         all_categories = Category.objects.all()
         tree = build_tree(all_categories)
         return Response(tree)
+
+
+class ItemDeleteView(APIView):
+    def delete(self, request, pk):
+        from rest_framework.response import Response
+        try:
+            item = LostAndFound.objects.get(pk=pk)
+            item.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except LostAndFound.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
