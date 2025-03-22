@@ -63,19 +63,20 @@
       </el-row>
 
       <!-- 分类选择 -->
-      <el-form-item label="物品分类" prop="category">
-        <el-select
+      <el-form-item label="物品分类" prop="category" width="100%">
+        <!-- 修改el-cascader的options绑定 -->
+        <el-cascader
             v-model="form.category"
+            :options="categoryTreeOptions"
+            :props="{
+              checkStrictly: true,
+              expandTrigger: 'hover',
+              emitPath: false
+            }"
             placeholder="请选择最匹配的分类"
-            filterable
-        >
-          <el-option
-              v-for="category in categories"
-              :key="category.id"
-              :label="category.name"
-              :value="category.id"
-          />
-        </el-select>
+            style="width: 50%;"
+            @change="handleCategoryChange"
+        />
       </el-form-item>
 
       <!-- 联系方式 -->
@@ -83,6 +84,7 @@
         <el-input
             v-model="form.contact"
             placeholder="手机号或邮箱"
+            style="width: 50%"
         />
       </el-form-item>
 
@@ -219,6 +221,9 @@ export default {
         location_lat: null  // 新增纬度字段
       },
       categories: [],
+      categoriesTree: [], // 新增一个用于存储树形结构数据的数组
+      categoryTreeOptions: [], // 用于存储树形结构选项的数组
+      categoryList: [], // 存储分类列表
       fileList: [],
       rules: {
         title: [
@@ -264,12 +269,48 @@ export default {
     }
   },
   mounted() {
-    this.fetchCategories()
+    this.fetchCategories().then(() => {
+      this.categoryTreeOptions = this.convertToCascaderOptions(this.categoriesTree)
+    })
     window._AMapSecurityConfig = {
       securityJsCode: 'c684b8bc9a42d62c059edd9fee411dce'
     };
   },
   methods: {
+    // 修改convertToCascaderOptions方法
+    convertToCascaderOptions(data) {
+      return data.map(item => ({
+        value: item.id,
+        label: item.name,
+        children: item.children.length ? this.convertToCascaderOptions(item.children) : undefined
+      }));
+    },
+    getCSRFToken() {
+      const cookieValue = document.cookie
+          .split('; ')
+          .find(row => row.startsWith('csrftoken='))
+          ?.split('=')[1] || '';
+      return cookieValue;
+    },
+    async fetchCategories() {
+      try {
+        const response = await axios.get('/api/found/categories/tree/',
+            {
+              headers: {
+                'Authorization': `Token ${this.$store.state.token}`,
+                'X-CSRFToken': this.getCSRFToken(),
+              }
+            }
+        );
+        this.categoriesTree = response.data;
+      } catch (error) {
+        console.error('获取物品分类失败:', error);
+      }
+    },
+    handleCategoryChange(value) {
+      // 处理分类选择变化
+      console.log('选择的分类:', value);
+    },
     // 新增地图相关方法
     showMapDialog() {
       this.mapDialogVisible = true;
@@ -467,7 +508,8 @@ export default {
 
     // 分类ID转名称（匹配用户原有分类数据）
     getCategoryName(categoryId) {
-      return this.categories.find(item => item.id === categoryId)?.name || '未知分类'
+      const category = this.categoryList.find(item => item.id === categoryId);
+      return category ? category.name : '未知分类';
     },
 
     // 处理弹窗关闭后的操作
@@ -486,15 +528,6 @@ export default {
       printWindow.close()
     },
 
-    async fetchCategories() {
-      try {
-        const response = await axios.get('/api/found/categories/')
-        this.categories = response.data
-      } catch (error) {
-        console.error('获取物品分类失败:', error)
-        this.$message.error('获取物品分类失败，请稍后重试。')
-      }
-    },
     // 优化后的提交方法
     async submitForm() {
       try {
@@ -587,6 +620,15 @@ export default {
       }
       return true
     },
+  },
+  async created() {
+    try {
+      // 获取分类列表
+      const response = await axios.get('/api/found/categories/');
+      this.categoryList = response.data;
+    } catch (error) {
+      console.error('获取分类列表失败:', error);
+    }
   }
 }
 </script>
@@ -960,6 +1002,16 @@ $bg-color: #f6f8fa;
         font-size: 18px;
       }
     }
+  }
+}
+
+.el-cascader {
+  input[aria-hidden="true"] {
+    display: none !important;
+  }
+
+  .el-radio:focus:not(.is-focus):not(:active):not(.is-disabled) .el-radio__inner {
+    box-shadow: none;
   }
 }
 </style>

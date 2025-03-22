@@ -4,37 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="失物登记类别选择">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="修复失物登记中的物品分类显示">
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/FoundItemRegister.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/FoundItemRegister.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/views/LostItemRegister.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/LostItemRegister.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/170.14a043c9.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/178.14a043c9.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/404.14a043c9.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/538.14a043c9.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/560.14a043c9.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/589.14a043c9.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/71.14a043c9.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.14a043c9.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.14a043c9.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/170.14a043c9.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/170.14a043c9.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/178.14a043c9.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/178.14a043c9.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/404.14a043c9.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/404.14a043c9.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/538.14a043c9.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/538.14a043c9.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/560.14a043c9.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/560.14a043c9.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/589.14a043c9.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/589.14a043c9.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/71.14a043c9.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/71.14a043c9.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.14a043c9.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.14a043c9.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.14a043c9.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.14a043c9.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_app/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/api/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_app/api/views/items.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/api/views/items.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -222,14 +196,6 @@
       <workItem from="1742453529144" duration="8425000" />
       <workItem from="1742538324410" duration="693000" />
       <workItem from="1742539396627" duration="19505000" />
-    </task>
-    <task id="LOCAL-00014" summary="登录+注册">
-      <option name="closed" value="true" />
-      <created>1741549980130</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1741549980130</updated>
     </task>
     <task id="LOCAL-00015" summary="登录+注册">
       <option name="closed" value="true" />
@@ -615,7 +581,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742652714593</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="修复失物登记中的物品分类显示">
+      <option name="closed" value="true" />
+      <created>1742653724413</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1742653724413</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -650,7 +624,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="增加用户仪表盘显示物品详情功能" />
     <MESSAGE value="删除失物登记中图片预览" />
     <MESSAGE value="修复失物登记图片保存逻辑" />
     <MESSAGE value="修复用户仪表盘失物图片信息的显示" />
@@ -675,7 +648,8 @@
     <MESSAGE value="修复失物大厅的显示" />
     <MESSAGE value="修复仪表盘的显示" />
     <MESSAGE value="失物登记类别选择" />
-    <option name="LAST_COMMIT_MESSAGE" value="失物登记类别选择" />
+    <MESSAGE value="修复失物登记中的物品分类显示" />
+    <option name="LAST_COMMIT_MESSAGE" value="修复失物登记中的物品分类显示" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">

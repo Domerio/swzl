@@ -38,7 +38,6 @@
                 format="yyyy-MM-dd HH:mm"
                 value-format="yyyy-MM-ddTHH:mm"
                 placeholder="选择具体时间"
-                style="width: 100%;"
             />
 
           </el-form-item>
@@ -78,8 +77,6 @@
             style="width: 50%;"
             @change="handleCategoryChange"
         />
-
-
       </el-form-item>
 
       <!-- 联系方式 -->
@@ -87,6 +84,7 @@
         <el-input
             v-model="form.contact"
             placeholder="手机号或邮箱"
+            style="width: 50%"
         />
       </el-form-item>
 

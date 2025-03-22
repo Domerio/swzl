@@ -140,3 +140,24 @@ class LostCategoryListAPI(APIView):
         all_categories = Category.objects.all()
         tree = build_tree(all_categories)
         return Response(tree)
+
+
+class FoundCategoryListAPI(APIView):
+    def get(self, request):
+        from rest_framework.response import Response
+        def build_tree(categories, parent_id=7):
+            result = []
+            for category in categories:
+                if category.parent_id == parent_id:
+                    children = build_tree(categories, category.id)
+                    item = {
+                        'id': category.id,
+                        'name': category.name,
+                        'children': children
+                    }
+                    result.append(item)
+            return result
+
+        all_categories = Category.objects.all()
+        tree = build_tree(all_categories)
+        return Response(tree)

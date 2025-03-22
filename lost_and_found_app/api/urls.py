@@ -4,7 +4,8 @@ from django.urls import path
 
 from .views.auth import LoginAPI, UploadAvatar
 from .views.auth import RegisterAPI
-from .views.items import LostItemCreateAPI, FoundItemCreateAPI, FoundItemHallAPI, LostCategoryListAPI  # 确保导入路径正确
+from .views.items import LostItemCreateAPI, FoundItemCreateAPI, FoundItemHallAPI, LostCategoryListAPI, \
+    FoundCategoryListAPI  # 确保导入路径正确
 from .. import views
 
 urlpatterns = [
@@ -16,7 +17,8 @@ urlpatterns = [
     path('lost/categories/', views.get_lost_categories, name='lost_categories'),
     path('found/categories/', views.get_found_categories, name='found_categories'),
     path('category/name/<int:category_id>/', views.get_category_name, name='category-name'),
-    path('lost/categories/tree/', LostCategoryListAPI.as_view(), name='category-tree'),
+    path('lost/categories/tree/', LostCategoryListAPI.as_view(), name='category-tree'),  # 添加失物分类树路径
+    path('found/categories/tree/', FoundCategoryListAPI.as_view(), name='category-tree'),  # 添加招领分类树路径
     path('items/lost/', LostItemCreateAPI.as_view(), name='lost_items'),
     path('items/found/', FoundItemCreateAPI.as_view(), name='found_items'),
     path('items/<int:item_id>/', views.item_detail, name='item-detail'),
