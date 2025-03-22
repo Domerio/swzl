@@ -4,40 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="修复招领登记中的分类为多级选择器">
+    <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="在用户仪表盘中显示物品详情的弹窗中增加删除按钮">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/Dashboard/UserDashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Dashboard/UserDashboard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lost_and_found_app/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/api/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lost_and_found_app/api/views/items.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/api/views/items.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lost_and_found_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/160.7f64bc9f.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/170.7f64bc9f.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/178.7f64bc9f.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/241.7f64bc9f.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/538.7f64bc9f.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/560.7f64bc9f.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/589.7f64bc9f.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/app.7f64bc9f.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/css/chunk-vendors.7f64bc9f.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/160.7f64bc9f.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/160.7f64bc9f.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/170.7f64bc9f.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/170.7f64bc9f.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/178.7f64bc9f.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/178.7f64bc9f.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/241.7f64bc9f.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/241.7f64bc9f.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/538.7f64bc9f.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/538.7f64bc9f.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/560.7f64bc9f.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/560.7f64bc9f.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/589.7f64bc9f.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/589.7f64bc9f.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.7f64bc9f.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/app.7f64bc9f.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.7f64bc9f.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/chunk-vendors.7f64bc9f.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -225,14 +193,6 @@
       <workItem from="1742453529144" duration="8425000" />
       <workItem from="1742538324410" duration="693000" />
       <workItem from="1742539396627" duration="19505000" />
-    </task>
-    <task id="LOCAL-00016" summary="登录+注册">
-      <option name="closed" value="true" />
-      <created>1741550962359</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1741550962359</updated>
     </task>
     <task id="LOCAL-00017" summary="登录+注册">
       <option name="closed" value="true" />
@@ -618,7 +578,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742654589531</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="在用户仪表盘中显示物品详情的弹窗中增加删除按钮">
+      <option name="closed" value="true" />
+      <created>1742656203610</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1742656203610</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -653,7 +621,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="修复失物登记图片保存逻辑" />
     <MESSAGE value="修复用户仪表盘失物图片信息的显示" />
     <MESSAGE value="优化用户仪表盘中数据的展示" />
     <MESSAGE value="优化用户仪表盘页面显示" />
@@ -678,7 +645,8 @@
     <MESSAGE value="失物登记类别选择" />
     <MESSAGE value="修复失物登记中的物品分类显示" />
     <MESSAGE value="修复招领登记中的分类为多级选择器" />
-    <option name="LAST_COMMIT_MESSAGE" value="修复招领登记中的分类为多级选择器" />
+    <MESSAGE value="在用户仪表盘中显示物品详情的弹窗中增加删除按钮" />
+    <option name="LAST_COMMIT_MESSAGE" value="在用户仪表盘中显示物品详情的弹窗中增加删除按钮" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
