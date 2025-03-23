@@ -7,6 +7,7 @@ from .views.auth import RegisterAPI
 from .views.items import LostItemCreateAPI, FoundItemCreateAPI, FoundItemHallAPI, LostCategoryListAPI, \
     FoundCategoryListAPI, ItemDeleteView  # 确保导入路径正确
 from .. import views
+from .views.notifications import NotificationListAPI, MarkNotificationReadAPI
 
 urlpatterns = [
     # ✅ 所有路径继承主项目层的 /api/ 前缀
@@ -50,4 +51,7 @@ urlpatterns = [
     path('bookmaeks/check/<int:item_id>/', views.bookmarks_api, name='bookmarks-check'),
     path('report-found/<int:item_id>/', views.report_found_and_notify, name='report-found'),
     path('public/found-items/', views.public_found_items, name='public-found-items'),
+    path('notifications/', NotificationListAPI.as_view(), name='user-notifications'),
+    path('notifications/mark-read/', MarkNotificationReadAPI.as_view(), name='mark-notification-read'),
+    # 已存在的批量标记已读路由保持不动
 ]
