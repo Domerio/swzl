@@ -4,24 +4,22 @@ from datetime import datetime, timedelta
 
 from django.contrib import messages  # 用于显示消息
 from django.contrib.auth import authenticate, login, logout, get_user_model
-from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import TemplateView
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import (
-    api_view, 
+    api_view,
     authentication_classes,
     permission_classes,
     parser_classes
 )
-from django.views.decorators.csrf import csrf_exempt
-
 from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -31,7 +29,6 @@ from .serializers import UserRegisterSerializer, LostItemSerializer, LostAndFoun
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
-
 
 # 在已有导入基础上添加
 from rest_framework.authentication import (
@@ -571,11 +568,11 @@ def bookmarks_api(request, item_id):
     try:
         item = LostAndFound.objects.get(id=item_id)
         user = request.user
-        
+
         if request.method == 'GET':
             exists = Bookmark.objects.filter(user=user, item=item).exists()
             return Response({'bookmarked': exists})
-            
+
         if request.method == 'POST':
             Bookmark.objects.get_or_create(user=user, item=item)
             return Response({'message': '已加入收藏'})
@@ -597,9 +594,9 @@ def report_found_and_notify(request, item_id):
         lost_item = LostAndFound.objects.select_related('user').get(id=item_id)
         current_user = request.user
 
-        # 权限验证
-        if current_user != lost_item.user and request.user.role != 'admin':
-            return Response({'error': '无权操作此物品'}, status=status.HTTP_403_FORBIDDEN)
+        # # 权限验证
+        # if current_user != lost_item.user and request.user.role != 'admin':
+        #     return Response({'error': '无权操作此物品'}, status=status.HTTP_403_FORBIDDEN)
 
         # 如果当前用户是拾到者且物品状态仍然有效
         if lost_item.status == 'active':
@@ -620,6 +617,36 @@ def report_found_and_notify(request, item_id):
         return Response({'error': '物品不存在'}, status=status.HTTP_404_NOT_FOUND)
 
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def report_lost_and_notify(request, item_id):
+    try:
+        lost_item = LostAndFound.objects.select_related('user').get(id=item_id)
+        current_user = request.user
+
+        # # 权限验证
+        # if current_user != lost_item.user and request.user.role != 'admin':
+        #     return Response({'error': '无权操作此物品'}, status=status.HTTP_403_FORBIDDEN)
+
+        # 如果当前用户是拾到者且物品状态仍然有效
+        if lost_item.status == 'active':
+            # 给失主发送通知
+            Notification.objects.create(
+                user=lost_item.user,
+                content=f"您拾取的「{lost_item.title}」可能已找到失主，查看人：{current_user.real_name}（联系方式：{current_user.phone})",
+                notification_type='match',
+                related_item=lost_item
+            )
+
+        return Response({
+            'status': 'success',
+            'message': '已发送通知给拾取者'
+        }, status=status.HTTP_200_OK)
+
+    except LostAndFound.DoesNotExist:
+        return Response({'error': '物品不存在'}, status=status.HTTP_404_NOT_FOUND)
+
+
 # 在public_lost_items视图基础上扩展
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -630,14 +657,14 @@ def public_found_items(request):
             status='active',
             category__item_type='found'  # 修改为招领类型
         ).order_by('-created_at')
-        
+
         serializer = LostAndFoundDetailSerializer(
-            queryset, 
+            queryset,
             many=True,
             context={'request': request}
         )
         return Response(serializer.data)
-        
+
     except Exception as e:
         logger.error(f"获取招领信息失败: {str(e)}")
         return Response({"error": "数据获取失败"}, status=500)
@@ -682,5 +709,3 @@ def public_lost_items(request):
             {"error": "无法获取数据，请稍后再试"},
             status=500
         )
-
-

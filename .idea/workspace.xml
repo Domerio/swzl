@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4ca7ca39-75c2-46a6-8ec7-fdfe668b3ef2" name="更改" comment="在用户仪表盘中显示物品详情的弹窗中增加删除按钮">
       <change beforePath="$PROJECT_DIR$/frontend/src/views/FoundItemHall.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/FoundItemHall.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lost_and_found_app/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/api/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lost_and_found_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/lost_and_found_app/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -78,7 +79,7 @@
     "django.template.preview.state": "SHOW_EDITOR",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "E:/毕业设计/基于Django的校园失物招领管理系统/lost_and_found_system/frontend/src/views/LostItemHall.vue",
+    "last_opened_file_path": "E:/毕业设计/基于Django的校园失物招领管理系统/lost_and_found_system/frontend/src/views/FoundItemHall.vue",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -86,7 +87,7 @@
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.pluginManager",
     "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PyCharm 2024.2.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "two.files.diff.last.used.file": "E:/毕业设计/基于Django的校园失物招领管理系统/lost_and_found_system/frontend/src/views/LostItemHall.vue",
+    "two.files.diff.last.used.file": "E:/毕业设计/基于Django的校园失物招领管理系统/lost_and_found_system/frontend/src/views/FoundItemHall.vue",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -195,6 +196,7 @@
       <workItem from="1742538324410" duration="693000" />
       <workItem from="1742539396627" duration="19505000" />
       <workItem from="1742716368749" duration="310000" />
+      <workItem from="1742720258504" duration="359000" />
     </task>
     <task id="LOCAL-00019" summary="学生仪表盘">
       <option name="closed" value="true" />

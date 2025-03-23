@@ -142,6 +142,8 @@
         </el-col>
       </el-row>
       <span slot="footer">
+        <el-button type="warning" @click="sendNotification( currentItem.id )"
+          >通知失主</el-button>
         <el-button :type="bookmarked ? 'success' : 'primary'"
           :icon="bookmarked ? 'el-icon-star-off' : 'el-icon-star-on'" @click="handleBookmark">
           {{ bookmarked ? '已收藏' : '收藏物品' }}
@@ -345,6 +347,20 @@ export default {
         'lost': '失物登记',
         'found': '招领登记'
       }[itemType] || '未知类型';
+    },
+    async sendNotification(itemId) {
+      try {
+        await axios.post(`/api/report-lost/${itemId}/`, {}, {
+          headers: {
+                'Authorization': `Token ${this.$store.state.token}`,
+                'X-CSRFToken': this.getCSRFToken(),
+            }
+        });
+        this.$message.success('通知已发送');
+      } catch (error) {
+        console.error('发送通知失败', error);
+        this.$message.error('操作失败，请重试');
+      }
     },
   },
   mounted() {
