@@ -47,6 +47,7 @@ urlpatterns = [
     # 失物大厅相关路由
     path('public/lost-items/', views.public_lost_items, name='public-lost-items'),
     path('bookmarks/<int:item_id>/', views.bookmarks_api, name='bookmarks-operate'),
+    path('bookmaeks/check/<int:item_id>/', views.bookmarks_api, name='bookmarks-check'),
     path('report-found/<int:item_id>/', views.report_found_and_notify, name='report-found'),
 
 ]

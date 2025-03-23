@@ -350,7 +350,7 @@
         </el-button>
         <el-button
             type="danger"
-            v-if="currentItem.status === 'active' && currentItem.item_type ==='lost'"
+            v-if="currentItem.status === 'active' && currentItem.item_type ==='lost' && currentItem.user === userInfo.id"
             @click="handleCloseItem"
             size="medium">
           标记为已找回
@@ -384,7 +384,8 @@ export default {
         real_name: '加载中...',
         role: '',
         avatar: require('@/assets/touxiang.jpg'),
-        phone: ''
+        phone: '',
+        id: ''
       },
       // 仪表盘数据
       dashboardData: {
@@ -617,6 +618,7 @@ export default {
           role: userRes.role || '',
           phone: userRes.phone || '',
           avatar: userRes.avatar || '',
+          id: userRes.id || ''
         }
         console.log('User Avatar URL:', this.userInfo.avatar); // 打印头像 URL
 

@@ -1,11 +1,7 @@
 <template>
   <div class="lost-item-hall">
     <h1>🔍 失物大厅</h1>
-    <el-table
-      :data="lostItems"
-      v-loading="loading"
-      :header-cell-style="{ background: '#f8f9fa' }"
-    >
+    <el-table :data="lostItems" v-loading="loading" :header-cell-style="{ background: '#f8f9fa' }">
       <template #empty>
         <div class="empty-state">
           <i class="el-icon-document-remove"></i>
@@ -39,11 +35,7 @@
       </el-table-column>
       <el-table-column label="状态" width="100" align="center">
         <template #default="{ row }">
-          <el-tag
-            :type="statusTypeMap[row.status]"
-            effect="light"
-            class="status-tag"
-          >
+          <el-tag :type="statusTypeMap[row.status]" effect="light" class="status-tag">
             {{ row.status }}
           </el-tag>
         </template>
@@ -56,29 +48,13 @@
     </el-table>
 
     <!-- 失物详情弹窗 -->
-    <el-dialog
-      title="🔍 物品详情"
-      :visible.sync="detailDialogVisible"
-      width="800px"
-      custom-class="item-detail-dialog"
-    >
+    <el-dialog title="🔍 物品详情" :visible.sync="detailDialogVisible" width="800px" custom-class="item-detail-dialog">
       <el-row :gutter="20">
         <!-- 图片轮播区 -->
         <el-col :span="8">
-          <el-carousel
-            :interval="5000"
-            height="300px"
-            arrow="always"
-          >
-            <el-carousel-item
-              v-for="(img, index) in currentItem.images"
-              :key="index"
-            >
-              <el-image
-                :src="img"
-                fit="cover"
-                class="detail-image"
-              >
+          <el-carousel :interval="5000" height="300px" arrow="always">
+            <el-carousel-item v-for="(img, index) in currentItem.images" :key="index">
+              <el-image :src="img" fit="cover" class="detail-image">
                 <div slot="error" class="image-error">
                   <i class="el-icon-picture-outline"></i>
                 </div>
@@ -88,19 +64,13 @@
         </el-col>
         <!-- 详细信息区 -->
         <el-col :span="16">
-          <el-descriptions
-            :column="2"
-            border
-            label-class-name="detail-label"
-          >
+          <el-descriptions :column="2" border label-class-name="detail-label">
             <el-descriptions-item label="物品名称">{{ currentItem.title }}</el-descriptions-item>
             <el-descriptions-item label="物品分类">
               {{ currentItem.category_name }}
             </el-descriptions-item>
-             <el-descriptions-item label="提交人">
-              <el-tooltip
-                  v-if="currentItem.user?.role === 'admin'"
-                  content="管理员账号">
+            <el-descriptions-item label="提交人">
+              <el-tooltip v-if="currentItem.user?.role === 'admin'" content="管理员账号">
                 <i class="el-icon-s-custom"></i>
               </el-tooltip>
               {{ currentItem.user?.real_name || '匿名用户' }}
@@ -113,11 +83,8 @@
             </el-descriptions-item>
             <el-descriptions-item label="丢失地点">
               {{ currentItem.location }}
-              <div
-                v-if="currentItem.location_lat && currentItem.location_lng"
-                class="detail-map-container"
-                :id="'detail-map-' + currentItem.id"
-              ></div>
+              <div v-if="currentItem.location_lat && currentItem.location_lng" class="detail-map-container"
+                :id="'detail-map-' + currentItem.id"></div>
             </el-descriptions-item>
             <el-descriptions-item label="发布类型">
               {{ currentItem.item_type === 'lost' ? '失物登记' : '招领登记' }}
@@ -137,6 +104,10 @@
         </el-col>
       </el-row>
       <span slot="footer">
+        <el-button :type="bookmarked ? 'success' : 'primary'"
+          :icon="bookmarked ? 'el-icon-star-off' : 'el-icon-star-on'" @click="handleBookmark">
+          {{ bookmarked ? '已收藏' : '收藏物品' }}
+        </el-button>
         <el-button @click="detailDialogVisible = false">关闭</el-button>
       </span>
     </el-dialog>
@@ -167,7 +138,7 @@ export default {
         completed: '已完成',
         expired: '已过期'
       },
-
+      bookmarked: false,
     };
   },
   methods: {
@@ -189,9 +160,60 @@ export default {
         this.loading = false;
       }
     },
+    async checkBookmarkStatus() {
+      try {
+        // 修改请求路径为后端实际接口路径
+        const response = await axios.get(`/api/bookmarks/${this.currentItem.id}/`, {
+          headers: {
+            'Authorization': `Token ${this.$store.state.token}`,
+            'X-CSRFToken': this.getCSRFToken(),
+          }
+        });
+        this.bookmarked = response.data.bookmarked;
+      } catch (error) {
+        console.error('获取收藏状态失败', error);
+      }
+    },
+    getCSRFToken() {
+      const cookieValue = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('csrftoken='))
+        ?.split('=')[1] || '';
+      return cookieValue;
+    },
+    async handleBookmark() {
+      try {
+        const config = {
+          headers: {
+            'Authorization': `Token ${this.$store.state.token}`,
+            'X-CSRFToken': this.getCSRFToken(),
+            'Content-Type': 'application/json'
+          }
+        };
+        
+        // 修正参数顺序（DELETE方法第二个参数是config）
+        const method = this.bookmarked ? 'delete' : 'post';
+        await axios[method](
+          `/api/bookmarks/${this.currentItem.id}/`, 
+          method === 'delete' ? config : null, // 仅DELETE需要config在第二个参数
+          method === 'post' ? config : null         // POST需要空数据体
+        );
+        
+        this.bookmarked = !this.bookmarked;
+        this.$message.success(this.bookmarked ? '收藏成功' : '已取消收藏');
+      } catch (error) {
+        console.error('操作收藏失败', error);
+        this.$message.error(`操作失败: ${error.response?.data?.error || '未知错误'}`);
+      }
+    },
     viewDetails(item) {
+      if (!this.$store.state.token) {
+        this.$message.warning('请先登录');
+        return;
+      }
       this.currentItem = item;
       this.detailDialogVisible = true;
+      this.checkBookmarkStatus();
     },
     // 初始化详情地图
     initDetailMap() {
@@ -218,7 +240,7 @@ export default {
       // 实例化独立控件
       const scale = new AMap.Scale()
       const toolBar = new AMap.ToolBar({
-        position: {bottom: '20px', right: '20px'}
+        position: { bottom: '20px', right: '20px' }
       })
 
       // 逐个添加控件

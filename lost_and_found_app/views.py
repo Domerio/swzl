@@ -14,7 +14,14 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import TemplateView
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import api_view, permission_classes, parser_classes
+from rest_framework.decorators import (
+    api_view, 
+    authentication_classes,
+    permission_classes,
+    parser_classes
+)
+from django.views.decorators.csrf import csrf_exempt
+
 from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -24,6 +31,13 @@ from .serializers import UserRegisterSerializer, LostItemSerializer, LostAndFoun
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
+
+
+# 在已有导入基础上添加
+from rest_framework.authentication import (
+    TokenAuthentication,
+    SessionAuthentication
+)
 
 
 @api_view(['GET'])
@@ -254,7 +268,8 @@ def user_profile(request):
             'role': request.user.role,
             'phone': request.user.phone,
             'avatar': request.build_absolute_uri(request.user.avatar.url) if request.user.avatar else None,
-            'is_verified': request.user.is_verified
+            'is_verified': request.user.is_verified,
+            'id': request.user.id,
         })
 
     elif request.method == 'PUT':
@@ -548,23 +563,31 @@ def admin_approve_item(request, item_id):
         )
 
 
-@api_view(['POST', 'DELETE'])
+@api_view(['GET', 'POST', 'DELETE'])
+@authentication_classes([TokenAuthentication, SessionAuthentication])
 @permission_classes([IsAuthenticated])
+@csrf_exempt
 def bookmarks_api(request, item_id):
     try:
         item = LostAndFound.objects.get(id=item_id)
         user = request.user
-
+        
+        if request.method == 'GET':
+            exists = Bookmark.objects.filter(user=user, item=item).exists()
+            return Response({'bookmarked': exists})
+            
         if request.method == 'POST':
             Bookmark.objects.get_or_create(user=user, item=item)
             return Response({'message': '已加入收藏'})
 
         elif request.method == 'DELETE':
+            # 添加操作日志记录
             Bookmark.objects.filter(user=user, item=item).delete()
-            return Response({'message': '已取消收藏'}, status=204)
+            logger.info(f"用户 {user.id} 取消收藏物品 {item_id}")
+            return Response({'message': '已取消收藏'}, status=status.HTTP_204_NO_CONTENT)
 
     except LostAndFound.DoesNotExist:
-        return Response({'error': '物品不存在'}, status=404)
+        return Response({'error': '物品不存在'}, status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['POST'])
