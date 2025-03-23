@@ -175,7 +175,7 @@ def user_dashboard(request):
         unread_notifications = Notification.objects.filter(
             user=user,
             is_read=False
-        ).order_by('-created_at')[:5]
+        ).order_by('-created_at')
         # 统计各种状态的信息数量
         status_stats = LostAndFound.objects.filter(user=user).values(
             'status'
@@ -224,7 +224,9 @@ def user_dashboard(request):
                     'id': notif.id,
                     'content': notif.content,
                     'created_at': notif.created_at,
-                    'type': notif.notification_type
+                    'type': notif.notification_type,
+                    'is_read': notif.is_read,
+                    'related_item_id': notif.related_item_id,
                 } for notif in unread_notifications],
                 'status_summary': {
                     item['status']: item['count'] for item in status_stats

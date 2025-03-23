@@ -16,14 +16,21 @@ class MarkNotificationReadAPI(generics.UpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     
     def put(self, request, *args, **kwargs):
-        notification_id = request.data.get('id')
+        return self.handle_request(request, **kwargs)
+        
+    def patch(self, request, *args, **kwargs):
+        return self.handle_request(request, **kwargs)
+        
+    def handle_request(self, request, **kwargs):  # 必须添加**kwargs参数
+        notification_id = kwargs.get('pk')
         try:
             notification = Notification.objects.get(
                 id=notification_id,
-                user=request.user
+                user=request.user,
+                is_read=False  # 添加过滤条件避免重复操作
             )
             notification.is_read = True
             notification.save()
             return Response({'status': 'success'})
         except Notification.DoesNotExist:
-            return Response({'error': '通知不存在'}, status=404)
+            return Response({'error': '通知不存在或已被处理'}, status=404)

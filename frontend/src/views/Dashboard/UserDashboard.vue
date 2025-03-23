@@ -5,15 +5,8 @@
       <el-col :span="6">
         <el-card class="user-card">
           <div class="user-info">
-            <el-upload
-                class="avatar-uploader"
-                :action="uploadAction"
-                :headers="uploadHeaders"
-                :show-file-list="false"
-                :on-success="handleAvatarSuccess"
-                :before-upload="beforeAvatarUpload"
-                :method="requestMethod"
-                name="file">
+            <el-upload class="avatar-uploader" :action="uploadAction" :headers="uploadHeaders" :show-file-list="false"
+              :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload" :method="requestMethod" name="file">
               <img v-if="userInfo.avatar" :src="userInfo.avatar" class="avatar" alt="">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
@@ -35,21 +28,13 @@
               </div>
             </div>
 
-            <el-button
-                type="primary"
-                size="small"
-                icon="el-icon-edit"
-                @click="showEditDialog">
+            <el-button type="primary" size="small" icon="el-icon-edit" @click="showEditDialog">
               修改资料
             </el-button>
           </div>
           <!-- 在用户信息卡片中添加 -->
-          <el-button
-              type="danger"
-              size="small"
-              icon="el-icon-switch-button"
-              @click="handleLogout"
-              style="margin-top: 15px;">
+          <el-button type="danger" size="small" icon="el-icon-switch-button" @click="handleLogout"
+            style="margin-top: 15px;">
             安全退出
           </el-button>
         </el-card>
@@ -59,30 +44,18 @@
           <div slot="header" class="clearfix">
             <span>快捷功能</span>
           </div>
-          <el-button
-              type="primary"
-              icon="el-icon-s-release"
-              @click="handleLostItemRegister">
+          <el-button type="primary" icon="el-icon-s-release" @click="handleLostItemRegister">
             失物登记
           </el-button>
           <!-- 添加失物大厅按钮 -->
-          <el-button
-              type="info"
-              icon="el-icon-s-shop"
-              @click="goToLostHall">
+          <el-button type="info" icon="el-icon-s-shop" @click="goToLostHall">
             失物大厅
           </el-button>
-          <el-button
-              type="success"
-              icon="el-icon-s-claim"
-              @click="handleFoundItemRegister">
+          <el-button type="success" icon="el-icon-s-claim" @click="handleFoundItemRegister">
             招领登记
           </el-button>
           <!-- 添加招领大厅按钮 -->
-          <el-button
-              type="warning"
-              icon="el-icon-s-shop"
-              @click="goToFoundHall">
+          <el-button type="warning" icon="el-icon-s-shop" @click="goToFoundHall">
             招领大厅
           </el-button>
         </el-card>
@@ -97,21 +70,13 @@
             <el-card class="recent-posts">
               <div slot="header" class="card-header">
                 <span>最近发布</span>
-                <el-button
-                    type="text"
-                    class="header-action-btn">
+                <el-button type="text" class="header-action-btn">
                   <i class="el-icon-arrow-right"></i>
                 </el-button>
               </div>
 
-              <el-table
-                  :data="dashboardData.recent_posts"
-                  @row-click="handleRowClick"
-                  class="click-table">
-                <el-table-column
-                    prop="title"
-                    label="标题"
-                    min-width="120">
+              <el-table :data="dashboardData.recent_posts" @row-click="handleRowClick" class="click-table">
+                <el-table-column prop="title" label="标题" min-width="120">
                 </el-table-column>
                 <el-table-column label="类型" width="100">
                   <template slot-scope="scope">
@@ -119,14 +84,9 @@
                   </template>
                 </el-table-column>
 
-                <el-table-column
-                    prop="category"
-                    label="分类"
-                    width="100">
+                <el-table-column prop="category" label="分类" width="100">
                 </el-table-column>
-                <el-table-column
-                    label="状态"
-                    width="100">
+                <el-table-column label="状态" width="100">
                   <template slot-scope="scope">
                     <el-tag :type="statusTypeMap[scope.row.status]" size="small">
                       {{ scope.row.status }}
@@ -142,21 +102,12 @@
             <el-card class="my-collection">
               <div slot="header" class="card-header">
                 <span>我的收藏</span>
-                <el-button
-                    type="text"
-                    class="header-action-btn"
-                    @click="$router.push('/my-bookmarks')">
+                <el-button type="text" class="header-action-btn" @click="$router.push('/my-bookmarks')">
                   查看全部 <i class="el-icon-arrow-right"></i>
                 </el-button>
               </div>
-              <el-table
-                  :data="dashboardData.bookmarks"
-                  @row-click="handleRowClick"
-                  class="clickable-table">
-                <el-table-column
-                    prop="title"
-                    label="标题"
-                    min-width="120">
+              <el-table :data="dashboardData.bookmarks" @row-click="handleRowClick" class="clickable-table">
+                <el-table-column prop="title" label="标题" min-width="120">
                 </el-table-column>
                 <el-table-column label="类型" width="100">
                   <template slot-scope="scope">
@@ -164,9 +115,7 @@
                   </template>
                 </el-table-column>
 
-                <el-table-column
-                    label="状态"
-                    width="100">
+                <el-table-column label="状态" width="100">
                   <template slot-scope="scope">
                     <el-tag :type="statusTypeMap[scope.row.status]" size="small">
                       {{ scope.row.status }}
@@ -185,9 +134,7 @@
             <el-card class="stats-card">
               <div slot="header" class="card-header">
                 <span>最近7天发布统计</span>
-                <el-button
-                    type="text"
-                    class="header-action-btn">
+                <el-button type="text" class="header-action-btn">
                 </el-button>
               </div>
               <div ref="chart" class="chart-wrapper" v-show="hasChartData"></div>
@@ -202,19 +149,14 @@
             <el-card class="notification-card">
               <div slot="header" class="card-header">
                 <span>未读通知（{{ dashboardData.unread_notifications }}）</span>
-                <el-button
-                    type="text"
-                    class="header-action-btn"
-                    @click="markAllAsRead">
+                <el-button type="text" class="header-action-btn" @click="markAllAsRead">
                   全部已读
                 </el-button>
               </div>
 
               <div class="notification-list">
-                <div
-                    v-for="item in dashboardData.notifications"
-                    :key="item.id"
-                    class="notification-item">
+                <div v-for="item in dashboardData.notifications" :key="item.id" class="notification-item"
+                  @click="handleNotificationClick(item)">
                   <i :class="['icon', notificationIconMap[item.type]]"></i>
                   <div class="content">
                     <div class="time">{{ formatTime(item.created_at) }}</div>
@@ -229,16 +171,8 @@
     </el-row>
 
     <!-- 编辑资料对话框 -->
-    <el-dialog
-        title="修改个人资料"
-        :visible.sync="editDialogVisible"
-        width="500px"
-        @closed="resetForm">
-      <el-form
-          :model="profileForm"
-          label-width="80px"
-          ref="profileForm"
-          :rules="formRules">
+    <el-dialog title="修改个人资料" :visible.sync="editDialogVisible" width="500px" @closed="resetForm">
+      <el-form :model="profileForm" label-width="80px" ref="profileForm" :rules="formRules">
         <el-form-item label="真实姓名" prop="real_name">
           <el-input v-model="profileForm.real_name"></el-input>
         </el-form-item>
@@ -251,38 +185,19 @@
       </el-form>
       <div slot="footer">
         <el-button @click="editDialogVisible = false">取 消</el-button>
-        <el-button
-            type="primary"
-            :loading="submitting"
-            @click="submitProfile">
+        <el-button type="primary" :loading="submitting" @click="submitProfile">
           确认修改
         </el-button>
       </div>
     </el-dialog>
     <!-- 失物详情弹窗 -->
-    <el-dialog
-        title="🔍 物品详情"
-        :visible.sync="detailDialogVisible"
-        width="800px"
-        custom-class="item-detail-dialog"
-    >
+    <el-dialog title="🔍 物品详情" :visible.sync="detailDialogVisible" width="800px" custom-class="item-detail-dialog">
       <el-row :gutter="20">
         <!-- 图片轮播区 -->
         <el-col :span="8">
-          <el-carousel
-              :interval="5000"
-              height="300px"
-              arrow="always"
-          >
-            <el-carousel-item
-                v-for="(img, index) in currentItem.images"
-                :key="index"
-            >
-              <el-image
-                  :src="img"
-                  fit="cover"
-                  class="detail-image"
-              >
+          <el-carousel :interval="5000" height="300px" arrow="always">
+            <el-carousel-item v-for="(img, index) in currentItem.images" :key="index">
+              <el-image :src="img" fit="cover" class="detail-image">
                 <div slot="error" class="image-error">
                   <i class="el-icon-picture-outline"></i>
                 </div>
@@ -292,11 +207,7 @@
         </el-col>
         <!-- 详细信息区 -->
         <el-col :span="16">
-          <el-descriptions
-              :column="2"
-              border
-              label-class-name="detail-label"
-          >
+          <el-descriptions :column="2" border label-class-name="detail-label">
             <el-descriptions-item label="物品名称">{{ currentItem.title }}</el-descriptions-item>
             <el-descriptions-item label="物品分类">
               {{ currentItem.category_name }}
@@ -308,11 +219,8 @@
             <el-descriptions-item label="丢失地点">
               {{ currentItem.location }}
               <!-- 添加地图容器 -->
-              <div
-                  v-if="currentItem.location_lat && currentItem.location_lng"
-                  class="detail-map-container"
-                  :id="'detail-map-' + currentItem.id"
-              ></div>
+              <div v-if="currentItem.location_lat && currentItem.location_lng" class="detail-map-container"
+                :id="'detail-map-' + currentItem.id"></div>
             </el-descriptions-item>
             <el-descriptions-item label="发布类型">
               {{ currentItem.item_type === 'lost' ? '失物登记' : '招领登记' }}
@@ -327,10 +235,7 @@
               {{ formatTime(currentItem.created_at) }}
             </el-descriptions-item>
             <el-descriptions-item label="联系方式" :span="2">
-              <el-link
-                  type="primary"
-                  :href="currentItem.contact"
-              >
+              <el-link type="primary" :href="currentItem.contact">
                 {{ currentItem.contact }}
               </el-link>
             </el-descriptions-item>
@@ -342,25 +247,16 @@
       </el-row>
       <!-- 底部操作按钮 -->
       <div slot="footer">
-        <el-button
-            @click="detailDialogVisible = false"
-            size="medium"
-        >
+        <el-button @click="detailDialogVisible = false" size="medium">
           关闭
         </el-button>
-        <el-button
-            type="danger"
-            v-if="currentItem.status === 'active' && currentItem.item_type ==='lost' && currentItem.user === userInfo.id"
-            @click="handleCloseItem"
-            size="medium">
+        <el-button type="danger"
+          v-if="currentItem.status === 'active' && currentItem.item_type === 'lost' && currentItem.user === userInfo.id"
+          @click="handleCloseItem" size="medium">
           标记为已找回
         </el-button>
         <!-- 添加删除按钮 -->
-        <el-button
-            type="danger"
-            @click="handleDeleteItem"
-            size="medium"
-        >
+        <el-button type="danger" @click="handleDeleteItem" size="medium">
           删除物品
         </el-button>
       </div>
@@ -371,7 +267,7 @@
 
 <script>
 import dayjs from "dayjs";
-import axios, {post} from "axios";
+import axios, { post } from "axios";
 import * as echarts from 'echarts';
 
 
@@ -428,7 +324,7 @@ export default {
         },
         series: [{
           type: 'bar',
-          itemStyle: {color: '#409EFF'}
+          itemStyle: { color: '#409EFF' }
         }]
       },
       // 编辑对话框状态
@@ -442,11 +338,11 @@ export default {
       // 表单验证规则
       formRules: {
         real_name: [
-          {required: true, message: '请输入真实姓名', trigger: 'blur'},
-          {min: 2, max: 12, message: '长度在2到12个字符', trigger: 'blur'}
+          { required: true, message: '请输入真实姓名', trigger: 'blur' },
+          { min: 2, max: 12, message: '长度在2到12个字符', trigger: 'blur' }
         ],
         phone: [
-          {pattern: /^1[3-9]\d{9}$/, message: '请输入有效的手机号', trigger: 'blur'}
+          { pattern: /^1[3-9]\d{9}$/, message: '请输入有效的手机号', trigger: 'blur' }
         ]
       },
 
@@ -506,6 +402,37 @@ export default {
     },
   },
   methods: {
+    // 处理单个通知点击
+    async handleNotificationClick(notification) {
+      try {
+        if (!notification?.id) {
+          throw new Error('无效的通知ID')
+        }
+        // 标记为已读
+        await this.$http.patch(`/notifications/${notification.id}/`,
+          {
+            is_read: true
+          }
+        );
+        console.log('notification:', notification);
+          // 如果有相关物品则跳转
+        if (notification.related_item_id) {
+          // this.$router.push(`/items/${notification.related_item_id}`);
+          this.handleItemDetail(notification.related_item_id)
+        }
+        // 移除已读通知
+        this.dashboardData.notifications = this.dashboardData.notifications.filter(
+          n => n.id !== notification.id
+        );
+
+        // 更新未读计数
+        this.dashboardData.unread_notifications -= 1;
+
+      } catch (error) {
+        console.error('通知处理失败:', error.response || error); // 添加详细日志
+        this.$message.error(`处理失败: ${error.response?.data?.error || error.message}`);
+      }
+    },
     // 处理删除物品的方法
     handleDeleteItem() {
       // 确认用户是否真的要删除物品
@@ -516,15 +443,15 @@ export default {
       }).then(() => {
         // 发送删除请求
         axios.delete(`/api/user/items/${this.currentItem.id}/delete/`)
-            .then(() => {
-              // 删除成功后，更新页面数据
-              this.dashboardData.recent_posts = this.dashboardData.recent_posts.filter(item => item.id !== this.currentItem.id);
-              this.detailDialogVisible = false;
-              this.$message.success('物品删除成功');
-            })
-            .catch(error => {
-              this.$message.error('物品删除失败：' + error.message);
-            });
+          .then(() => {
+            // 删除成功后，更新页面数据
+            this.dashboardData.recent_posts = this.dashboardData.recent_posts.filter(item => item.id !== this.currentItem.id);
+            this.detailDialogVisible = false;
+            this.$message.success('物品删除成功');
+          })
+          .catch(error => {
+            this.$message.error('物品删除失败：' + error.message);
+          });
       }).catch(() => {
         // 用户取消删除操作
         this.$message.info('删除操作已取消');
@@ -536,12 +463,30 @@ export default {
 
     getCategoryName(categoryId) {
       return axios.get(`/api/category/name/${categoryId}/`)
-          .then(response => response.data.name)
-          .catch(() => '未知分类');
+        .then(response => response.data.name)
+        .catch(() => '未知分类');
     },
     // 点击表格行触发
     async handleRowClick(row) {
       const apiUrl = `/items/${row.id}/`;
+      console.log('Request URL:', apiUrl); // 打印请求地址
+      try {
+        const response = await this.$http.get(apiUrl);
+        console.log('get response:', response);
+        // 新增：获取分类名称并合并到数据
+        const categoryName = await this.getCategoryName(response.category);
+        this.currentItem = {
+          ...response,
+          category_name: categoryName,
+          images: response.images || []  // 确保有图册数据
+        };
+        this.detailDialogVisible = true;
+      } catch (error) {
+        this.$message.error('获取详情失败');
+      }
+    },
+    async handleItemDetail(itemId) {
+      const apiUrl = `/items/${itemId}/`;
       console.log('Request URL:', apiUrl); // 打印请求地址
       try {
         const response = await this.$http.get(apiUrl);
@@ -563,14 +508,14 @@ export default {
       try {
         console.log(this.currentItem.id)
         const response = await this.$http.patch(
-            `/user/items/${this.currentItem.id}/status/`,
-            {status: 'completed'},  // 只传必要参数
-            {
-              headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/json'
-              }
+          `/user/items/${this.currentItem.id}/status/`,
+          { status: 'completed' },  // 只传必要参数
+          {
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest',
+              'Content-Type': 'application/json'
             }
+          }
         )
         console.log("状态更新响应:", response.data)
         this.$message.success('操作成功')
@@ -694,19 +639,20 @@ export default {
       return true;
     },
     // 通知相关方法
-    markAllAsRead() {
-      this.$confirm('确定要标记所有通知为已读吗？', '操作确认', {
-        type: 'warning'
-      }).then(async () => {
-        await this.$http.post('/notifications/mark-all-read/')
-        await this.loadData()
-        this.$message.success('操作成功')
-      }).catch(() => {
-      })
+    async markAllAsRead() {
+      try {
+        await this.$http.post('/notifications/mark-all-read/');
+        // 清空通知列表并重置计数
+        this.dashboardData.notifications = [];
+        this.dashboardData.unread_notifications = 0;
+        this.$message.success('全部标记已读成功');
+      } catch (error) {
+        this.$message.error('操作失败');
+      }
     },
     // 用户资料编辑
     showEditDialog() {
-      this.profileForm = {...this.userInfo}
+      this.profileForm = { ...this.userInfo }
       this.editDialogVisible = true
     },
     resetForm() {
@@ -718,7 +664,7 @@ export default {
         this.submitting = true
         try {
           await this.$http.put('/user/profile/', this.profileForm)
-          this.userInfo = {...this.profileForm} //将profileForm对象的所有属性和值复制到userInfo对象中，实现了对象的浅拷贝
+          this.userInfo = { ...this.profileForm } //将profileForm对象的所有属性和值复制到userInfo对象中，实现了对象的浅拷贝
           this.$message.success('资料更新成功')
           this.editDialogVisible = false
         } catch (error) {
@@ -734,9 +680,9 @@ export default {
     },
     getCSRFToken() {
       const cookieValue = document.cookie
-          .split('; ')
-          .find(row => row.startsWith('csrftoken='))
-          ?.split('=')[1] || '';
+        .split('; ')
+        .find(row => row.startsWith('csrftoken='))
+        ?.split('=')[1] || '';
       return cookieValue;
     },
     handleLostItemRegister() {
@@ -776,7 +722,7 @@ export default {
       // 实例化独立控件
       const scale = new AMap.Scale()
       const toolBar = new AMap.ToolBar({
-        position: {bottom: '20px', right: '20px'}
+        position: { bottom: '20px', right: '20px' }
       })
 
       // 逐个添加控件
@@ -891,6 +837,7 @@ $text-secondary: #909399;
 $border-color: #DCDFE6;
 $bg-color: #f5f7fa;
 $card-bg: #ffffff;
+
 // 调整卡片高度和间距
 .top-section {
   margin-bottom: 20px;
@@ -1062,10 +1009,13 @@ $card-bg: #ffffff;
   justify-content: space-between;
 
   .el-button {
-    width: calc(50% - 6px); /* 保留间距 */
-    margin: 0 0 12px 0 !important; /* 清除默认边距 */
+    width: calc(50% - 6px);
+    /* 保留间距 */
+    margin: 0 0 12px 0 !important;
+    /* 清除默认边距 */
 
-    &:nth-child(odd) { /* 奇数按钮添加右边距 */
+    &:nth-child(odd) {
+      /* 奇数按钮添加右边距 */
       margin-right: 12px !important;
     }
 
@@ -1295,4 +1245,3 @@ $card-bg: #ffffff;
   transform: translate(-12px, -24px);
 }
 </style>
-

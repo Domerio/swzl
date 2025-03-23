@@ -35,7 +35,7 @@ urlpatterns = [
     # 用户资料
     path('user/profile/', views.user_profile, name='user-profile'),
     # path('user/upload-avatar/', views.upload_avatar, name='upload-avatar'),
-    path('user/notifications/mark-all-read/', views.mark_all_notifications_read, name='mark-all-read'),
+    path('notifications/mark-all-read/', views.mark_all_notifications_read, name='mark-all-read'),
     path('admin/stats/', views.admin_stats, name='admin_stats'),
     path('admin/recent-posts/', views.admin_recent_posts, name='admin_recent_posts'),
     path('admin/recent-users/', views.admin_recent_users, name='admin_recent_users'),
@@ -52,7 +52,6 @@ urlpatterns = [
     path('report-found/<int:item_id>/', views.report_found_and_notify, name='report-found'),
     path('report-lost/<int:item_id>/', views.report_lost_and_notify, name='report-lost'),
     path('public/found-items/', views.public_found_items, name='public-found-items'),
-    path('notifications/', NotificationListAPI.as_view(), name='user-notifications'),
-    path('notifications/mark-read/', MarkNotificationReadAPI.as_view(), name='mark-notification-read'),
+    path('notifications/<int:pk>/', MarkNotificationReadAPI.as_view(), name='notifications-detail'),
     # 已存在的批量标记已读路由保持不动
 ]
