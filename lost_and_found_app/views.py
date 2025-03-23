@@ -265,7 +265,6 @@ def user_profile(request):
     获取和更新用户资料
     """
     if request.method == 'GET':
-        # print(request.build_absolute_uri(request.user.avatar.url))
         return Response({
             'username': request.user.username,
             'real_name': request.user.real_name,
@@ -277,21 +276,29 @@ def user_profile(request):
         })
 
     elif request.method == 'PUT':
-        user = request.user
-        data = request.data
+        try:
+            user = request.user
+            data = request.data
 
-        if 'real_name' in data:
-            user.real_name = data['real_name']
-        if 'phone' in data:
-            user.phone = data['phone']
+            if 'real_name' in data:
+                user.real_name = data['real_name']
+            if 'phone' in data:
+                user.phone = data['phone']
 
-        user.save()
-        return Response({
-            'message': '个人资料更新成功',
-            'real_name': user.real_name,
-            'phone': user.phone,
-            'avatar': user.avatar if user.avatar else None
-        })
+            user.save()
+            user.refresh_from_db()  # 刷新获取最新头像信息
+
+            return Response({
+                'message': '个人资料更新成功',
+                'real_name': user.real_name,
+                'phone': user.phone,
+                'avatar': request.build_absolute_uri(user.avatar.url) if user.avatar else None  # 修正为URL字符串
+            })
+        except ValueError as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            logger.error(f"资料更新失败: {str(e)}")
+            return Response({'error': '服务器内部错误'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['POST'])

@@ -28,10 +28,8 @@ urlpatterns = [
     # path('admin/items/<int:item_id>/', views.admin_item_detail, name='admin_item_detail'),
     path('user/items/<int:item_id>/status/', views.update_item_status, name='update-item-status'),
     # path('user/lost-items/', views.public_items_list, name='LostHall'),
-
     path('user/found-hall/', FoundItemHallAPI.as_view(), name='FoundHall'),
     path('admin/items/<int:item_id>/status/', views.admin_approve_item),
-
     # 用户资料
     path('user/profile/', views.user_profile, name='user-profile'),
     # path('user/upload-avatar/', views.upload_avatar, name='upload-avatar'),
