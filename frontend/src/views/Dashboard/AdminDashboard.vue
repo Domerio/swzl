@@ -5,11 +5,16 @@
       <div class="header-content">
         <div>
           <h1 class="welcome-title">欢迎回来，{{ user.real_name }}！👋</h1>
-
         </div>
-        <el-button type="danger" plain @click="handleLogout" class="logout-btn" icon="el-icon-switch-button">
-          退出登录
-        </el-button>
+        <div class="button-group">
+          <el-button type="primary" plain @click="reportDialogVisible = true" class="report-btn"
+            icon="el-icon-document">
+            生成报表
+          </el-button>
+          <el-button type="danger" plain @click="handleLogout" class="logout-btn" icon="el-icon-switch-button">
+            退出登录
+          </el-button>
+        </div>
       </div>
       <p class="welcome-sub">今日有 {{ pendingCount }} 项待处理事务</p>
     </div>
@@ -226,7 +231,24 @@
         <el-descriptions-item label="电子邮箱">{{ currentUser.email }}</el-descriptions-item>
       </el-descriptions>
     </el-dialog>
-
+    <!-- 添加报表弹窗 -->
+    <el-dialog title="📊 生成系统报表" :visible.sync="reportDialogVisible" width="500px">
+      <el-form :model="reportForm" label-width="100px">
+        <el-form-item label="报表类型">
+          <el-select v-model="selectedReportType" placeholder="请选择报表类型">
+            <el-option label="月度统计报表" value="monthly"></el-option>
+            <el-option label="分类统计报表" value="category"></el-option>
+            <el-option label="用户活跃度报表" value="user_activity"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="reportDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="generateReport" :loading="reportLoading">
+          {{ reportLoading ? '生成中...' : '确认生成' }}
+        </el-button>
+      </div>
+    </el-dialog>
   </div>
 
 </template>
@@ -270,6 +292,9 @@ export default {
       currentItem: {},
       currentUser: {},
       deletionProcessing: false, // 新增：删除操作处理状态
+      reportDialogVisible: false,
+      selectedReportType: 'monthly',
+      reportLoading: false
 
     };
   },
@@ -315,6 +340,35 @@ export default {
     }
   },
   methods: {
+    async generateReport() {
+      if (!this.selectedReportType) {
+        this.$message.warning('请选择报表类型');
+        return;
+      }
+
+      try {
+        this.reportLoading = true;
+        const response = await axios.get(`/api/admin/reports/?type=${this.selectedReportType}`, {
+          responseType: 'blob',
+          headers: {
+            Authorization: `Token ${localStorage.getItem('token')}`
+          }
+        });
+
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `${this.selectedReportType}_report_${new Date().toISOString().slice(0, 10)}.xlsx`);
+        document.body.appendChild(link);
+        link.click();
+        this.reportDialogVisible = false;
+      } catch (error) {
+        console.error('报表生成失败:', error);
+        this.$message.error('报表生成失败');
+      } finally {
+        this.reportLoading = false;
+      }
+    },
     // 处理删除物品的方法
     handleDeleteItem() {
       // 确认用户是否真的要删除物品
@@ -633,6 +687,16 @@ export default {
   }
 }
 
+.report-btn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+  }
+}
 
 .metric-grid {
   margin-bottom: 24px;
@@ -869,6 +933,22 @@ export default {
     ::after {
       content: '';
     }
+  }
+}
+
+.button-group {
+  display: flex;
+  gap: 12px;
+}
+
+.report-btn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
   }
 }
 

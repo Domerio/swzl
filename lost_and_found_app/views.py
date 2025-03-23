@@ -26,6 +26,11 @@ from rest_framework.response import Response
 
 from .models import LostAndFound, Bookmark, Notification, Category, Attachment
 from .serializers import UserRegisterSerializer, LostItemSerializer, LostAndFoundDetailSerializer
+from .utils import report_utils
+from django.http import HttpResponse
+from .utils import report_utils
+import json
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
@@ -711,3 +716,30 @@ def public_lost_items(request):
             {"error": "无法获取数据，请稍后再试"},
             status=500
         )
+
+@api_view(['GET'])
+def generate_admin_report(request):
+    if request.user.role != 'admin':
+        return Response({'error': '权限不足'}, status=403)
+    report_type = request.GET.get('type', 'monthly')
+    
+    # 调用报表工具函数（需要实现generate_monthly_report等函数）
+    if report_type == 'monthly':
+        data = report_utils.generate_monthly_report()
+    elif report_type == 'category':
+        data = report_utils.generate_category_report()
+    elif report_type == 'user_activity':
+        data = report_utils.generate_user_activity_report()
+    else:
+        return Response({'error': '无效的报表类型'}, status=400)
+    if not data:
+        print(f"[{datetime.now()}] 空数据警告 - 报表类型: {report_type}")  # 添加调试日志
+        return Response({'error': '没有找到相关数据'}, status=404)
+    
+    print(f"样本数据: {json.dumps(data[:1], indent=2, ensure_ascii=False)}")  # 现在json模块已定义
+    # 将数据转换为Excel（需要实现export_to_excel函数）
+    output = report_utils.export_to_excel(data)
+    
+    response = HttpResponse(output, content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = f'attachment; filename="{report_type}_report.xlsx"'
+    return response

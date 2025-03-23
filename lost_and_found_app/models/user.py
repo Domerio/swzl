@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
+# 在User模型中补充登录历史关联
 class User(AbstractUser):
     ROLE_CHOICES = (
         ('student', '学生'),
@@ -26,3 +27,14 @@ class User(AbstractUser):
 
     def __str__(self):
         return f"{self.real_name}({self.role})"
+
+    
+    @property
+    def login_records(self):
+        return self.loginhistory_set.all()
+
+class LoginHistory(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='loginhistory_set')
+    login_time = models.DateTimeField(auto_now_add=True)
+    ip_address = models.GenericIPAddressField()
+    is_success = models.BooleanField(default=True)

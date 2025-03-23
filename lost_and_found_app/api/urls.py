@@ -54,4 +54,5 @@ urlpatterns = [
     path('public/found-items/', views.public_found_items, name='public-found-items'),
     path('notifications/<int:pk>/', MarkNotificationReadAPI.as_view(), name='notifications-detail'),
     # 已存在的批量标记已读路由保持不动
+    path('admin/reports/', views.generate_admin_report, name='admin-reports'),
 ]
