@@ -620,6 +620,29 @@ def report_found_and_notify(request, item_id):
         return Response({'error': '物品不存在'}, status=status.HTTP_404_NOT_FOUND)
 
 
+# 在public_lost_items视图基础上扩展
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def public_found_items(request):
+    """获取所有公开的招领信息"""
+    try:
+        queryset = LostAndFound.objects.select_related('category').filter(
+            status='active',
+            category__item_type='found'  # 修改为招领类型
+        ).order_by('-created_at')
+        
+        serializer = LostAndFoundDetailSerializer(
+            queryset, 
+            many=True,
+            context={'request': request}
+        )
+        return Response(serializer.data)
+        
+    except Exception as e:
+        logger.error(f"获取招领信息失败: {str(e)}")
+        return Response({"error": "数据获取失败"}, status=500)
+
+
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def public_lost_items(request):

@@ -49,5 +49,5 @@ urlpatterns = [
     path('bookmarks/<int:item_id>/', views.bookmarks_api, name='bookmarks-operate'),
     path('bookmaeks/check/<int:item_id>/', views.bookmarks_api, name='bookmarks-check'),
     path('report-found/<int:item_id>/', views.report_found_and_notify, name='report-found'),
-
+    path('public/found-items/', views.public_found_items, name='public-found-items'),
 ]
