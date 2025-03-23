@@ -7,12 +7,7 @@
           <h1 class="welcome-title">欢迎回来，{{ user.real_name }}！👋</h1>
 
         </div>
-        <el-button
-            type="danger"
-            plain
-            @click="handleLogout"
-            class="logout-btn"
-            icon="el-icon-switch-button">
+        <el-button type="danger" plain @click="handleLogout" class="logout-btn" icon="el-icon-switch-button">
           退出登录
         </el-button>
       </div>
@@ -71,22 +66,13 @@
                 <i class="el-icon-box"></i>
                 <span>最新失物信息</span>
               </div>
-              <el-button
-                  type="text"
-                  class="view-more">
+              <el-button type="text" class="view-more">
               </el-button>
             </div>
           </template>
 
-          <el-table
-              :data="recentPosts"
-              @row-click="handleRowClick"
-              class="data-table"
-              empty-text="暂无待处理信息"
-              v-loading="loading.posts"
-              :header-cell-style="{ background: '#f8f9fa' }"
-              height="330"
-          >
+          <el-table :data="recentPosts" @row-click="handleRowClick" class="data-table" empty-text="暂无待处理信息"
+            v-loading="loading.posts" :header-cell-style="{ background: '#f8f9fa' }" height="330">
             <!--添加空插槽-->
             <template #empty>
               <div class="empty-state">
@@ -95,26 +81,23 @@
               </div>
             </template>
             <el-table-column prop="title" label="物品名称" min-width="180">
-              <template #default="{row}">
+              <template #default="{ row }">
                 <span class="text-ellipsis">{{ row.title }}</span>
               </template>
             </el-table-column>
             <el-table-column label="类型" width="100">
-              <template #default="{row}">
+              <template #default="{ row }">
                 {{ getItemTypeLabel(row.item_type) }}
               </template>
             </el-table-column>
             <el-table-column prop="category" label="分类" width="120">
-              <template #default="{row}">
+              <template #default="{ row }">
                 <el-tag effect="plain">{{ row.category }}</el-tag>
               </template>
             </el-table-column>
             <el-table-column label="状态" width="100" align="center">
-              <template #default="{row}">
-                <el-tag
-                    :type="statusTypeMap[row.status]"
-                    effect="light"
-                    class="status-tag">
+              <template #default="{ row }">
+                <el-tag :type="statusTypeMap[row.status]" effect="light" class="status-tag">
                   {{ row.status }}
                 </el-tag>
               </template>
@@ -130,22 +113,14 @@
                 <i class="el-icon-user"></i>
                 <span>新增用户</span>
               </div>
-              <el-button
-                  type="text"
-                  class="view-more">
+              <el-button type="text" class="view-more">
               </el-button>
             </div>
           </template>
-          <el-table
-              :data="recentUsers"
-              @row-click="handleUserRowClick"
-              class="data-table"
-              v-loading="loading.users"
-              :header-cell-style="{ background: '#f8f9fa' }"
-              height="330"
-          >
+          <el-table :data="recentUsers" @row-click="handleUserRowClick" class="data-table" v-loading="loading.users"
+            :header-cell-style="{ background: '#f8f9fa' }" height="330">
             <el-table-column prop="username" label="学工号" min-width="120">
-              <template #default="{row}">
+              <template #default="{ row }">
                 <div class="user-cell">
                   <el-avatar :size="24" :src="row.avatar || defaultAvatar">
                     {{ row.real_name?.charAt(0) || '?' }}
@@ -154,13 +129,10 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="real_name" label="姓名" width="100"/>
+            <el-table-column prop="real_name" label="姓名" width="100" />
             <el-table-column prop="role" label="角色" width="100">
-              <template #default="{row}">
-                <el-tag
-                    :type="roleTagType(row.role)"
-                    effect="light"
-                    class="role-tag">
+              <template #default="{ row }">
+                <el-tag :type="roleTagType(row.role)" effect="light" class="role-tag">
                   {{ row.role }}
                 </el-tag>
               </template>
@@ -176,13 +148,8 @@
         <!-- 添加图片轮播区 -->
         <el-col :span="8">
           <el-carousel :interval="5000" height="300px" arrow="always">
-            <el-carousel-item v-for="(img, index) in currentItem.images"
-                              :key="index">
-              <el-image
-                  :src="img"
-                  :preview-src-list="currentItem.images"
-                  fit="cover"
-                  class="detail-image">
+            <el-carousel-item v-for="(img, index) in currentItem.images" :key="index">
+              <el-image :src="img" :preview-src-list="currentItem.images" fit="cover" class="detail-image">
                 <div slot="error" class="image-error">
                   <i class="el-icon-picture-outline"></i>
                 </div>
@@ -204,16 +171,11 @@
             <el-descriptions-item label="丢失地点">
               {{ currentItem.location }}
               <!-- 添加地图容器 -->
-              <div
-                  v-if="currentItem.location_lat && currentItem.location_lng"
-                  class="detail-map-container"
-                  :id="'detail-map-' + currentItem.id"
-              ></div>
+              <div v-if="currentItem.location_lat && currentItem.location_lng" class="detail-map-container"
+                :id="'detail-map-' + currentItem.id"></div>
             </el-descriptions-item>
             <el-descriptions-item label="提交人">
-              <el-tooltip
-                  v-if="currentItem.user?.role === 'admin'"
-                  content="管理员账号">
+              <el-tooltip v-if="currentItem.user?.role === 'admin'" content="管理员账号">
                 <i class="el-icon-s-custom"></i>
               </el-tooltip>
               {{ currentItem.user?.real_name || '匿名用户' }}
@@ -237,25 +199,21 @@
       <!-- 添加底部操作按钮 -->
       <div slot="footer">
         <el-button @click="itemDialogVisible = false">关闭</el-button>
-        <el-button
-            v-if="currentItem.status === 'pending'"
-            type="success"
-            :disabled="!currentItem.id || approvalProcessing"
-            @click="handleApproveItem"
-            :loading="approvalProcessing">
+        <el-button v-if="currentItem.status === 'pending'" type="success"
+          :disabled="!currentItem.id || approvalProcessing" @click="handleApproveItem" :loading="approvalProcessing">
           {{ approvalProcessing ? '正在处理...' : '审核通过' }}
         </el-button>
-
+        <!-- 添加删除按钮 -->
+        <el-button type="danger" :disabled="!currentItem.id || deletionProcessing" @click="handleDeleteItem"
+          :loading="deletionProcessing">
+          {{ deletionProcessing ? '正在删除...' : '删除物品' }}
+        </el-button>
       </div>
     </el-dialog>
 
 
     <!-- 用户详情弹窗 -->
-    <el-dialog
-        title="👤 用户详情"
-        :visible.sync="userDialogVisible"
-        width="600px"
-        class="admin-detail-dialog">
+    <el-dialog title="👤 用户详情" :visible.sync="userDialogVisible" width="600px" class="admin-detail-dialog">
       <el-descriptions :column="2" border>
         <el-descriptions-item label="用户ID">{{ currentUser.id }}</el-descriptions-item>
         <el-descriptions-item label="用户名">{{ currentUser.username }}</el-descriptions-item>
@@ -311,6 +269,7 @@ export default {
       userDialogVisible: false,
       currentItem: {},
       currentUser: {},
+      deletionProcessing: false, // 新增：删除操作处理状态
 
     };
   },
@@ -356,6 +315,33 @@ export default {
     }
   },
   methods: {
+    // 处理删除物品的方法
+    handleDeleteItem() {
+      // 确认用户是否真的要删除物品
+      this.$confirm('确定要删除该物品吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.deletionProcessing = true;
+        // 发送删除请求
+        axios.delete(`/api/admin/items/${this.currentItem.id}/delete/`)
+          .then(() => {
+            this.deletionProcessing = false;
+            // 删除成功后，更新页面数据
+            this.recentPosts = this.recentPosts.filter(item => item.id !== this.currentItem.id);
+            this.itemDialogVisible = false;
+            this.$message.success('物品删除成功');
+          })
+          .catch(error => {
+            this.deletionProcessing = false;
+            this.$message.error('物品删除失败：' + error.message);
+          });
+      }).catch(() => {
+        // 用户取消删除操作
+        this.$message.info('删除操作已取消');
+      });
+    },
     // 初始化详情地图
     // 修改initDetailMap方法
     initDetailMap() {
@@ -393,7 +379,7 @@ export default {
           const tools = [
             new AMap.Scale(),
             new AMap.ToolBar({
-              position: {bottom: '20px', right: '20px'}
+              position: { bottom: '20px', right: '20px' }
             })
           ]
           tools.forEach(t => t.addTo(this.detailMap))
@@ -435,8 +421,8 @@ export default {
     },
     getCategoryName(categoryId) {
       return axios.get(`/api/category/name/${categoryId}/`)
-          .then(response => response.data.name)
-          .catch(() => '未知分类');
+        .then(response => response.data.name)
+        .catch(() => '未知分类');
     },
     formatTime(time) {
       return dayjs(time).format('YYYY-MM-DD HH:mm')
@@ -464,9 +450,9 @@ export default {
     },
     async fetchAdminData() {
       try {
-        this.loading = {posts: true, users: true} // 重置加载状态
+        this.loading = { posts: true, users: true } // 重置加载状态
         const config = {
-          headers: {Authorization: `Token ${localStorage.getItem('token')}`}
+          headers: { Authorization: `Token ${localStorage.getItem('token')}` }
         };
         // 并行请求优化
         const [userResp, statsResp, postsResp, usersResp] = await Promise.all([
@@ -486,7 +472,7 @@ export default {
         console.error('Error:', error);
         this.$message.error(error.response?.data?.message || '数据加载失败');
       } finally { // 确保最终清除加载状态
-        this.loading = {posts: false, users: false};
+        this.loading = { posts: false, users: false };
       }
     },
     // 物品详情
@@ -494,7 +480,7 @@ export default {
       try {
         const apiUrl = `/api/admin/found-items/${row.id}/`;
         const response = await axios.get(apiUrl, {
-          headers: {Authorization: `Token ${localStorage.getItem('token')}`}
+          headers: { Authorization: `Token ${localStorage.getItem('token')}` }
         });
         // 新增：获取分类名称并合并到数据
         const categoryName = await this.getCategoryName(response.data.category);
@@ -513,14 +499,14 @@ export default {
     async handleUserRowClick(row) {
       try {
         const response = await axios.get(`/api/admin/users/${row.id}/`, {
-          headers: {Authorization: `Token ${localStorage.getItem('token')}`}
+          headers: { Authorization: `Token ${localStorage.getItem('token')}` }
         });
         this.currentUser = response.data;
         this.userDialogVisible = true;
 
         // 处理日期格式
         this.currentUser.date_joined = new Date(this.currentUser.date_joined)
-            .toLocaleString();
+          .toLocaleString();
       } catch (error) {
         this.$message.error('获取用户详情失败');
         console.error('Error fetching user details:', error);
@@ -538,17 +524,17 @@ export default {
         });
         const startTime = Date.now()
         await this.$http.patch(
-            `/admin/items/${this.currentItem.id}/status/`, // 使用专用状态接口
-            {
-              status: 'active',
-              admin_remark: '已通过审核' // 添加审核备注
-            },
-            {
-              headers: {
-                'X-Request-ID': `approve-req-${this.currentItem.id}-${Date.now()}`, // 唯一请求标识
-                'Content-Type': 'application/json-patch+json' // 标准PATCH类型
-              }
+          `/admin/items/${this.currentItem.id}/status/`, // 使用专用状态接口
+          {
+            status: 'active',
+            admin_remark: '已通过审核' // 添加审核备注
+          },
+          {
+            headers: {
+              'X-Request-ID': `approve-req-${this.currentItem.id}-${Date.now()}`, // 唯一请求标识
+              'Content-Type': 'application/json-patch+json' // 标准PATCH类型
             }
+          }
         )
         // 执行本地数据更新
         this.currentItem = {
@@ -561,16 +547,16 @@ export default {
         this.activeCount++
         // 更新表格数据
         this.recentPosts = this.recentPosts.map(item =>
-            item.id === this.currentItem.id ?
-                {...item, status: 'active'} :
-                item
+          item.id === this.currentItem.id ?
+            { ...item, status: 'active' } :
+            item
         )
         console.log(`审核操作耗时 ${Date.now() - startTime}ms`)
         this.$message.success(`${this.currentItem.title} 审核通过`)
       } catch (error) {
         const isCancel = error === 'cancel'
         const msg = isCancel ? '操作已取消' :
-            error.response?.data?.error || `审核失败: ${error.message}`
+          error.response?.data?.error || `审核失败: ${error.message}`
 
         !isCancel && console.error('审核错误详情:', {
           error: error.response?.data,
@@ -613,6 +599,12 @@ export default {
   padding: 24px;
   background: #f8fafc;
   min-height: 100vh;
+}
+
+.delete-btn {
+  margin-left: 12px !important;
+  position: relative !important;
+  z-index: 1 !important;
 }
 
 .dashboard-header {
@@ -767,7 +759,8 @@ export default {
       }
     }
 
-    .status-tag, .role-tag {
+    .status-tag,
+    .role-tag {
       border-radius: 4px;
       font-weight: 500;
     }
@@ -888,10 +881,15 @@ export default {
 
 .image-error {
   background: #f8f9fa;
-  @apply flex items-center justify-center;
+  /* 修改：移除 @apply 规则，使用纯 CSS 实现相同效果 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   i {
-    @apply text-4xl text-gray-300;
+    /* 移除 @apply 规则，使用纯 CSS 实现相同效果 */
+    font-size: 4rem;
+    color: #d1d5db;
   }
 }
 
