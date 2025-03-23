@@ -1,9 +1,11 @@
 # lost_and_found_app/api/views/items.py
 from flask import Response
+from django_filters.rest_framework import DjangoFilterBackend  # 添加过滤器后端导入
 from rest_framework import generics, status
 from rest_framework import permissions  # 添加此行
 from rest_framework.parsers import MultiPartParser
 from rest_framework.views import APIView
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 
 from ...models import LostAndFound, Category, Attachment
 from ...serializers import LostItemSerializer, FoundItemSerializer
@@ -43,10 +45,26 @@ class LostItemCreateAPI(generics.CreateAPIView):
             )
 
 
+# 在LostItemHallAPI类中修复
 class LostItemHallAPI(generics.ListAPIView):
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
     # 筛选状态为 'active' 且物品类型为 'lost' 的失物信息
     queryset = LostAndFound.objects.filter(status='active', category__item_type='lost')
     serializer_class = LostItemSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['item_type', 'status']
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search_query = self.request.query_params.get('search', None)
+        
+        if search_query:
+            queryset = queryset.filter(
+                Q(title__icontains=search_query) |
+                Q(description__icontains=search_query)
+            )
+        return queryset
     permission_classes = [permissions.IsAuthenticated]
     parser_classes = (MultiPartParser,)
 
@@ -82,7 +100,11 @@ class FoundItemCreateAPI(generics.CreateAPIView):
             )
 
 
+# 在SearchAPI类中添加权限配置
 class SearchAPI(APIView):
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    
     def get(self, request):
         from ...serializers import LostItemSerializer
         keyword = request.query_params.get('keyword')
