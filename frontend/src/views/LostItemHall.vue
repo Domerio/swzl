@@ -1,7 +1,45 @@
 <template>
   <div class="lost-item-hall">
     <h1>🔍 失物大厅</h1>
-    <el-table :data="lostItems" v-loading="loading" :header-cell-style="{ background: '#f8f9fa' }">
+
+    <!-- 添加搜索和筛选工具栏 -->
+    <el-row :gutter="20" class="toolbar">
+      <el-col :xs="24" :sm="12" :md="8" class="search-item">
+        <el-input v-model="searchQuery" placeholder="物品名称/描述..." clearable class="search-input" @clear="handleFilter"
+          @keyup.enter="handleFilter">
+          <template #prefix>
+            <i class="el-icon-search input-icon"></i>
+          </template>
+        </el-input>
+      </el-col>
+
+      <el-col :xs="24" :sm="12" :md="8" class="search-item">
+        <el-select v-model="filterType" placeholder="选择分类" clearable filterable class="type-selector"
+          @change="handleFilter">
+          <el-option v-for="item in categories" :key="item.value" :label="item.label" :value="item.value"
+            :disabled="item.hasChildren">
+            <span class="category-option" :style="{ paddingLeft: item.level * 20 + 'px' }">
+              {{ item.label }}
+              <i v-if="item.hasChildren" class="el-icon-folder-opened"></i>
+            </span>
+          </el-option>
+        </el-select>
+      </el-col>
+
+      <el-col :xs="24" :sm="24" :md="8" class="search-item">
+        <el-input v-model="locationQuery" placeholder="输入地址关键词..." clearable class="location-input"
+          @clear="handleFilter" @keyup.enter="handleFilter">
+          <template #prefix>
+            <i class="el-icon-location-information input-icon"></i>
+          </template>
+          <template #append>
+            <el-button type="primary" icon="el-icon-search" @click="handleFilter" />
+          </template>
+        </el-input>
+      </el-col>
+    </el-row>
+
+    <el-table :data="filteredItems" v-loading="loading" :header-cell-style="{ background: '#f8f9fa' }">
       <template #empty>
         <div class="empty-state">
           <i class="el-icon-document-remove"></i>
@@ -116,12 +154,19 @@
 
 <script>
 import axios from 'axios';
-import dayjs from "dayjs";
+import dayjs from 'dayjs';
 
 export default {
   /* eslint-disable no-undef */
+  // 在data部分修改
   data() {
     return {
+      // 新增过滤相关数据
+      searchQuery: '',
+      locationQuery: '',  // 新增地址搜索
+      filterType: null,
+      typeOptions: [], // 移除硬编码选项
+      categories: [],  // 新增分类数据
       lostItems: [],
       loading: false,
       detailDialogVisible: false,
@@ -142,22 +187,53 @@ export default {
     };
   },
   methods: {
-    getItemTypeLabel(itemType) {
-      return itemType === 'lost' ? '失物登记' : '招领登记';
-    },
     formatTime(time) {
-      // 这里可以添加具体的时间格式化逻辑
       return dayjs(time).format('YYYY-MM-DD HH:mm:ss')
     },
-    async fetchLostItems() {
-      this.loading = true;
+    // 新增过滤处理方法
+    handleFilter() {
+      // 如果需要后端过滤，可以调用API：
+      this.fetchLostItems(this.filterParams)
+    },
+    async fetchCategories() {
       try {
-        const response = await axios.get('/api/public/lost-items/');
-        this.lostItems = response.data;
+        const response = await axios.get('/api/lost/categories/tree/');
+        this.categories = this.convertToFlatOptions(response.data);
       } catch (error) {
-        console.error('获取失物信息失败', error);
+        console.error('获取分类失败', error);
+      }
+    },
+    convertToFlatOptions(tree) {
+      const flatten = (items) => {
+        return items.reduce((acc, item) => {
+          acc.push({
+            value: item.id,
+            label: item.name,
+            hasChildren: item.children && item.children.length > 0
+          });
+          if (item.children) {
+            acc.push(...flatten(item.children));
+          }
+          return acc;
+        }, []);
+      };
+      return flatten(tree);
+    },
+    // 修改原有的获取数据方法以支持参数
+    async fetchLostItems() {
+      this.loading = true
+      try {
+        const response = await axios.get('/api/public/lost-items/', {
+          headers: {
+            'Authorization': `Token ${this.$store.state.token}`,
+            'X-CSRFToken': this.getCSRFToken()
+          }
+        })
+        this.lostItems = response.data
+      } catch (error) {
+        console.error('获取失物信息失败', error)
       } finally {
-        this.loading = false;
+        this.loading = false
       }
     },
     async checkBookmarkStatus() {
@@ -190,15 +266,15 @@ export default {
             'Content-Type': 'application/json'
           }
         };
-        
+
         // 修正参数顺序（DELETE方法第二个参数是config）
         const method = this.bookmarked ? 'delete' : 'post';
         await axios[method](
-          `/api/bookmarks/${this.currentItem.id}/`, 
+          `/api/bookmarks/${this.currentItem.id}/`,
           method === 'delete' ? config : null, // 仅DELETE需要config在第二个参数
           method === 'post' ? config : null         // POST需要空数据体
         );
-        
+
         this.bookmarked = !this.bookmarked;
         this.$message.success(this.bookmarked ? '收藏成功' : '已取消收藏');
       } catch (error) {
@@ -264,8 +340,15 @@ export default {
         this.detailMap = null
       }
     },
+    getItemTypeLabel(itemType) {
+      return {
+        'lost': '失物登记',
+        'found': '招领登记'
+      }[itemType] || '未知类型';
+    },
   },
   mounted() {
+    this.fetchCategories();
     this.fetchLostItems();
     if (!window.AMap) {
       const key = 'db70318a1cf1f196b2746f10cb9df826'
@@ -288,6 +371,17 @@ export default {
         teacher: '教职工',
         student: '学生'
       }
+    },
+    // 添加过滤计算属性
+    filteredItems() {
+      const query = this.searchQuery.toLowerCase()
+      const locationQuery = this.locationQuery.toLowerCase()
+      return this.lostItems.filter(item =>
+        (item.title.toLowerCase().includes(query) ||
+          item.description.toLowerCase().includes(query)) &&
+        (item.location.toLowerCase().includes(locationQuery)) &&
+        (!this.filterType || item.category === this.filterType)
+      )
     }
 
   },
@@ -396,5 +490,52 @@ export default {
   font-size: 24px;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
   transform: translate(-12px, -24px);
+}
+
+.toolbar {
+  margin-bottom: 20px;
+
+  .search-item {
+    padding: 8px;
+  }
+}
+
+.search-input {
+  ::v-deep .el-input__prefix {
+    left: 8px; // 调整搜索图标左间距
+    display: flex;
+    align-items: center;
+  }
+}
+
+.type-selector {
+  width: 100%;
+
+  ::v-deep .el-input__prefix {
+    left: 8px;
+    pointer-events: none; // 禁止点击图标触发输入
+  }
+
+  .category-option {
+    i {
+      margin-left: 8px;
+      font-size: 14px; // 调整文件夹图标大小
+      vertical-align: middle;
+    }
+  }
+}
+
+.location-input {
+  ::v-deep .el-input__prefix {
+    left: 8px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.input-icon {
+  margin-left: 0; // 移除原有左边距
+  color: #409EFF;
+  font-size: 16px; // 统一图标尺寸
 }
 </style>
