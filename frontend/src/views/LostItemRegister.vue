@@ -335,7 +335,7 @@ export default {
             version: "1.1",
             plugins: [],
           },
-          url: `https://webapi.amap.com/maps?v=2.0&key=3958565d98f73366bc8f766bcc44cb66&t=${Date.now()}`,
+          url: `https://webapi.amap.com/maps?v=2.0&t=${Date.now()}`,
         };
 
         // 加载前检查全局AMap对象
@@ -365,6 +365,29 @@ export default {
         this.cleanupMap();
       } finally {
         this.mapLoading = false;
+      }
+    },
+        cleanupMap() {
+      if (this.map) {
+        // 移除所有事件监听
+        this.map.off("click", this.handleMapClick);
+        // 清除所有覆盖物
+        this.map.clearMap();
+        // 销毁地图实例
+        this.map.destroy();
+        this.map = null;
+      }
+      // 其他相关实例置空
+      this.geocoder = null;
+      this.marker = null;
+      if (this.infoWindow) {
+        this.infoWindow.close();
+        this.infoWindow = null;
+      }
+      // 强制清除DOM容器
+      const container = document.getElementById("map-container");
+      if (container) {
+        container.innerHTML = "";
       }
     },
     resetMap() {
@@ -625,10 +648,37 @@ export default {
   },
   beforeDestroy() {
     if (this.map) {
-      console.log("地图实例销毁前状态：", this.map.getStatus()); // 应该能正常获取状态
-      this.map.destroy();
-      console.log("地图实例销毁后访问：", this.map); // 应该输出 null
+      // 增强全局对象清理
+      if (window.AMap) {
+        window.AMap.Map = null; // 清除核心类引用
+        window.AMap = undefined;
+        delete window.AMap;
+        console.log("全局AMap清理完成:", typeof window.AMap); // 验证清理结果
+      }
+      console.log("地图实例销毁前状态：", this.map.getStatus());
+      this.map.off();
+      this.map.clearMap();
+      this.map.destroy(true);
+
+      // 统一DOM处理方式（改为与FoundItemRegister.vue一致）
+      const container = document.getElementById("map-container");
+      if (container && container.parentNode) {
+        container.parentNode.removeChild(container); // 彻底移除DOM元素
+        console.log("地图容器已移除");
+      }
+
       this.map = null;
+      console.log("地图实例销毁后访问：", this.map);
+
+      // 强化相关实例清理
+      if (this.geocoder) {
+        this.geocoder = null;
+      }
+      this.marker = null;
+      if (this.infoWindow) {
+        this.infoWindow.destroy(); // 改为destroy方法
+        this.infoWindow = null;
+      }
     }
   },
 };

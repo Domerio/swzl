@@ -3,28 +3,28 @@
     <h1>📝 招领登记</h1>
 
     <el-form
-        :model="form"
-        ref="formRef"
-        label-width="120px"
-        :rules="rules"
-        label-position="top"
+      :model="form"
+      ref="formRef"
+      label-width="120px"
+      :rules="rules"
+      label-position="top"
     >
       <!-- 表单项 -->
       <el-form-item label="物品标题" prop="title">
         <el-input
-            v-model="form.title"
-            placeholder="请输入物品名称（如：黑色华为手机）"
+          v-model="form.title"
+          placeholder="请输入物品名称（如：黑色华为手机）"
         />
       </el-form-item>
 
       <el-form-item label="详细描述" prop="description">
         <el-input
-            type="textarea"
-            :rows="4"
-            v-model="form.description"
-            placeholder="请尽可能详细描述物品特征（如：型号、特殊标记等）"
-            show-word-limit
-            maxlength="300"
+          type="textarea"
+          :rows="4"
+          v-model="form.description"
+          placeholder="请尽可能详细描述物品特征（如：型号、特殊标记等）"
+          show-word-limit
+          maxlength="300"
         />
       </el-form-item>
 
@@ -33,28 +33,27 @@
         <el-col :span="12">
           <el-form-item label="拾取时间" prop="lost_time">
             <el-date-picker
-                v-model="form.lost_time"
-                type="datetime"
-                format="yyyy-MM-dd HH:mm"
-                value-format="yyyy-MM-ddTHH:mm"
-                placeholder="选择具体时间"
+              v-model="form.lost_time"
+              type="datetime"
+              format="yyyy-MM-dd HH:mm"
+              value-format="yyyy-MM-ddTHH:mm"
+              placeholder="选择具体时间"
             />
-
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="拾取地点" prop="location">
             <div class="location-input-wrapper">
               <el-input
-                  v-model="form.location"
-                  placeholder="例如：3号教学楼201教室"
+                v-model="form.location"
+                placeholder="例如：3号教学楼201教室"
               />
               <el-button
-                  type="primary"
-                  icon="el-icon-map-location"
-                  @click="showMapDialog"
-                  class="map-btn"
-                  circle
+                type="primary"
+                icon="el-icon-map-location"
+                @click="showMapDialog"
+                class="map-btn"
+                circle
               >
               </el-button>
             </div>
@@ -66,39 +65,39 @@
       <el-form-item label="物品分类" prop="category" width="100%">
         <!-- 修改el-cascader的options绑定 -->
         <el-cascader
-            v-model="form.category"
-            :options="categoryTreeOptions"
-            :props="{
-              checkStrictly: true,
-              expandTrigger: 'hover',
-              emitPath: false
-            }"
-            placeholder="请选择最匹配的分类"
-            style="width: 50%;"
-            @change="handleCategoryChange"
+          v-model="form.category"
+          :options="categoryTreeOptions"
+          :props="{
+            checkStrictly: true,
+            expandTrigger: 'hover',
+            emitPath: false,
+          }"
+          placeholder="请选择最匹配的分类"
+          style="width: 50%"
+          @change="handleCategoryChange"
         />
       </el-form-item>
 
       <!-- 联系方式 -->
       <el-form-item label="联系方式" prop="contact">
         <el-input
-            v-model="form.contact"
-            placeholder="手机号或邮箱"
-            style="width: 50%"
+          v-model="form.contact"
+          placeholder="手机号或邮箱"
+          style="width: 50%"
         />
       </el-form-item>
 
       <!-- 图片上传 -->
       <el-form-item label="物品照片">
         <el-upload
-            action="#"
-            list-type="picture-card"
-            :auto-upload="false"
-            :on-change="handleUploadSuccess"
-            :file-list="form.images"
-            :before-upload="beforeUpload"
+          action="#"
+          list-type="picture-card"
+          :auto-upload="false"
+          :on-change="handleUploadSuccess"
+          :file-list="form.images"
+          :before-upload="beforeUpload"
         >
-          <i class="el-icon-plus"/>
+          <i class="el-icon-plus" />
         </el-upload>
         <div class="el-upload__tip">
           支持上传 JPG/PNG 格式图片，单张不超过5MB
@@ -108,93 +107,90 @@
       <!-- 操作按钮 -->
       <el-form-item>
         <el-button
-            type="primary"
-            class="submit-btn"
-            :loading="isSubmitting"
-            @click="submitForm"
+          type="primary"
+          class="submit-btn"
+          :loading="isSubmitting"
+          @click="submitForm"
         >
-          {{ isSubmitting ? '提交中...' : '立即登记' }}
+          {{ isSubmitting ? "提交中..." : "立即登记" }}
         </el-button>
       </el-form-item>
     </el-form>
     <!-- 在模板底部添加此对话框 -->
     <el-dialog
-        title="✅ 登记成功"
-        :visible.sync="dialogVisible"
-        width="700px"
-        @closed="handleDialogClosed"
+      title="✅ 登记成功"
+      :visible.sync="dialogVisible"
+      width="700px"
+      @closed="handleDialogClosed"
     >
-      <el-descriptions
-          :column="2"
-          border
-          label-class-name="detail-label"
-      >
+      <el-descriptions :column="2" border label-class-name="detail-label">
         <!-- 弹窗内容 -->
-        <el-descriptions-item label="物品标题">{{ submittedItem.title }}</el-descriptions-item>
+        <el-descriptions-item label="物品标题">{{
+          submittedItem.title
+        }}</el-descriptions-item>
         <el-descriptions-item label="分类">
           {{ getCategoryName(submittedItem.category) }}
         </el-descriptions-item>
         <el-descriptions-item label="拾取时间">
           {{ submittedItem.lost_time }}
         </el-descriptions-item>
-        <el-descriptions-item label="拾取地点">{{ submittedItem.location }}</el-descriptions-item>
+        <el-descriptions-item label="丢失地点">{{
+          submittedItem.location
+        }}</el-descriptions-item>
         <el-descriptions-item label="联系方式" :span="2">
           <el-link type="primary">{{ submittedItem.contact }}</el-link>
         </el-descriptions-item>
         <el-descriptions-item label="详细描述" :span="2">
           <pre class="description-pre">{{ submittedItem.description }}</pre>
         </el-descriptions-item>
-        <el-descriptions-item label="物品照片" :span="2" v-if="submittedItem.images?.length">
+        <el-descriptions-item
+          label="物品照片"
+          :span="2"
+          v-if="submittedItem.images?.length"
+        >
           <el-image
-              v-for="(img, index) in submittedItem.images"
-              :key="index"
-              :src="img.url"
-              fit="cover"
-              class="detail-image"
+            v-for="(img, index) in submittedItem.images"
+            :key="index"
+            :src="img.url"
+            fit="cover"
+            class="detail-image"
           />
         </el-descriptions-item>
       </el-descriptions>
       <!-- 底部操作按钮 -->
       <span slot="footer">
-      <el-button
-          type="success"
-          @click="handleConfirm"
-      >
-        打印回执 (Ctrl+P)
-      </el-button>
-      <el-button
-          type="primary"
-          @click="dialogVisible = false"
-      >
-        确定返回
-      </el-button>
-    </span>
+        <el-button type="success" @click="handleConfirm">
+          打印回执 (Ctrl+P)
+        </el-button>
+        <el-button type="primary" @click="dialogVisible = false">
+          确定返回
+        </el-button>
+      </span>
     </el-dialog>
     <!-- 添加地图弹窗 -->
     <!-- 在地图弹窗中添加加载状态 -->
     <el-dialog
-        title="请在地图上选择位置"
-        :visible.sync="mapDialogVisible"
-        width="80%"
+      title="请在地图上选择位置"
+      :visible.sync="mapDialogVisible"
+      width="80%"
     >
-      <div id="map-container" style="height: 500px; position: relative;">
+      <div id="map-container" style="height: 500px; position: relative">
         <div v-if="mapLoading" class="map-loading">
           <i class="el-icon-loading"></i> 正在获取地址信息...
         </div>
       </div>
       <span slot="footer">
-      <el-button @click="mapDialogVisible = false">取消</el-button>
-      <el-button type="primary" @click="confirmLocation">确定</el-button>
-    </span>
+        <el-button @click="mapDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="confirmLocation">确定</el-button>
+      </span>
     </el-dialog>
   </div>
-
 </template>
 
 
 <script>
-import axios from 'axios';
-import AMapLoader from '@amap/amap-jsapi-loader';
+import axios from "axios";
+import AMapLoader from "@amap/amap-jsapi-loader";
 
 export default {
   /* eslint-disable no-undef */
@@ -202,23 +198,23 @@ export default {
     return {
       // 新增手机号验证规则
       phoneRules: [
-        {required: true, message: '请输入联系方式', trigger: 'blur'},
+        { required: true, message: "请输入联系方式", trigger: "blur" },
         {
           pattern: /^(1[3-9]\d{9}|[\w-]+@[\w-]+\.[\w-]+)$/,
-          message: '请输入有效的手机号或邮箱',
-          trigger: 'blur'
-        }
+          message: "请输入有效的手机号或邮箱",
+          trigger: "blur",
+        },
       ],
       form: {
-        title: '',
-        description: '',
+        title: "",
+        description: "",
         lost_time: null,
-        location: '',
+        location: "",
         category: null,
-        contact: '',
+        contact: "",
         images: [],
         location_lng: null, // 新增经度字段
-        location_lat: null  // 新增纬度字段
+        location_lat: null, // 新增纬度字段
       },
       categories: [],
       categoriesTree: [], // 新增一个用于存储树形结构数据的数组
@@ -226,24 +222,20 @@ export default {
       categoryList: [], // 存储分类列表
       fileList: [],
       rules: {
-        title: [
-          {required: true, message: '请输入标题', trigger: 'blur'}
-        ],
+        title: [{ required: true, message: "请输入标题", trigger: "blur" }],
         description: [
-          {required: true, message: '请输入详细描述', trigger: 'blur'}
+          { required: true, message: "请输入详细描述", trigger: "blur" },
         ],
         lost_time: [
-          {required: true, message: '请选择丢失时间', trigger: 'change'}
+          { required: true, message: "请选择拾取时间", trigger: "change" },
         ],
-        location: [
-          {required: true, message: '请输入地点', trigger: 'blur'}
-        ],
+        location: [{ required: true, message: "请输入地点", trigger: "blur" }],
         category: [
-          {required: true, message: '请选择物品分类', trigger: 'change'}
+          { required: true, message: "请选择物品分类", trigger: "change" },
         ],
         contact: [
-          {required: true, message: '请输入联系方式', trigger: 'blur'}
-        ]
+          { required: true, message: "请输入联系方式", trigger: "blur" },
+        ],
       },
       isSubmitting: false,
       dialogVisible: false,
@@ -259,85 +251,91 @@ export default {
       selectedLocation: {
         lng: null,
         lat: null,
-        address: ''
+        address: "",
       },
       map: null,
       geocoder: null, // 高德地图的Geocoder对象
       mapLoading: false, // 新增地图加载状态
-      marker: null,      // 地图标记对象
-      infoWindow: null,   // 信息窗口对象
-    }
+      marker: null, // 地图标记对象
+      infoWindow: null, // 信息窗口对象
+    };
   },
   mounted() {
     this.fetchCategories().then(() => {
-      this.categoryTreeOptions = this.convertToCascaderOptions(this.categoriesTree)
-    })
+      this.categoryTreeOptions = this.convertToCascaderOptions(
+        this.categoriesTree
+      );
+    });
     window._AMapSecurityConfig = {
-      securityJsCode: 'c684b8bc9a42d62c059edd9fee411dce'
+      securityJsCode: "c684b8bc9a42d62c059edd9fee411dce",
     };
   },
   methods: {
     // 修改convertToCascaderOptions方法
     convertToCascaderOptions(data) {
-      return data.map(item => ({
+      return data.map((item) => ({
         value: item.id,
         label: item.name,
-        children: item.children.length ? this.convertToCascaderOptions(item.children) : undefined
+        children: item.children.length
+          ? this.convertToCascaderOptions(item.children)
+          : undefined,
       }));
     },
     getCSRFToken() {
-      const cookieValue = document.cookie
-          .split('; ')
-          .find(row => row.startsWith('csrftoken='))
-          ?.split('=')[1] || '';
+      const cookieValue =
+        document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("csrftoken="))
+          ?.split("=")[1] || "";
       return cookieValue;
     },
     async fetchCategories() {
       try {
-        const response = await axios.get('/api/found/categories/tree/',
-            {
-              headers: {
-                'Authorization': `Token ${this.$store.state.token}`,
-                'X-CSRFToken': this.getCSRFToken(),
-              }
-            }
-        );
+        const response = await axios.get("/api/found/categories/tree/", {
+          headers: {
+            Authorization: `Token ${this.$store.state.token}`,
+            "X-CSRFToken": this.getCSRFToken(),
+          },
+        });
         this.categoriesTree = response.data;
       } catch (error) {
-        console.error('获取物品分类失败:', error);
+        console.error("获取物品分类失败:", error);
       }
     },
     handleCategoryChange(value) {
       // 处理分类选择变化
-      console.log('选择的分类:', value);
+      console.log("选择的分类:", value);
     },
     // 新增地图相关方法
     showMapDialog() {
       this.mapDialogVisible = true;
       this.$nextTick(() => {
+        const mapContainer = document.getElementById("map-container");
+        // 复用逻辑改为操作DOM显示状态
+        if (this.map) {
+          mapContainer.style.visibility = "visible";
+          this.map.setFitView();
+          return;
+        }
         this.initAMap();
       });
     },
 
     async initAMap() {
-
       try {
-        // 彻底清理所有地图相关实例
-        this.cleanupMap();
-
+        if (this.map) return;
         this.mapLoading = true;
-
         // 强制禁用缓存
         const loaderConfig = {
-          key: '3958565d98f73366bc8f766bcc44cb66',
-          version: '2.0',
-          plugins: ['AMap.Geocoder', 'AMap.Scale', 'AMap.ToolBar'],
-          securityJsCode: 'c684b8bc9a42d62c059edd9fee411dce',
+          key: "3958565d98f73366bc8f766bcc44cb66",
+          version: "2.0",
+          plugins: ["AMap.Geocoder", "AMap.Scale", "AMap.ToolBar"],
+          securityJsCode: "c684b8bc9a42d62c059edd9fee411dce",
           AMapUI: {
-            version: '1.1',
-            plugins: []
+            version: "1.1",
+            plugins: [],
           },
-          url: `https://webapi.amap.com/maps?v=2.0&key=db70318a1cf1f196b2746f10cb9df826&t=${Date.now()}`
+          url: `https://webapi.amap.com/maps?v=2.0&t=${Date.now()}`,
         };
 
         // 加载前检查全局AMap对象
@@ -350,20 +348,19 @@ export default {
         const AMap = await Promise.race([
           AMapLoader.load(loaderConfig),
           new Promise((_, reject) =>
-              setTimeout(() => reject(new Error('地图加载超时')), 5000)
-          )
+            setTimeout(() => reject(new Error("地图加载超时")), 5000)
+          ),
         ]);
 
         // 增加安全校验
         if (!AMap?.Map) {
-          throw new Error('高德地图API加载异常');
+          throw new Error("高德地图API加载异常");
         }
         // 初始化地图
         this.initMapCore(AMap);
         this.initMapComponents(AMap);
-
       } catch (error) {
-        console.error('地图加载失败:', error);
+        console.error("地图加载失败:", error);
         this.$message.error(`地图初始化失败: ${error.message}`);
         this.cleanupMap();
       } finally {
@@ -371,12 +368,34 @@ export default {
       }
     },
     cleanupMap() {
-      // 销毁所有地图相关实例
       if (this.map) {
+        // 移除所有事件监听
+        this.map.off("click", this.handleMapClick);
+        // 清除所有覆盖物
+        this.map.clearMap();
+        // 销毁地图实例
         this.map.destroy();
         this.map = null;
       }
+      // 其他相关实例置空
       this.geocoder = null;
+      this.marker = null;
+      if (this.infoWindow) {
+        this.infoWindow.close();
+        this.infoWindow = null;
+      }
+      // 强制清除DOM容器
+      const container = document.getElementById("map-container");
+      if (container) {
+        container.innerHTML = "";
+      }
+    },
+    resetMap() {
+      const mapContainer = document.getElementById("map-container");
+      if (this.map) {
+        mapContainer.style.visibility = "hidden"; // 隐藏地图容器
+        this.map.clearMap(); // 仅清除覆盖物
+      }
       this.marker = null;
       if (this.infoWindow) {
         this.infoWindow.close();
@@ -384,7 +403,7 @@ export default {
       }
     },
     initMapCore(AMap) {
-      this.map = new AMap.Map('map-container', {
+      this.map = new AMap.Map("map-container", {
         zoom: 15,
         center: new AMap.LngLat(112.662198, 37.745788),
         resizeEnable: true,
@@ -395,27 +414,26 @@ export default {
     initMapComponents(AMap) {
       // 初始化地理编码器
       this.geocoder = new AMap.Geocoder({
-        city: '全国',
+        city: "全国",
         timeout: 5000,
-        extensions: 'all'
+        extensions: "all",
       });
 
       // 添加控件
-      this.map.addControl(new AMap.ToolBar({position: 'LT'}));
-      this.map.addControl(new AMap.Scale({position: 'LB'}));
+      this.map.addControl(new AMap.ToolBar({ position: "LT" }));
+      this.map.addControl(new AMap.Scale({ position: "LB" }));
 
       // 自定义信息窗口
       this.infoWindow = new AMap.InfoWindow({
         offset: new AMap.Pixel(0, -30),
         isCustom: true,
         autoMove: true,
-        closeWhenClickMap: true
+        closeWhenClickMap: true,
       });
 
       // 绑定地图事件
-      this.map.on('click', this.handleMapClick);
+      this.map.on("click", this.handleMapClick);
     },
-
     handleMapClick(e) {
       try {
         this.mapLoading = true;
@@ -426,7 +444,7 @@ export default {
         // 添加新标记
         this.marker = new AMap.Marker({
           position: e.lnglat,
-          title: '选择的位置'
+          title: "选择的位置",
         });
         this.map.add(this.marker);
 
@@ -436,12 +454,12 @@ export default {
           try {
             this.mapLoading = false;
 
-            if (status === 'complete' && result.info === 'OK') {
+            if (status === "complete" && result.info === "OK") {
               const address = result.regeocode.formattedAddress;
               this.selectedLocation = {
                 lng: e.lnglat.getLng(),
                 lat: e.lnglat.getLat(),
-                address: address
+                address: address,
               };
 
               // 实时更新输入框
@@ -469,24 +487,24 @@ export default {
 
               this.infoWindow.open(this.map, e.lnglat);
             } else {
-              console.error('地址解析失败:', result);
-              this.$message.warning('无法获取该位置地址，请重新选择');
+              console.error("地址解析失败:", result);
+              this.$message.warning("无法获取该位置地址，请重新选择");
             }
           } catch (err) {
-            console.error('地址解析异常:', err);
-            this.$message.warning('地址解析服务异常');
+            console.error("地址解析异常:", err);
+            this.$message.warning("地址解析服务异常");
           }
         });
       } catch (error) {
         this.mapLoading = false;
-        console.error('地址解析异常:', error);
-        this.$message.warning('位置选择过程发生错误');
+        console.error("地址解析异常:", error);
+        this.$message.warning("位置选择过程发生错误");
       }
     },
     // 修改后的确认方法
     confirmLocation() {
       if (!this.selectedLocation.address) {
-        this.$message.warning('请先在地图上选择位置');
+        this.$message.warning("请先在地图上选择位置");
         return;
       } else {
         this.form.location = this.selectedLocation.address;
@@ -498,7 +516,6 @@ export default {
       // 已经实时更新，这里只需要关闭弹窗
       this.mapDialogVisible = false;
 
-
       // 清除地图元素
       if (this.marker) {
         this.map.remove(this.marker);
@@ -508,24 +525,24 @@ export default {
 
     // 分类ID转名称（匹配用户原有分类数据）
     getCategoryName(categoryId) {
-      const category = this.categoryList.find(item => item.id === categoryId);
-      return category ? category.name : '未知分类';
+      const category = this.categoryList.find((item) => item.id === categoryId);
+      return category ? category.name : "未知分类";
     },
 
     // 处理弹窗关闭后的操作
     handleDialogClosed() {
-      this.$router.go(-1) // 或自定义跳转逻辑
+      this.$router.go(-1); // 或自定义跳转逻辑
     },
 
     // 打印功能
     handleConfirm() {
-      const printWindow = window.open('', '_blank')
+      const printWindow = window.open("", "_blank");
       printWindow.document.write(`
       <style>${this.printStyle}</style>
-      ${document.querySelector('.el-dialog').outerHTML}
-    `)
-      printWindow.print()
-      printWindow.close()
+      ${document.querySelector(".el-dialog").outerHTML}
+    `);
+      printWindow.print();
+      printWindow.close();
     },
 
     // 优化后的提交方法
@@ -534,14 +551,14 @@ export default {
         this.isSubmitting = true;
         // 统一提交数据（含图片）
         const formData = new FormData();
-        Object.keys(this.form).forEach(key => {
-          if (key !== 'images') {
+        Object.keys(this.form).forEach((key) => {
+          if (key !== "images") {
             // 处理所有非图片字段（包含经纬度）
             const value = this.form[key];
 
             // 处理空值情况
             if (value === null || value === undefined) {
-              formData.append(key, '');
+              formData.append(key, "");
             } else {
               formData.append(key, value);
             }
@@ -549,18 +566,18 @@ export default {
         });
         // 添加图片文件
         this.form.images.forEach((file) => {
-          formData.append('images', file.raw);
+          formData.append("images", file.raw);
         });
-        const response = await axios.post('/api/items/found/', formData, {
+        const response = await axios.post("/api/items/found/", formData, {
           headers: {
-            'Content-Type': 'multipart/form-data',
-            'Authorization': `Token ${this.$store.state.token}`
-          }
+            "Content-Type": "multipart/form-data",
+            Authorization: `Token ${this.$store.state.token}`,
+          },
         });
         // 保存服务器返回的完整数据
         this.submittedItem = {
           ...response.data,
-          images: this.form.images // 保留前端临时预览图
+          images: this.form.images, // 保留前端临时预览图
         };
 
         // 清空表单（根据需求选择保留或清除）
@@ -570,11 +587,11 @@ export default {
         this.dialogVisible = true; // 显示弹窗
 
         this.$message.success({
-          message: '登记成功，3秒后自动跳转',
-          duration: 3000
+          message: "登记成功，3秒后自动跳转",
+          duration: 3000,
         });
       } catch (error) {
-        const msg = error.response?.data?.detail || '提交失败，请检查网络连接';
+        const msg = error.response?.data?.detail || "提交失败，请检查网络连接";
         this.$message.error(msg);
       } finally {
         this.isSubmitting = false;
@@ -584,63 +601,97 @@ export default {
     // 增强的文件上传处理
     handleUploadSuccess(file) {
       if (!file || !file.raw) {
-        this.$message.error('文件加载异常')
-        return
+        this.$message.error("文件加载异常");
+        return;
       }
       try {
         // 显示10秒内有效的预览链接
-        const previewUrl = URL.createObjectURL(file.raw)
+        const previewUrl = URL.createObjectURL(file.raw);
         const fileData = {
-          uid: file.uid,        // 必须包含uid
+          uid: file.uid, // 必须包含uid
           name: file.name,
-          status: 'ready',      // 手动管理状态
-          percentage: 0,        // 进度条初始值
+          status: "ready", // 手动管理状态
+          percentage: 0, // 进度条初始值
           url: previewUrl,
-          raw: file.raw
-        }
+          raw: file.raw,
+        };
 
-        this.form.images = [...this.form.images, fileData]
+        this.form.images = [...this.form.images, fileData];
       } catch (error) {
-        console.error('文件预览错误:', error)
-        this.$message.error('不支持该文件类型')
+        console.error("文件预览错误:", error);
+        this.$message.error("不支持该文件类型");
       }
     },
 
-
     beforeUpload(file) {
-      const isValidType = ['image/jpeg', 'image/png'].includes(file.type)
-      const isLt5M = file.size / 1024 / 1024 < 5
+      const isValidType = ["image/jpeg", "image/png"].includes(file.type);
+      const isLt5M = file.size / 1024 / 1024 < 5;
       if (!isValidType) {
-        this.$message.error('仅支持 JPG/PNG 格式')
-        return false
+        this.$message.error("仅支持 JPG/PNG 格式");
+        return false;
       }
       if (!isLt5M) {
-        this.$message.error('图片大小不能超过5MB')
-        return false
+        this.$message.error("图片大小不能超过5MB");
+        return false;
       }
-      return true
+      return true;
     },
   },
   async created() {
     try {
       // 获取分类列表
-      const response = await axios.get('/api/found/categories/');
+      const response = await axios.get("/api/found/categories/");
       this.categoryList = response.data;
     } catch (error) {
-      console.error('获取分类列表失败:', error);
+      console.error("获取分类列表失败:", error);
     }
-  }
-}
+  },
+  beforeDestroy() {
+    if (this.map) {
+      // 增强全局对象清理
+      if (window.AMap) {
+        window.AMap.Map = null; // 清除核心类引用
+        window.AMap = undefined;
+        delete window.AMap;
+        console.log("全局AMap清理完成:", typeof window.AMap); // 验证清理结果
+      }
+      console.log("地图实例销毁前状态：", this.map.getStatus());
+      this.map.off();
+      this.map.clearMap();
+      this.map.destroy(true);
+
+      // 统一DOM处理方式（改为与FoundItemRegister.vue一致）
+      const container = document.getElementById("map-container");
+      if (container && container.parentNode) {
+        container.parentNode.removeChild(container); // 彻底移除DOM元素
+        console.log("地图容器已移除");
+      }
+
+      this.map = null;
+      console.log("地图实例销毁后访问：", this.map);
+
+      // 强化相关实例清理
+      if (this.geocoder) {
+        this.geocoder = null;
+      }
+      this.marker = null;
+      if (this.infoWindow) {
+        this.infoWindow.destroy(); // 改为destroy方法
+        this.infoWindow = null;
+      }
+    }
+  },
+};
 </script>
 
 <style lang="scss" scoped>
 // 配色方案
-$primary-color: #409EFF;
-$error-color: #F56C6C;
-$success-color: #67C23A;
+$primary-color: #409eff;
+$error-color: #f56c6c;
+$success-color: #67c23a;
 $text-primary: #303133;
 $text-secondary: #606266;
-$border-color: #EBEEF5;
+$border-color: #ebeef5;
 $bg-color: #f6f8fa;
 
 .lost-item-register {
@@ -659,7 +710,7 @@ $bg-color: #f6f8fa;
     position: relative;
 
     &::after {
-      content: '';
+      content: "";
       display: block;
       width: 60px;
       height: 3px;
@@ -681,8 +732,11 @@ $bg-color: #f6f8fa;
   }
 
   // 输入框样式优化
-  .el-input, .el-textarea, .el-select {
-    .el-input__inner, .el-textarea__inner {
+  .el-input,
+  .el-textarea,
+  .el-select {
+    .el-input__inner,
+    .el-textarea__inner {
       border-radius: 8px;
       transition: all 0.3s;
 
@@ -810,7 +864,7 @@ $bg-color: #f6f8fa;
   font-weight: 500;
 
   &::after {
-    content: "："
+    content: "：";
   }
 }
 
@@ -838,7 +892,7 @@ $bg-color: #f6f8fa;
 // 添加地图信息窗口样式
 // 更新地图信息窗口样式为纯白背景
 ::v-deep .map-info {
-  $primary: #409EFF;
+  $primary: #409eff;
   $bg-color: #ffffff; // 修改为纯白背景
   $border-color: #dcdfe6;
 
@@ -934,7 +988,6 @@ $bg-color: #f6f8fa;
   }
 }
 
-
 // 地图加载状态提示
 .map-loading {
   position: absolute;
@@ -1010,7 +1063,8 @@ $bg-color: #f6f8fa;
     display: none !important;
   }
 
-  .el-radio:focus:not(.is-focus):not(:active):not(.is-disabled) .el-radio__inner {
+  .el-radio:focus:not(.is-focus):not(:active):not(.is-disabled)
+    .el-radio__inner {
     box-shadow: none;
   }
 }
