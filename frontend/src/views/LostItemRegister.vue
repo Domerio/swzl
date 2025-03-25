@@ -190,7 +190,6 @@
 
 <script>
 import axios from "axios";
-import AMapLoader from "@amap/amap-jsapi-loader";
 
 export default {
   /* eslint-disable no-undef */
@@ -323,72 +322,27 @@ export default {
 
     async initAMap() {
       try {
-        if (this.map) return;
-        this.mapLoading = true;
-        // 强制禁用缓存
-        const loaderConfig = {
-          key: "3958565d98f73366bc8f766bcc44cb66",
-          version: "2.0",
-          plugins: ["AMap.Geocoder", "AMap.Scale", "AMap.ToolBar"],
-          securityJsCode: "c684b8bc9a42d62c059edd9fee411dce",
-          AMapUI: {
-            version: "1.1",
-            plugins: [],
-          },
-          url: `https://webapi.amap.com/maps?v=2.0&t=${Date.now()}`,
-        };
+        await this.$store.dispatch("loadAMap");
+        const AMap = this.$store.state.amapInstance;
 
-        // 加载前检查全局AMap对象
-        if (window.AMap) {
-          window.AMap = undefined;
-          delete window.AMap;
+        if (!this.map) {
+          this.initMapCore(AMap);
+          this.initMapComponents(AMap);
         }
-
-        // 增加加载超时处理
-        const AMap = await Promise.race([
-          AMapLoader.load(loaderConfig),
-          new Promise((_, reject) =>
-            setTimeout(() => reject(new Error("地图加载超时")), 5000)
-          ),
-        ]);
-
-        // 增加安全校验
-        if (!AMap?.Map) {
-          throw new Error("高德地图API加载异常");
-        }
-        // 初始化地图
-        this.initMapCore(AMap);
-        this.initMapComponents(AMap);
       } catch (error) {
         console.error("地图加载失败:", error);
         this.$message.error(`地图初始化失败: ${error.message}`);
-        this.cleanupMap();
-      } finally {
-        this.mapLoading = false;
       }
     },
-        cleanupMap() {
-      if (this.map) {
-        // 移除所有事件监听
-        this.map.off("click", this.handleMapClick);
-        // 清除所有覆盖物
-        this.map.clearMap();
-        // 销毁地图实例
-        this.map.destroy();
-        this.map = null;
+    cleanupMap() {
+      // 只清理当前组件实例相关资源
+      if (this.marker) {
+        this.map.remove(this.marker);
       }
-      // 其他相关实例置空
-      this.geocoder = null;
-      this.marker = null;
       if (this.infoWindow) {
         this.infoWindow.close();
-        this.infoWindow = null;
       }
-      // 强制清除DOM容器
-      const container = document.getElementById("map-container");
-      if (container) {
-        container.innerHTML = "";
-      }
+      // 保留全局地图实例
     },
     resetMap() {
       const mapContainer = document.getElementById("map-container");
@@ -647,39 +601,11 @@ export default {
     }
   },
   beforeDestroy() {
+    // 移除当前组件的事件监听
     if (this.map) {
-      // 增强全局对象清理
-      if (window.AMap) {
-        window.AMap.Map = null; // 清除核心类引用
-        window.AMap = undefined;
-        delete window.AMap;
-        console.log("全局AMap清理完成:", typeof window.AMap); // 验证清理结果
-      }
-      console.log("地图实例销毁前状态：", this.map.getStatus());
-      this.map.off();
-      this.map.clearMap();
-      this.map.destroy(true);
-
-      // 统一DOM处理方式（改为与FoundItemRegister.vue一致）
-      const container = document.getElementById("map-container");
-      if (container && container.parentNode) {
-        container.parentNode.removeChild(container); // 彻底移除DOM元素
-        console.log("地图容器已移除");
-      }
-
-      this.map = null;
-      console.log("地图实例销毁后访问：", this.map);
-
-      // 强化相关实例清理
-      if (this.geocoder) {
-        this.geocoder = null;
-      }
-      this.marker = null;
-      if (this.infoWindow) {
-        this.infoWindow.destroy(); // 改为destroy方法
-        this.infoWindow = null;
-      }
+      this.map.off("click", this.handleMapClick);
     }
+    this.cleanupMap();
   },
 };
 </script>
