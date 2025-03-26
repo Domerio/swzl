@@ -2,59 +2,30 @@
   <div class="lost-item-register">
     <h1>📝 招领登记</h1>
 
-    <el-form
-      :model="form"
-      ref="formRef"
-      label-width="120px"
-      :rules="rules"
-      label-position="top"
-    >
+    <el-form :model="form" ref="formRef" label-width="120px" :rules="rules" label-position="top">
       <!-- 表单项 -->
       <el-form-item label="物品标题" prop="title">
-        <el-input
-          v-model="form.title"
-          placeholder="请输入物品名称（如：黑色华为手机）"
-        />
+        <el-input v-model="form.title" placeholder="请输入物品名称（如：黑色华为手机）" />
       </el-form-item>
 
       <el-form-item label="详细描述" prop="description">
-        <el-input
-          type="textarea"
-          :rows="4"
-          v-model="form.description"
-          placeholder="请尽可能详细描述物品特征（如：型号、特殊标记等）"
-          show-word-limit
-          maxlength="300"
-        />
+        <el-input type="textarea" :rows="4" v-model="form.description" placeholder="请尽可能详细描述物品特征（如：型号、特殊标记等）"
+          show-word-limit maxlength="300" />
       </el-form-item>
 
       <!-- 日期选择 -->
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item label="拾取时间" prop="lost_time">
-            <el-date-picker
-              v-model="form.lost_time"
-              type="datetime"
-              format="yyyy-MM-dd HH:mm"
-              value-format="yyyy-MM-ddTHH:mm"
-              placeholder="选择具体时间"
-            />
+            <el-date-picker v-model="form.lost_time" type="datetime" format="yyyy-MM-dd HH:mm"
+              value-format="yyyy-MM-ddTHH:mm" placeholder="选择具体时间" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="拾取地点" prop="location">
             <div class="location-input-wrapper">
-              <el-input
-                v-model="form.location"
-                placeholder="例如：3号教学楼201教室"
-              />
-              <el-button
-                type="primary"
-                icon="el-icon-map-location"
-                @click="showMapDialog"
-                class="map-btn"
-                circle
-              >
+              <el-input v-model="form.location" placeholder="例如：3号教学楼201教室" />
+              <el-button type="primary" icon="el-icon-map-location" @click="showMapDialog" class="map-btn" circle>
               </el-button>
             </div>
           </el-form-item>
@@ -64,39 +35,22 @@
       <!-- 分类选择 -->
       <el-form-item label="物品分类" prop="category" width="100%">
         <!-- 修改el-cascader的options绑定 -->
-        <el-cascader
-          v-model="form.category"
-          :options="categoryTreeOptions"
-          :props="{
-            checkStrictly: true,
-            expandTrigger: 'hover',
-            emitPath: false,
-          }"
-          placeholder="请选择最匹配的分类"
-          style="width: 50%"
-          @change="handleCategoryChange"
-        />
+        <el-cascader v-model="form.category" :options="categoryTreeOptions" :props="{
+      checkStrictly: true,
+      expandTrigger: 'hover',
+      emitPath: false,
+    }" placeholder="请选择最匹配的分类" style="width: 50%" @change="handleCategoryChange" />
       </el-form-item>
 
       <!-- 联系方式 -->
       <el-form-item label="联系方式" prop="contact">
-        <el-input
-          v-model="form.contact"
-          placeholder="手机号或邮箱"
-          style="width: 50%"
-        />
+        <el-input v-model="form.contact" placeholder="手机号或邮箱" style="width: 50%" />
       </el-form-item>
 
       <!-- 图片上传 -->
       <el-form-item label="物品照片">
-        <el-upload
-          action="#"
-          list-type="picture-card"
-          :auto-upload="false"
-          :on-change="handleUploadSuccess"
-          :file-list="form.images"
-          :before-upload="beforeUpload"
-        >
+        <el-upload action="#" list-type="picture-card" :auto-upload="false" :on-change="handleUploadSuccess"
+          :file-list="form.images" :before-upload="beforeUpload">
           <i class="el-icon-plus" />
         </el-upload>
         <div class="el-upload__tip">
@@ -106,28 +60,18 @@
 
       <!-- 操作按钮 -->
       <el-form-item>
-        <el-button
-          type="primary"
-          class="submit-btn"
-          :loading="isSubmitting"
-          @click="submitForm"
-        >
+        <el-button type="primary" class="submit-btn" :loading="isSubmitting" @click="submitForm">
           {{ isSubmitting ? "提交中..." : "立即登记" }}
         </el-button>
       </el-form-item>
     </el-form>
     <!-- 在模板底部添加此对话框 -->
-    <el-dialog
-      title="✅ 登记成功"
-      :visible.sync="dialogVisible"
-      width="700px"
-      @closed="handleDialogClosed"
-    >
+    <el-dialog title="✅ 登记成功" :visible.sync="dialogVisible" width="700px" @closed="handleDialogClosed">
       <el-descriptions :column="2" border label-class-name="detail-label">
         <!-- 弹窗内容 -->
         <el-descriptions-item label="物品标题">{{
-          submittedItem.title
-        }}</el-descriptions-item>
+      submittedItem.title
+    }}</el-descriptions-item>
         <el-descriptions-item label="分类">
           {{ getCategoryName(submittedItem.category) }}
         </el-descriptions-item>
@@ -135,26 +79,17 @@
           {{ submittedItem.lost_time }}
         </el-descriptions-item>
         <el-descriptions-item label="丢失地点">{{
-          submittedItem.location
-        }}</el-descriptions-item>
+      submittedItem.location
+    }}</el-descriptions-item>
         <el-descriptions-item label="联系方式" :span="2">
           <el-link type="primary">{{ submittedItem.contact }}</el-link>
         </el-descriptions-item>
         <el-descriptions-item label="详细描述" :span="2">
           <pre class="description-pre">{{ submittedItem.description }}</pre>
         </el-descriptions-item>
-        <el-descriptions-item
-          label="物品照片"
-          :span="2"
-          v-if="submittedItem.images?.length"
-        >
-          <el-image
-            v-for="(img, index) in submittedItem.images"
-            :key="index"
-            :src="img.url"
-            fit="cover"
-            class="detail-image"
-          />
+        <el-descriptions-item label="物品照片" :span="2" v-if="submittedItem.images?.length">
+          <el-image v-for="(img, index) in submittedItem.images" :key="index" :src="img.url" fit="cover"
+            class="detail-image" />
         </el-descriptions-item>
       </el-descriptions>
       <!-- 底部操作按钮 -->
@@ -169,11 +104,7 @@
     </el-dialog>
     <!-- 添加地图弹窗 -->
     <!-- 在地图弹窗中添加加载状态 -->
-    <el-dialog
-      title="请在地图上选择位置"
-      :visible.sync="mapDialogVisible"
-      width="80%"
-    >
+    <el-dialog title="请在地图上选择位置" :visible.sync="mapDialogVisible" width="80%">
       <div id="map-container" style="height: 500px; position: relative">
         <div v-if="mapLoading" class="map-loading">
           <i class="el-icon-loading"></i> 正在获取地址信息...
@@ -490,13 +421,111 @@ export default {
 
     // 打印功能
     handleConfirm() {
-      const printWindow = window.open("", "_blank");
+      const printWindow = window.open('', '_blank');
       printWindow.document.write(`
-      <style>${this.printStyle}</style>
-      ${document.querySelector(".el-dialog").outerHTML}
-    `);
-      printWindow.print();
-      printWindow.close();
+        <html>
+          <head>
+            <title>失物登记回执</title>
+            <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+            <style>
+              body { padding: 20px; font-family: "Helvetica Neue"; }
+              .print-title { 
+                text-align: center; 
+                font-size: 24px; 
+                margin-bottom: 30px;
+                border-bottom: 2px solid #409EFF;
+                padding-bottom: 15px;
+              }
+              .print-section { margin-bottom: 25px; }
+              .print-label { 
+                color: #606266;
+                min-width: 80px;
+                display: inline-block;
+                margin-right: 15px;
+              }
+              .print-value { 
+                color: #303133;
+                font-weight: 500;
+              }
+              .print-images {
+                margin-top: 20px;
+                display: flex;
+                gap: 15px;
+              }
+              .print-image {
+                width: 150px;
+                height: 150px;
+                object-fit: cover;
+                border: 1px solid #ebeef5;
+                border-radius: 6px;
+              }
+              @media print {
+                body { padding: 0!important; }
+                .print-title { font-size: 28px; }
+              }
+            </style>
+          </head>
+          <body>
+            <h1 class="print-title">失物登记回执</h1>
+            
+            <div class="print-section">
+              <span class="print-label">物品标题：</span>
+              <span class="print-value">${this.submittedItem.title}</span>
+            </div>
+
+            <div class="print-section">
+              <span class="print-label">物品分类：</span>
+              <span class="print-value">${this.getCategoryName(this.submittedItem.category)}</span>
+            </div>
+
+            <div class="print-section">
+              <span class="print-label">丢失时间：</span>
+              <span class="print-value">${this.submittedItem.lost_time}</span>
+            </div>
+
+            <div class="print-section">
+              <span class="print-label">丢失地点：</span>
+              <span class="print-value">${this.submittedItem.location}</span>
+            </div>
+
+            <div class="print-section">
+              <span class="print-label">联系方式：</span>
+              <span class="print-value">${this.submittedItem.contact}</span>
+            </div>
+
+            <div class="print-section">
+              <div class="print-label">物品描述：</div>
+              <pre class="print-value">${this.submittedItem.description}</pre>
+            </div>
+
+            ${this.submittedItem.images?.length ? `
+            <div class="print-section">
+              <div class="print-label">物品照片：</div>
+              <div class="print-images">
+                ${this.submittedItem.images.map(img => `
+                  <img 
+                    src="${img.url}" 
+                    class="print-image" 
+                    onerror="this.style.display='none'"
+                  >
+                `).join('')}
+              </div>
+            </div>
+            ` : ''}
+
+            <div class="print-footer" style="margin-top: 30px; text-align: right; color: #909399;">
+              <div>打印时间：${new Date().toLocaleString()}</div>
+              <div>系统生成回执，无需盖章</div>
+            </div>
+          </body>
+        </html>
+      `);
+
+      printWindow.document.close();
+      setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+      }, 500);
     },
 
     // 优化后的提交方法
@@ -661,6 +690,7 @@ $bg-color: #f6f8fa;
   .el-input,
   .el-textarea,
   .el-select {
+
     .el-input__inner,
     .el-textarea__inner {
       border-radius: 8px;
@@ -937,6 +967,7 @@ $bg-color: #f6f8fa;
     flex: 1;
     // 调整右侧留出按钮空间
     margin-right: 8px;
+
     // 调整输入框右侧圆角以配合按钮圆角
     ::v-deep .el-input__inner {
       border-top-right-radius: 0;
@@ -951,6 +982,7 @@ $bg-color: #f6f8fa;
     padding: 8px;
     border-radius: 0 4px 4px 0;
     transition: all 0.3s;
+
     // 隐藏文字（兼容旧浏览器）
     span {
       display: none;
@@ -989,9 +1021,34 @@ $bg-color: #f6f8fa;
     display: none !important;
   }
 
-  .el-radio:focus:not(.is-focus):not(:active):not(.is-disabled)
-    .el-radio__inner {
+  .el-radio:focus:not(.is-focus):not(:active):not(.is-disabled) .el-radio__inner {
     box-shadow: none;
+  }
+}
+@media print {
+  body * {
+    visibility: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .el-dialog {
+    visibility: visible !important;
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 210mm !important;
+    box-shadow: none !important;
+  }
+
+  .el-dialog__header,
+  .el-dialog__footer {
+    display: none !important;
+  }
+
+  .el-descriptions__title {
+    font-size: 24px !important;
+    text-align: center !important;
   }
 }
 </style>
