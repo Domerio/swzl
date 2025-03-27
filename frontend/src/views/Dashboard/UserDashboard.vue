@@ -250,7 +250,8 @@
         <el-button @click="detailDialogVisible = false" size="medium">
           关闭
         </el-button>
-        <el-button type="warning" v-if="currentItem.user === userInfo.id" @click="showEditItemDialog" size="medium">
+        <el-button type="warning" v-if="currentItem.status === 'pending' && currentItem.user === userInfo.id"
+          @click="showEditItemDialog" size="medium">
           修改物品
         </el-button>
         <el-button type="danger"
@@ -467,18 +468,26 @@ export default {
           ...response.data,
           // category_name: this.categories.find(c => c.value === response.data.category)?.label
         };
-
+        console.log(response);
+        
         this.$message.success('修改成功');
         this.editItemDialogVisible = false;
-
+        // 更新当前条目显示
+        this.currentItem = {
+          ...this.currentItem,
+          ...response.data,
+          category_name: response.category_name
+        };
         // 更新最近发布列表
         const index = this.dashboardData.recent_posts.findIndex(
           item => item.id === this.currentItem.id
         );
         if (index > -1) {
-          this.dashboardData.recent_posts.splice(index, 1, this.currentItem);
+          this.dashboardData.recent_posts.splice(index, 1, {
+            ...this.currentItem,
+            category: response.category_name
+          });
         }
-
       } catch (error) {
         this.$message.error('修改失败: ' + (error.response?.data?.detail || error.message));
       }
