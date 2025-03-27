@@ -1,11 +1,13 @@
 # lost_and_found_app/api/views/items.py
-from flask import Response
+from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend  # 添加过滤器后端导入
 from rest_framework import generics, status
 from rest_framework import permissions  # 添加此行
 from rest_framework.parsers import MultiPartParser
 from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 from ...models import LostAndFound, Category, Attachment
 from ...serializers import LostItemSerializer, FoundItemSerializer
@@ -194,3 +196,19 @@ class ItemDeleteView(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
         except LostAndFound.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+# 修改UpdateStatusAPI为ItemUpdateAPI并添加PUT方法
+class ItemUpdateAPI(APIView):
+    permission_classes = [IsAuthenticated]  # 添加权限控制
+    
+    def put(self, request, pk):
+        try:
+            item = LostAndFound.objects.get(pk=pk, user=request.user)
+            serializer = LostItemSerializer(item, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=400)
+        except LostAndFound.DoesNotExist:
+            return Response({"error": "Item not found"}, status=404)

@@ -250,6 +250,9 @@
         <el-button @click="detailDialogVisible = false" size="medium">
           关闭
         </el-button>
+        <el-button type="warning" v-if="currentItem.user === userInfo.id" @click="showEditItemDialog" size="medium">
+          修改物品
+        </el-button>
         <el-button type="danger"
           v-if="currentItem.status === 'active' && currentItem.item_type === 'lost' && currentItem.user === userInfo.id"
           @click="handleCloseItem" size="medium">
@@ -261,7 +264,28 @@
         </el-button>
       </div>
     </el-dialog>
-
+    <!-- 物品编辑对话框 -->
+    <el-dialog title="修改物品信息" :visible.sync="editItemDialogVisible" width="600px">
+      <el-form :model="editItemForm" label-width="80px">
+        <el-form-item label="物品名称">
+          <el-input v-model="editItemForm.title"></el-input>
+        </el-form-item>
+        <el-form-item label="物品分类">
+          <el-select v-model="editItemForm.category" placeholder="请选择分类">
+            <el-option v-for="item in categories" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="详细描述">
+          <el-input type="textarea" :rows="4" v-model="editItemForm.description">
+          </el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="editItemDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="submitItemEdit">确认修改</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -379,6 +403,9 @@ export default {
       detailDialogVisible: false,
       currentItem: {}, // 当前查看的条目
       chart: null,
+      editItemDialogVisible: false,
+      editItemForm: {},
+      categories: [], // 存放分类数据
     }
   },
   computed: {
@@ -402,6 +429,60 @@ export default {
     },
   },
   methods: {
+    // 显示编辑对话框
+    showEditItemDialog() {
+      this.editItemForm = { ...this.currentItem };
+      this.loadCategories();
+      this.editItemDialogVisible = true;
+    },
+    // 加载分类数据
+    async loadCategories() {
+      try {
+        let response = null;
+        if (this.currentItem.item_type === 'lost') {
+          response = await this.$http.get('/lost/categories/');
+        } else if (this.currentItem.item_type === 'found') {
+          response = await this.$http.get('/found/categories/')
+        }
+        this.categories = response.map(item => ({
+          value: item.id,
+          label: item.name
+        }));
+      } catch (error) {
+        console.error('加载分类失败:', error);
+      }
+    },
+
+    // 提交修改
+    async submitItemEdit() {
+      try {
+        const response = await this.$http.put(
+          `/user/items/${this.editItemForm.id}/`,
+          this.editItemForm
+        );
+
+        // 更新当前展示的条目
+        this.currentItem = {
+          ...this.currentItem,
+          ...response.data,
+          // category_name: this.categories.find(c => c.value === response.data.category)?.label
+        };
+
+        this.$message.success('修改成功');
+        this.editItemDialogVisible = false;
+
+        // 更新最近发布列表
+        const index = this.dashboardData.recent_posts.findIndex(
+          item => item.id === this.currentItem.id
+        );
+        if (index > -1) {
+          this.dashboardData.recent_posts.splice(index, 1, this.currentItem);
+        }
+
+      } catch (error) {
+        this.$message.error('修改失败: ' + (error.response?.data?.detail || error.message));
+      }
+    },
     // 处理单个通知点击
     async handleNotificationClick(notification) {
       try {
@@ -415,7 +496,7 @@ export default {
           }
         );
         console.log('notification:', notification);
-          // 如果有相关物品则跳转
+        // 如果有相关物品则跳转
         if (notification.related_item_id) {
           // this.$router.push(`/items/${notification.related_item_id}`);
           this.handleItemDetail(notification.related_item_id)

@@ -5,7 +5,7 @@ from django.urls import path
 from .views.auth import LoginAPI, UploadAvatar
 from .views.auth import RegisterAPI
 from .views.items import LostItemCreateAPI, FoundItemCreateAPI, FoundItemHallAPI, LostCategoryListAPI, \
-    FoundCategoryListAPI, ItemDeleteView  # 确保导入路径正确
+    FoundCategoryListAPI, ItemDeleteView, ItemUpdateAPI  # 确保导入路径正确
 from .. import views
 from .views.notifications import NotificationListAPI, MarkNotificationReadAPI
 
@@ -16,6 +16,7 @@ urlpatterns = [
     path('register/', RegisterAPI.as_view(), name='register'),
     path('user/upload-avatar/', UploadAvatar.as_view(), name='upload_avatar'),
     path('lost/categories/', views.get_lost_categories, name='lost_categories'),
+    path('user/items/<int:pk>/', ItemUpdateAPI.as_view(), name='item-update'),  # 修改物品详情
     path('found/categories/', views.get_found_categories, name='found_categories'),
     path('category/name/<int:category_id>/', views.get_category_name, name='category-name'),
     path('lost/categories/tree/', LostCategoryListAPI.as_view(), name='category-tree'),  # 添加失物分类树路径
