@@ -204,3 +204,26 @@ SESSION_COOKIE_SAMESITE = None  # 临时设置为 None 以便调试
 CSRF_COOKIE_HTTPONLY = False
 CSRF_USE_SESSIONS = False
 SESSION_COOKIE_HTTPONLY = True
+
+# 在settings.py中确保有以下配置
+# 在LOGGING配置部分修改文件路径设置
+LOGGING = {
+    'version': 1,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'match.log'),  # 改为相对路径
+            'encoding': 'utf-8',
+        },
+    },
+    'loggers': {
+        'lost_and_found_app.services.matching': {
+            'handlers': ['file', 'console'],  # 同时输出到文件和终端
+            'level': 'DEBUG',
+        }
+    }
+}

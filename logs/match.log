@@ -1,0 +1,15 @@
+🏁 开始智能匹配流程 - 物品ID: 35 类型: lost
+✅ 找到 0 个潜在匹配项
+🏁 开始智能匹配流程 - 物品ID: 35 类型: lost
+✅ 找到 1 个潜在匹配项
+🏁 开始智能匹配流程 - 物品ID: 35 类型: lost
+✅ 找到 1 个潜在匹配项
+🏁 开始智能匹配流程 - 物品ID: 35 类型: lost
+❌ 匹配过程中发生异常: name 'match_type' is not defined
+Traceback (most recent call last):
+  File "E:\毕业设计\基于Django的校园失物招领管理系统\lost_and_found_system\lost_and_found_app\services\matching.py", line 31, in find_and_notify_matches
+    logger.debug(f"🗂️ 当前分类名称: {category_name} | 类型: {match_type}")
+                                                     ^^^^^^^^^^
+NameError: name 'match_type' is not defined
+🏁 开始智能匹配流程 - 物品ID: 35 类型: lost
+✅ 找到 1 个潜在匹配项
