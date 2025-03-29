@@ -137,10 +137,19 @@
                 <el-button type="text" class="header-action-btn">
                 </el-button>
               </div>
-              <div ref="chart" class="chart-wrapper" v-show="hasChartData"></div>
-              <div v-if="!hasChartData" class="no-data-tip">
-                暂无近期发布数据 📊
-              </div>
+              <el-row :gutter="20">
+                <el-col :xs="24" :sm="8">
+                  <div class="chart-wrapper">
+                    <div ref="chart" style="height:280px"></div>
+                  </div>
+                </el-col>
+                <el-col :xs="24" :sm="16">
+                  <div class="chart-wrapper">
+                    <div ref="categoryChart" style="height:100px;"></div>
+                    <div ref="locationChart" style="height:150px; margin-top:12px"></div>
+                  </div>
+                </el-col>
+              </el-row>
             </el-card>
           </el-col>
 
@@ -292,7 +301,7 @@
 
 <script>
 import dayjs from "dayjs";
-import axios, { post } from "axios";
+import axios from "axios";
 import * as echarts from 'echarts';
 
 
@@ -407,6 +416,51 @@ export default {
       editItemDialogVisible: false,
       editItemForm: {},
       categories: [], // 存放分类数据
+      categoryChart: null,
+      locationChart: null,
+      categoryChartOption: {
+        title: {
+          text: '高频丢失物品',
+          left: 'center',
+          textStyle: { fontSize: 14 }
+        },
+        tooltip: { trigger: 'item' },
+        series: [{
+          type: 'pie',
+          radius: '55%',
+          label: { show: true, formatter: '{b} ({d}%)' }
+        }]
+      },
+      locationChartOption: {
+        title: {
+          text: '常见丢失地点',
+          left: 'center',
+          textStyle: { fontSize: 14 }
+        },
+        grid: {
+          top: 50,
+          bottom: 40,
+          left: 60,
+          right: 30
+        },
+        tooltip: { trigger: 'axis' },
+        xAxis: {
+          axisLabel: {
+            // interval: 0,  // 强制显示所有标签
+            fontSize: 12,
+            // formatter: value => value.length > 6 ? value.substring(0, 5) + '...' : value  // 截断长文本
+          }
+        },
+        yAxis: { type: 'value' },
+        series: [{
+          type: 'bar',
+          itemStyle: {
+            color: '#67C23A',
+            borderRadius: [2, 2, 0, 0]
+          },
+          barWidth: '60%'
+        }]
+      }
     }
   },
   computed: {
@@ -430,6 +484,15 @@ export default {
     },
   },
   methods: {
+    // 在methods中新增初始化方法
+    initCategoryChart() {
+      this.categoryChart = echarts.init(this.$refs.categoryChart)
+      this.categoryChart.setOption(this.categoryChartOption)
+    },
+    initLocationChart() {
+      this.locationChart = echarts.init(this.$refs.locationChart)
+      this.locationChart.setOption(this.locationChartOption)
+    },
     // 显示编辑对话框
     showEditItemDialog() {
       this.editItemForm = { ...this.currentItem };
@@ -469,7 +532,7 @@ export default {
           // category_name: this.categories.find(c => c.value === response.data.category)?.label
         };
         console.log(response);
-        
+
         this.$message.success('修改成功');
         this.editItemDialogVisible = false;
         // 更新当前条目显示
@@ -622,9 +685,6 @@ export default {
         this.$message.error(`操作失败: ${error.response?.data?.error || '服务器错误'}`)
       }
     },
-
-    // 处理上传成功
-    post,
     formatTime(time) {
       return dayjs(time).format('YYYY-MM-DD HH:mm:ss')
     },
@@ -644,9 +704,10 @@ export default {
     // 加载数据
     async loadData() {
       try {
-        const [userRes, dashboardRes] = await Promise.all([
+        const [userRes, dashboardRes, statsRes] = await Promise.all([
           this.$http.get('/user/profile/'),
-          this.$http.get('/dashboard/')
+          this.$http.get('/dashboard/'),
+          this.$http.get('/stats/common_lost/')
         ]);
         this.userInfo = {
           real_name: userRes.real_name || '',
@@ -655,7 +716,6 @@ export default {
           avatar: userRes.avatar || '',
           id: userRes.id || ''
         }
-        console.log('User Avatar URL:', this.userInfo.avatar); // 打印头像 URL
 
         this.dashboardData = {
           daily_stats: dashboardRes.data.daily_stats || [],
@@ -668,7 +728,20 @@ export default {
           notifications: dashboardRes.data.notifications || [],
           total_bookmarks: dashboardRes.data.total_bookmarks || 0,
           total_posts: dashboardRes.data.total_posts || 0,
-        }
+        },
+          console.log('statsRes:', statsRes);
+
+        // 处理统计图表数据
+        this.categoryChartOption.series[0].data =
+          statsRes.categories.map(item => ({
+            name: item.category__name,
+            value: item.count
+          }));
+
+        this.locationChartOption.xAxis.data =
+          statsRes.locations.map(item => item.location)
+        this.locationChartOption.series[0].data =
+          statsRes.locations.map(item => item.count)
         this.updateChart();
       } catch (error) {
         this.$message.error('数据加载失败')
@@ -871,6 +944,9 @@ export default {
   async mounted() {
     await this.loadData()
     this.initChart()
+    this.initCategoryChart()
+    this.initLocationChart()
+    window.addEventListener('resize', this.handleChartResize)
     if (!window.AMap) {
       const key = 'db70318a1cf1f196b2746f10cb9df826'
       const plugins = [
@@ -884,17 +960,6 @@ export default {
       }
       document.head.appendChild(script)
     }
-
-    document.addEventListener('keydown', (e) => {
-      if (this.detailDialogVisible) {
-        if (e.key === 'ArrowLeft') {
-          // 切换至上一个对象
-        }
-        if (e.key === 'ArrowRight') {
-          // 切换至下一个对象
-        }
-      }
-    })
 
   },
   // 添加watch监听对话框状态
@@ -954,9 +1019,14 @@ $card-bg: #ffffff;
       height: 360px;
 
       .chart-wrapper {
-        height: 280px; // 增加可视区域
-        width: 100%;
-        padding-bottom: 12px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+        margin-bottom: 0;
+        &:hover {
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
       }
     }
   }

@@ -35,6 +35,7 @@ from django.http import HttpResponse
 from .utils import report_utils
 import json
 from datetime import datetime
+from .Static import get_frequent_lost_items, get_common_lost_locations, get_monthly_lost_rate, get_claim_success_rate
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
@@ -797,3 +798,18 @@ def generate_admin_report(request):
         f'attachment; filename="{report_type}_report.xlsx"'
     )
     return response
+
+
+# 在views.py中添加
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def stats_common_lost(request):
+    try:
+        data = {
+            "locations": get_common_lost_locations() or [],
+            "categories": get_frequent_lost_items() or []
+        }
+        return Response(data)
+    except Exception as e:
+        logger.error(f"统计接口异常: {str(e)}")
+        return Response({"error": "数据加载失败"}, status=500)

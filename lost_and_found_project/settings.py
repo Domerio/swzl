@@ -222,7 +222,7 @@ LOGGING = {
     },
     'loggers': {
         'lost_and_found_app.services.matching': {
-            'handlers': ['file', 'console'],  # 同时输出到文件和终端
+            'handlers': ['file'],  # 同时输出到文件和终端
             'level': 'DEBUG',
         }
     }
