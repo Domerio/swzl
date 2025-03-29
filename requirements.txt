@@ -1,0 +1,15 @@
+Django==4.2.8
+djangorestframework==3.14.0
+django-cors-headers==4.2.0
+djangorestframework-simplejwt==5.3.0
+# 新增过滤器依赖 ↓
+django-filter==23.5
+# 新增过滤器依赖 ↑
+Pillow==10.0.1
+python-dateutil==2.8.2
+requests==2.31.0
+PyJWT==2.8.0
+django-ipware==5.0.0
+python-dotenv==1.0.0
+mysqlclient==2.2.0  # 如果使用MySQL
+psycopg2-binary==2.9.9  # 如果使用PostgreSQL
